@@ -22,6 +22,7 @@ public class FirstClass {
 		while(i<1000
 				) {
 		leftMotor.backward();
+			leftMotor.backward();
 		rightMotor.backward();
 		i++;}
 		//rightMotor.rotate(180);
