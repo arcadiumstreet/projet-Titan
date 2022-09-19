@@ -35,8 +35,8 @@ public class Robot {
 		
 		leftGear.setSpeed(SPEED_LEFTGEAR);
 		rightGear.setSpeed(SPEED_RIGHTGEAR);
-		leftGear.setAcceleration(SPEED_LEFTGEAR);
-		rightGear.setAcceleration(SPEED_RIGHTGEAR);
+		//leftGear.setAcceleration(SPEED_LEFTGEAR);
+		//rightGear.setAcceleration(SPEED_RIGHTGEAR);
 		pliers.setSpeed(SPEED_PLIERS);
 		
 		
@@ -48,12 +48,31 @@ public class Robot {
 		closePliers();
 		moveCm(BACK,targetDistance + 3);
 	}
+	// a faire d'autres prises 
 	
 	public static void moveCm(int direction,int distance)
 	{
 		leftGear.rotate(direction * distance * 21,true);
 		rightGear.rotate(direction * distance * 21);
 	}
+	public static void insertTurnDegres(int degree,int direction)
+	{	
+		leftGear.rotate(direction * degree,true);
+		rightGear.rotate(direction * -degree);}
+	
+	public static void littleTurn(int direction)
+	{
+		leftGear.rotate(direction * 20,true);
+		rightGear.rotate(direction * -20);}
+	
+	public static void Research(int direction) {
+		int i =0;
+		while (i<20) {
+			littleTurn(direction);
+			i++;
+		}
+	}
+	
 	public static void turn90Degres(int direction)
 	{	
 		leftGear.rotate(direction * 190,true);
@@ -74,7 +93,7 @@ public class Robot {
 	}
 	public static  void closePliers()
 	{
-		pliers.rotate(-500,true);
+		pliers.rotate(-500);
 	}
 	
 	public static  void openPliers(int i)
