@@ -27,13 +27,13 @@ public class FirstClass {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
 		
-		/*pierrot.turn90Degres(pierrot.LEFT);
+		pierrot.turn90Degres(pierrot.LEFT);
 		pierrot.turn90Degres(pierrot.RIGHT);
 		pierrot.turn180Degres(pierrot.LEFT);
 		pierrot.turn180Degres(pierrot.RIGHT);
 		pierrot.turn360Degres(pierrot.LEFT);
 		pierrot.turn360Degres(pierrot.RIGHT);
-		*/
+		
 		pierrot.moveCm(pierrot.FRONT, 50);
 		
 		pierrot.moveCm(pierrot.BACK, 50);
