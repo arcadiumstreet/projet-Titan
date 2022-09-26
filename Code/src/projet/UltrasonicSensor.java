@@ -9,7 +9,6 @@ import lejos.robotics.SampleProvider;
 public class UltrasonicSensor {
 	
 	private SensorModes ultrasonic;
-	
 	private SampleProvider distance;
 	private float[] sample;
 	
@@ -27,10 +26,21 @@ public class UltrasonicSensor {
 		return false;
 	}
 
+	public boolean objectDetectedInRange()
+	{
+		if(this.sample[0]<0.5)
+			return true;
+		return false;
+	}
+	
 	public float[] getSample() {
 		return sample;
 	}
 
+	public float getSample0() {
+		return sample[0];
+	}
+	
 	public void setSample(float[] sample) {
 		this.sample = sample;
 	}
@@ -50,7 +60,4 @@ public class UltrasonicSensor {
 	public void setDistance(SampleProvider distance) {
 		this.distance = distance;
 	}
-
-
- 
 }

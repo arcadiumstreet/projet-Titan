@@ -25,6 +25,7 @@ public class FirstClass {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
 		
+		
 		//pierrot.turn90Degres(pierrot.LEFT);
 		//pierrot.turn90Degres(pierrot.RIGHT);
 		//pierrot.turn180Degres(pierrot.LEFT);
@@ -34,18 +35,25 @@ public class FirstClass {
 		
 		//pierrot.moveCm(pierrot.FRONT, 50);
 		
-		pierrot.moveCm(pierrot.BACK, 10);
+		//pierrot.moveCm(pierrot.BACK, 10);
  
-		pierrot.Research(pierrot.RIGHT);
+		//pierrot.Research(pierrot.RIGHT);
+		//pierrot.Research(pierrot.LEFT);
 		
-		pierrot.moveCm(pierrot.FRONT, 10);
+		//pierrot.moveCm(pierrot.FRONT, 10);
+		
 		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
 		if(pierrot.getUltrasonics().objectDetectedInRange(100))
 			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
 		Delay.msDelay(1000);*/
 		// attrapper un objet sans exception
+		//pierrot.openPliers();
 		
 		
+		      pierrot.research();
+		
+		
+		//pierrot.closePliers(300);
 		
 	}
 	    private static void log(final String msg)
