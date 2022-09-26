@@ -34,11 +34,19 @@ public class FirstClass {
 		
 		//pierrot.moveCm(pierrot.FRONT, 50);
 		
-		pierrot.moveCm(pierrot.BACK, 10);
+		//pierrot.moveCm(pierrot.BACK, 10);
  
-		pierrot.Research(pierrot.RIGHT);
+		//pierrot.Research(pierrot.RIGHT);
 		
-		pierrot.moveCm(pierrot.FRONT, 10);
+		pierrot.moveCm(pierrot.FRONT, 100);
+		
+		/*pierrot.getLeftGear().setSpeed(500);
+		pierrot.getRightGear().setSpeed(500);
+		pierrot.turn180Degres(pierrot.RIGHT);
+		pierrot.turn90Degres(pierrot.RIGHT);
+		pierrot.turn180Degres(pierrot.RIGHT);
+		pierrot.goal();*/
+		
 		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
 		if(pierrot.getUltrasonics().objectDetectedInRange(100))
 			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
