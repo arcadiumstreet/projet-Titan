@@ -24,6 +24,8 @@ public class Robot {
 	private static UltrasonicSensor ultrasonics;
 	private static EV3TouchSensor touch;
 	
+	private double angle;
+	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort)
 	{
 		this.leftGear = new MindsensorsGlideWheelMRegulatedMotor(leftGearPort);
@@ -36,8 +38,15 @@ public class Robot {
 		leftGear.setSpeed(SPEED_LEFTGEAR);
 		rightGear.setSpeed(SPEED_RIGHTGEAR);
 		pliers.setSpeed(SPEED_PLIERS);
-		
+
+		this.angle = 0;
+
 	}
+	
+	public void updateAngle(double degree) {
+		angle = (angle+degree)%360;
+	}
+	
 	public static void catchTarget(int targetDistance)
 	{
 		openPliers();
@@ -52,20 +61,14 @@ public class Robot {
 		leftGear.rotate(direction * distance * 21,true);
 		rightGear.rotate(direction * distance * 21);
 	}
-	public static void insertTurnDegres(int degree,int direction)
+	public void insertTurnDegres(int degree,int direction)
 	{	
 		leftGear.rotate(direction * degree,true);
-		rightGear.rotate(direction * -degree);}
+		rightGear.rotate(direction * -degree);
+		updateAngle(direction*degree*2.111);
+	}
 	
-	public static void littleTurn(int direction)
-	{
-		leftGear.rotate(direction * 500,true);
-		rightGear.rotate(direction * -500,true);}
-	
-	
-	public static void research() {
-		leftGear.setSpeed(120);
-		rightGear.setSpeed(120);
+	public void research() {
 		int i =0;
 		float dis=1;
 		while(dis>0.5){
@@ -82,16 +85,34 @@ public class Robot {
 		rightGear.setSpeed(SPEED_RIGHTGEAR);
 		catchTarget((int)(100*dis));
 	}
-	public static void turn90Degres(int direction)
+	
+	public void goal() {
+		if (angle > 0) {
+			insertTurnDegres((int)(-angle*2.111), RIGHT);
+			updateAngle((int)(-angle*2.111));
+		} else if (angle < 0) {
+			insertTurnDegres((int)(-angle*2.111), LEFT);
+			updateAngle((int)(-angle*2.111));
+		}
+		int i = 0;
+		while(i < 500) {
+			leftGear.forward();
+			rightGear.forward();
+			i++;
+		}
+	}
+	
+	public void turn90Degres(int direction)
 	{	
 		leftGear.rotate(direction * 190,true);
 		rightGear.rotate(direction * (-190));
+		updateAngle(direction*90);
 	}
-	public static void turn180Degres(int direction)
+	public void turn180Degres(int direction)
 	{	
 		turn90Degres(2 * direction);
 	}
-	public static void turn360Degres(int direction)
+	public void turn360Degres(int direction)
 	{	
 		turn180Degres(2 * direction);
 	}
