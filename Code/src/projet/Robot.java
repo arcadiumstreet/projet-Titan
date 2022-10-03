@@ -65,7 +65,7 @@ public class Robot {
 	{	
 		leftGear.rotate(direction * degree,true);
 		rightGear.rotate(direction * -degree);
-		updateAngle(direction*degree*2.111);
+		updateAngle(direction*degree/2.2);
 	}
 	
 	public void research() {
@@ -87,12 +87,10 @@ public class Robot {
 	}
 	
 	public void goal() {
-		if (angle > 0) {
-			insertTurnDegres((int)(-angle*2.111), RIGHT);
-			updateAngle((int)(-angle*2.111));
-		} else if (angle < 0) {
-			insertTurnDegres((int)(-angle*2.111), LEFT);
-			updateAngle((int)(-angle*2.111));
+		if (angle > 180) {
+			insertTurnDegres((int)((360-angle)*2.2), LEFT);
+		} else {
+			insertTurnDegres((int)(angle*2.2), LEFT);
 		}
 		int i = 0;
 		while(i < 500) {
@@ -104,8 +102,8 @@ public class Robot {
 	
 	public void turn90Degres(int direction)
 	{	
-		leftGear.rotate(direction * 190,true);
-		rightGear.rotate(direction * (-190));
+		leftGear.rotate(direction * 198,true);
+		rightGear.rotate(direction * (-198));
 		updateAngle(direction*90);
 	}
 	public void turn180Degres(int direction)
