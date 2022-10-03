@@ -21,8 +21,10 @@ public class Robot {
 	private static RegulatedMotor rightGear;
 	private static RegulatedMotor pliers;
 	
-	private UltrasonicSensor ultrasonics;
-	private EV3TouchSensor touch;
+	private static UltrasonicSensor ultrasonics;
+	private static EV3TouchSensor touch;
+	
+	private double angle;
 	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort)
 	{
@@ -35,18 +37,22 @@ public class Robot {
 		
 		leftGear.setSpeed(SPEED_LEFTGEAR);
 		rightGear.setSpeed(SPEED_RIGHTGEAR);
-		//leftGear.setAcceleration(SPEED_LEFTGEAR);
-		//rightGear.setAcceleration(SPEED_RIGHTGEAR);
 		pliers.setSpeed(SPEED_PLIERS);
-		
-		
+
+		this.angle = 0;
+
 	}
+	
+	public void updateAngle(double degree) {
+		angle = (angle+degree)%360;
+	}
+	
 	public static void catchTarget(int targetDistance)
 	{
 		openPliers();
 		moveCm(FRONT,targetDistance + 3);
 		closePliers();
-		moveCm(BACK,targetDistance + 3);
+		//moveCm(BACK,targetDistance + 3);
 	}
 	// a faire d'autres prises 
 	
@@ -55,58 +61,78 @@ public class Robot {
 		leftGear.rotate(direction * distance * 21,true);
 		rightGear.rotate(direction * distance * 21);
 	}
-	public static void insertTurnDegres(int degree,int direction)
+	public void insertTurnDegres(int degree,int direction)
 	{	
 		leftGear.rotate(direction * degree,true);
-		rightGear.rotate(direction * -degree);}
+		rightGear.rotate(direction * -degree);
+		updateAngle(direction*degree*2.111);
+	}
 	
-	public static void littleTurn(int direction)
-	{
-		leftGear.rotate(direction * 20,true);
-		rightGear.rotate(direction * -20);}
-	
-	public static void Research(int direction) {
+	public void research() {
 		int i =0;
-		while (i<20) {
-			littleTurn(direction);
+		float dis=1;
+		while(dis>0.5){
+			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
+			dis = getUltrasonics().getSample0();
+			leftGear.forward();
+			rightGear.backward();
+			//System.out.print(dis);
+			}
+		leftGear.stop();
+		rightGear.stop();
+		
+		leftGear.setSpeed(SPEED_LEFTGEAR);
+		rightGear.setSpeed(SPEED_RIGHTGEAR);
+		catchTarget((int)(100*dis));
+	}
+	
+	public void goal() {
+		if (angle > 0) {
+			insertTurnDegres((int)(-angle*2.111), RIGHT);
+			updateAngle((int)(-angle*2.111));
+		} else if (angle < 0) {
+			insertTurnDegres((int)(-angle*2.111), LEFT);
+			updateAngle((int)(-angle*2.111));
+		}
+		int i = 0;
+		while(i < 500) {
+			leftGear.forward();
+			rightGear.forward();
 			i++;
 		}
 	}
 	
-	public static void turn90Degres(int direction)
+	public void turn90Degres(int direction)
 	{	
 		leftGear.rotate(direction * 190,true);
 		rightGear.rotate(direction * (-190));
+		updateAngle(direction*90);
 	}
-	public static void turn180Degres(int direction)
+	public void turn180Degres(int direction)
 	{	
 		turn90Degres(2 * direction);
 	}
-	public static void turn360Degres(int direction)
+	public void turn360Degres(int direction)
 	{	
 		turn180Degres(2 * direction);
 	}
-	
 	public static  void openPliers()
 	{
-		pliers.rotate(500,true);
+		pliers.rotate(700);
 	}
 	public static  void closePliers()
 	{
-		pliers.rotate(-500);
+		pliers.rotate(-700);
 	}
-	
 	public static  void openPliers(int i)
 	{
-		pliers.rotate(i,true);
+		pliers.rotate(i);
 	}
 	public static  void closePliers(int i)
 	{
-		pliers.rotate(-i,true);
+		pliers.rotate(-i);
 	}
 	
-	
-
 	public static RegulatedMotor getLeftGear() {
 		return leftGear;
 	}
@@ -125,7 +151,7 @@ public class Robot {
 	public static void setPliers(RegulatedMotor pliers) {
 		Robot.pliers = pliers;
 	}
-	public UltrasonicSensor getUltrasonics() {
+	public static UltrasonicSensor getUltrasonics() {
 		return ultrasonics;
 	}
 	public void setUltrasonics(UltrasonicSensor ultrasonics) {
@@ -137,5 +163,4 @@ public class Robot {
 	public void setTouch(EV3TouchSensor touch) {
 		this.touch = touch;
 	}
-
 }
