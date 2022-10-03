@@ -98,6 +98,8 @@ public class Robot {
 			rightGear.forward();
 			i++;
 		}
+		openPliers();
+		moveCm(BACK, 50);
 	}
 	
 	public void turn90Degres(int direction)
