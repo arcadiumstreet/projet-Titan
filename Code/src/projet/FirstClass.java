@@ -1,6 +1,7 @@
 package projet;
 
 import lejos.hardware.BrickFinder;
+import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.motor.MindsensorsGlideWheelMRegulatedMotor;
@@ -23,9 +24,11 @@ public class FirstClass {
 	
 	public static void main(String[] args) {
 		
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
+		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
 		
-		pierrot.moveCm(pierrot.FRONT, 100);
+		//System.out.println("appuyer ");
+		//Button.waitForAnyPress();
+		//pierrot.moveCm(pierrot.FRONT, 100);
 		
 		/*pierrot.getLeftGear().setSpeed(500);
 		pierrot.getRightGear().setSpeed(500);
@@ -42,14 +45,25 @@ public class FirstClass {
 		//pierrot.openPliers();
 		
 		
-		 pierrot.research();
-		
-		
+		 //pierrot.research();
+		boolean again =true;
+		while (again) {
+		 System.out.println("\nPress enter to detect a color...");
+			Button.ENTER.waitForPressAndRelease();
+			System.out.println("la couleur est "+pierrot.color());
+			Delay.msDelay(500);
+			if(Button.ESCAPE.isDown()) {
+				again = false;
+			}
+		 
 		//pierrot.closePliers(300);
-		
+		}
 	}
 	    private static void log(final String msg)
 	    {
+	    	 
+	    	
+	    	
 	        System.out.println("log>\t" + msg);
 	        
 	    }
