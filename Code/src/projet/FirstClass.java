@@ -14,7 +14,7 @@ import lejos.robotics.EncoderMotor;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
-
+import java.math.*;
 import lejos.hardware.sensor.EV3TouchSensor;
 
 
@@ -24,12 +24,22 @@ public class FirstClass {
 	public static void main(String[] args) {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
+	
+		
+		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
+		float dist = pierrot.getUltrasonics().getSample()[0];
+		pierrot.getRightGear().rotate(360, true);
+		int i = 0;
+		while (Math.abs(pierrot.getUltrasonics().getSample()[0] - dist) < 0.1 && i < 30) {
+			dist = pierrot.getUltrasonics().getSample()[0];
+			
+			i++;
+		}
+		pierrot.getRightGear().stop();
+		if(i<30)
+			pierrot.catchTarget((int) (pierrot.getUltrasonics().getSample()[0]));*/
 		
 		//pierrot.moveCm(pierrot.FRONT, 100);
-		
-		pierrot.getLeftGear().setSpeed(500);
-		pierrot.getRightGear().setSpeed(500);
-		pierrot.turn90Degres(pierrot.RIGHT);
 		pierrot.turn180Degres(pierrot.LEFT);
 		//pierrot.turn360Degres(pierrot.RIGHT);
 		pierrot.goal();
