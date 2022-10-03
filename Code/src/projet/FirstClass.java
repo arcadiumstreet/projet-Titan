@@ -15,7 +15,7 @@ import lejos.robotics.EncoderMotor;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
 import lejos.utility.Delay;
-
+import java.math.*;
 import lejos.hardware.sensor.EV3TouchSensor;
 
 
@@ -36,7 +36,30 @@ public class FirstClass {
 		pierrot.turn90Degres(pierrot.RIGHT);
 		pierrot.turn180Degres(pierrot.RIGHT);
 		pierrot.goal();*/
+		//Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
+	
 		
+		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
+		float dist = pierrot.getUltrasonics().getSample()[0];
+		pierrot.getRightGear().rotate(360, true);
+		int i = 0;
+		while (Math.abs(pierrot.getUltrasonics().getSample()[0] - dist) < 0.1 && i < 30) {
+			dist = pierrot.getUltrasonics().getSample()[0];
+			
+			i++;
+		}
+		pierrot.getRightGear().stop();
+		if(i<30)
+			pierrot.catchTarget((int) (pierrot.getUltrasonics().getSample()[0]));*/
+
+		
+		//pierrot.moveCm(pierrot.FRONT, 100);
+		//pierrot.closePliers();
+		//pierrot.turn180Degres(pierrot.LEFT);
+		//pierrot.turn360Degres(pierrot.RIGHT);
+		//pierrot.goal();
+		//pierrot.turn90Degres(pierrot.RIGHT);
+		//pierrot.goal();
 		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
 		if(pierrot.getUltrasonics().objectDetectedInRange(100))
 			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
@@ -56,6 +79,7 @@ public class FirstClass {
 				again = false;
 			}
 		 
+
 		//pierrot.closePliers(300);
 		}
 	}
