@@ -74,7 +74,6 @@ public class Robot {
 		closePliers();
 		//moveCm(BACK,targetDistance + 3);
 	}
-	// a faire d'autres prises 
 	
 	public static void moveCm(int direction,int distance)
 	{
@@ -129,7 +128,7 @@ public class Robot {
 		leftGear.stop();
 		rightGear.stop();
 
-		//ultrasonics.arrete();
+		ultrasonics.arrete();
 		openPliers();
 		moveCm(BACK, 50);
 		closePliers();
