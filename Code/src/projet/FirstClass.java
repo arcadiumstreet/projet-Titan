@@ -59,6 +59,7 @@ public class FirstClass {
 		// pierrot.allerjusqua("BLANC");
 		 //pierrot.research();
 		boolean again =true;
+
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
 			Button.ENTER.waitForPressAndRelease();
@@ -68,29 +69,17 @@ public class FirstClass {
 			if(Button.ESCAPE.isDown()) {
 				again = false;
 			}
+
+		}
+
 		 
 
 		//pierrot.closePliers(300);
 		}
-	}
+	
 	    private static void log(final String msg)
 	    {
 	        System.out.println("log>\t" + msg);
 	        
 	    }
-		//leftMotor.backward();
-		//rightMotor.backward();
-		/*
-		int i=0;
-		leftMotor.setSpeed(900);
-		rightMotor.setSpeed(900);
-		pince.setSpeed(900);
-		while(i<10000) {
-		leftMotor.backward();
-		rightMotor.backward();
-		pince.backward();
-		//pince2.forward();
-		i++;}*/
-		//pince.rotate(400);
-		//rightMotor.rotate(180);
 }

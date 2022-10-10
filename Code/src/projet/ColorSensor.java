@@ -27,7 +27,7 @@ public class ColorSensor  {
 	public static Color getColorIn(){	
 		sample = new float[sensor_Color.sampleSize()];
 		sensor_Color.fetchSample(sample, 0);
-		return new Color((int)(sample[0] * 255), (int)(sample[0] * 255), (int)(sample[0] * 255));
+		return new Color((int)(sample[0] * 255), (int)(sample[1] * 255), (int)(sample[2] * 255));
 	}
 
 	public int[] colorint() {
