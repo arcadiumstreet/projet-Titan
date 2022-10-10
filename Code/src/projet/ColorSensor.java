@@ -24,13 +24,19 @@ public class ColorSensor  {
 		sensor_Color.setFloodlight(Color.WHITE);
 	}
 
-
-	public static Color getColorIn() {	
+	public static Color getColorIn(){	
 		sample = new float[sensor_Color.sampleSize()];
 		sensor_Color.fetchSample(sample, 0);
 		return new Color((int)(sample[0] * 255), (int)(sample[0] * 255), (int)(sample[0] * 255));
 	}
 
+	public int[] colorint() {
+		sample = new float[sensor_Color.sampleSize()];
+		sensor_Color.fetchSample(sample, 0);
+		return new int [] {(int)(sample[0] * 255), (int)(sample[0] * 255), (int)(sample[0] * 255)};
+                //getColor().toString(getColor().getRed(),getColor().getGreen(),getColor().getColor().getBlue());
+    }
+	
 	public static String color_String(int r, int g, int b) {
 		if((r<6 && g<6 && b<6)) {
 			return "NOIR";

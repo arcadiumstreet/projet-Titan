@@ -1,5 +1,7 @@
 package projet;
 
+import java.util.Arrays;
+
 import lejos.hardware.motor.MindsensorsGlideWheelMRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
@@ -43,7 +45,15 @@ public class Robot {
 		pliers.setSpeed(SPEED_PLIERS);
 		this.angle = 0;
 	} 
- 
+
+	
+	public String colorint() {
+        int [] e = color.colorint();
+                //getColor().toString(getColor().getRed(),getColor().getGreen(),getColor().getColor().getBlue());
+        String s = Arrays.toString(e) ;
+         return s ;
+	}
+	
 	public String color() {
         Color rgb = ColorSensor.getColorIn();
         return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());

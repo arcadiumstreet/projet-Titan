@@ -26,10 +26,7 @@ public class FirstClass {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
 
-		for (int i = 0; i < 10; i++) {
-			pierrot.insertTurnDegres((int)(Math.random()*360),pierrot.RIGHT);
-		}
-		pierrot.goal();
+		  
 	
 		
 		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
@@ -59,21 +56,22 @@ public class FirstClass {
 		// attrapper un objet sans exception
 		//pierrot.openPliers(); 
 		  
-		 pierrot.allerjusqua("BLANC");
+		// pierrot.allerjusqua("BLANC");
 		 //pierrot.research();
-		/*boolean again =true;
+		boolean again =true;
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
 			Button.ENTER.waitForPressAndRelease();
+			System.out.println(pierrot.colorint());
 			System.out.println("la couleur est "+pierrot.color());
-			Delay.msDelay(500);
+			Delay.msDelay(1000);
 			if(Button.ESCAPE.isDown()) {
 				again = false;
 			}
 		 
 
 		//pierrot.closePliers(300);
-		}*/
+		}
 	}
 	    private static void log(final String msg)
 	    {
