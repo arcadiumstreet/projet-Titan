@@ -75,7 +75,6 @@ public static boolean goMessage() {
 			float[] blue = new float[average.sampleSize()];
 			average.fetchSample(blue, 0);
 			
-			
 			System.out.println("Press enter to calibrate red...");
 			Button.ENTER.waitForPressAndRelease();
 			float[] red = new float[average.sampleSize()];
@@ -170,9 +169,7 @@ public static boolean goMessage() {
 					colorSensor.setFloodlight(false);
 					again = false;
 				}
-			}
-			
-			
+			}	
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Delay.msDelay(10000);

@@ -14,9 +14,14 @@ public class UltrasonicSensor {
 	
 	public UltrasonicSensor(Port port) 
 	{
-		ultrasonic = new EV3UltrasonicSensor(port);
+		EV3UltrasonicSensor ultrasonic = new EV3UltrasonicSensor(port);
 		this.distance= ultrasonic.getMode("Distance");
 		this.sample = new float[distance.sampleSize()];
+		
+	}
+	
+	public void arrete() {
+		 ((EV3UltrasonicSensor) ultrasonic).disable();
 	}
 	
 	public boolean objectDetectedInRange(int range)

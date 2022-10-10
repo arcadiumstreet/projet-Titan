@@ -1,6 +1,7 @@
 package projet;
 
 import lejos.hardware.BrickFinder;
+import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.motor.MindsensorsGlideWheelMRegulatedMotor;
@@ -23,7 +24,19 @@ public class FirstClass {
 	
 	public static void main(String[] args) {
 		
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
+		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
+		
+		//System.out.println("appuyer ");
+		//Button.waitForAnyPress();
+		//pierrot.moveCm(pierrot.FRONT, 100);
+		
+		/*pierrot.getLeftGear().setSpeed(500);
+		pierrot.getRightGear().setSpeed(500);
+		pierrot.turn180Degres(pierrot.RIGHT);
+		pierrot.turn90Degres(pierrot.RIGHT);
+		pierrot.turn180Degres(pierrot.RIGHT);
+		pierrot.goal();*/
+		//Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
 	
 		
 		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
@@ -38,9 +51,10 @@ public class FirstClass {
 		pierrot.getRightGear().stop();
 		if(i<30)
 			pierrot.catchTarget((int) (pierrot.getUltrasonics().getSample()[0]));*/
+
 		
 		//pierrot.moveCm(pierrot.FRONT, 100);
-		pierrot.closePliers();
+		//pierrot.closePliers();
 		//pierrot.turn180Degres(pierrot.LEFT);
 		//pierrot.turn360Degres(pierrot.RIGHT);
 		//pierrot.goal();
@@ -55,13 +69,25 @@ public class FirstClass {
 		
 		
 		 //pierrot.research();
-		
-		
+		boolean again =true;
+		while (again) {
+		 System.out.println("\nPress enter to detect a color...");
+			Button.ENTER.waitForPressAndRelease();
+			System.out.println("la couleur est "+pierrot.color());
+			Delay.msDelay(500);
+			if(Button.ESCAPE.isDown()) {
+				again = false;
+			}
+		 
+
 		//pierrot.closePliers(300);
-		
+		}
 	}
 	    private static void log(final String msg)
 	    {
+	    	 
+	    	
+	    	
 	        System.out.println("log>\t" + msg);
 	        
 	    }

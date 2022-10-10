@@ -3,8 +3,10 @@ package projet;
 import lejos.hardware.motor.MindsensorsGlideWheelMRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.SensorModes;
+import lejos.robotics.Color;
 import lejos.robotics.RegulatedMotor;
 
 public class Robot {
@@ -23,17 +25,18 @@ public class Robot {
 	
 	private static UltrasonicSensor ultrasonics;
 	private static EV3TouchSensor touch;
+	private static ColorSensor color;
 	
 	private double angle;
 	
-	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort)
-	{
+	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
 		this.leftGear = new MindsensorsGlideWheelMRegulatedMotor(leftGearPort);
 		this.rightGear = new MindsensorsGlideWheelMRegulatedMotor(rightGearPort);
 		this.pliers = new MindsensorsGlideWheelMRegulatedMotor(pliersPort);
 		
 		this.ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		this.touch = new EV3TouchSensor(touchPort) ;
+		this.color = new ColorSensor(colorport);
 		
 		leftGear.setSpeed(SPEED_LEFTGEAR);
 		rightGear.setSpeed(SPEED_RIGHTGEAR);
@@ -42,6 +45,13 @@ public class Robot {
 		this.angle = 0;
 
 	}
+
+	public String color() {
+		
+	
+		return getColor().toString(getColor().getColorOnGround().getRed(),getColor().getColorOnGround().getGreen(),getColor().getColorOnGround().getBlue());
+	}
+	
 	
 	public void updateAngle(double degree) {
 		angle = (angle+degree)%360;
@@ -98,6 +108,9 @@ public class Robot {
 			rightGear.forward();
 			i++;
 		}
+
+		ultrasonics.arrete();
+
 		openPliers();
 		moveCm(BACK, 50);
 	}
@@ -162,5 +175,12 @@ public class Robot {
 	}
 	public void setTouch(EV3TouchSensor touch) {
 		this.touch = touch;
+	}
+	public static ColorSensor getColor() {
+		return color;
+	}
+
+	public static void setColor(ColorSensor color) {
+		Robot.color = color;
 	}
 }

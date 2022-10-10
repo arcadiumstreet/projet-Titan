@@ -22,8 +22,15 @@ public class Agent {
 	}
 	
 	public void catchTarget(int targetDistance){
+		boolean b=true;
 		act.openPliers();
-		act.moveCmBloc(act.FRONT,targetDistance + 3);
+		act.moveCmLibre(act.FRONT,targetDistance + 3);
+		while(b) {
+			if(sens.getDistance()<=0.25) {
+				act.stopWheels();
+				b=false;
+			}
+		}
 		act.closePliers();
 		//act.moveCmBloc(BACK,targetDistance + 3);
 	}
@@ -66,7 +73,6 @@ public class Agent {
 
 		Agent pierrot= new Agent(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
 		
-		System.out.println(pierrot.sens.getDistanceMean());
 		Delay.msDelay(5000);
 	}
 
