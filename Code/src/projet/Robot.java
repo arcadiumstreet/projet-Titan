@@ -130,7 +130,6 @@ public class Robot {
 		rightGear.stop();
 
 		//ultrasonics.arrete();
-
 		openPliers();
 		moveCm(BACK, 50);
 		closePliers();
