@@ -10,7 +10,6 @@ public class MotorWheels {
 	private Wheel moteur2 ; 
 	private Chassis chassis ; 
 	 
-	
 	public MotorWheels() {
 		Wheel moteur1 = WheeledChassis.modelWheel(Motor.A, 81.6).offset(-70);
 		Wheel moteur2 = WheeledChassis.modelWheel(Motor.D, 81.6).offset(70);
