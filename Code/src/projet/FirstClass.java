@@ -26,26 +26,6 @@ public class FirstClass {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
 		
-		pierrot.moveCm(pierrot.FRONT, 10);
-		
-		pierrot.moveCm(pierrot.BACK, 10);
-
-		//pierrot.moveCm(pierrot.FRONT, 100);
-		//pierrot.closePliers();
-		//pierrot.turn180Degres(pierrot.LEFT);
-		//pierrot.turn360Degres(pierrot.RIGHT);
-		//pierrot.goal();
-		//pierrot.turn90Degres(pierrot.RIGHT);
-		//pierrot.goal();
-		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
-		if(pierrot.getUltrasonics().objectDetectedInRange(100))
-			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
-		Delay.msDelay(1000);*/
-		// attrapper un objet sans exception
-		//pierrot.openPliers(); 
-		  
-		 pierrot.allerjusqua("BLANC");
-		 //pierrot.research();
 		boolean again =true;
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
@@ -55,9 +35,6 @@ public class FirstClass {
 			if(Button.ESCAPE.isDown()) {
 				again = false;
 			}
-		 
-
-		//pierrot.closePliers(300);
 		}
 	}
 	    private static void log(final String msg)
@@ -65,19 +42,4 @@ public class FirstClass {
 	        System.out.println("log>\t" + msg);
 	        
 	    }
-		//leftMotor.backward();
-		//rightMotor.backward();
-		/*
-		int i=0;
-		leftMotor.setSpeed(900);
-		rightMotor.setSpeed(900);
-		pince.setSpeed(900);
-		while(i<10000) {
-		leftMotor.backward();
-		rightMotor.backward();
-		pince.backward();
-		//pince2.forward();
-		i++;}*/
-		//pince.rotate(400);
-		//rightMotor.rotate(180);
 }
