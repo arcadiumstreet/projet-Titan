@@ -16,8 +16,11 @@ public class MotorWheels {
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 	}
 	
-	public void avance() {
-		chassis.isMoving();
+	public void move(double distance) {
+		chassis.travel(distance);
+	}
+	public void rotate(double degre) {
+		chassis.rotate(degre);
 	}
 	public void tournedroit() {
 		chassis.getLinearDirection();
