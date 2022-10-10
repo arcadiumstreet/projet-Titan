@@ -1,6 +1,5 @@
 package projet;
 
-import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.GraphicsLCD;
 import lejos.hardware.port.Port;
@@ -9,26 +8,32 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.Color;
 import lejos.robotics.SampleProvider;
+import lejos.robotics.filter.MeanFilter;
 
 
 public class ColorSensor  {
 	
-	private static SensorModes color ;
-	private SampleProvider d;
-	
-	public ColorSensor(Port port){
-		EV3ColorSensor color=new EV3ColorSensor(port);
-		}
-	
-	public Color getColorOnGround() {
-		color.setCurrentMode("RGB");
-		float[] sample = new float[d.sampleSize()];
-		color.fetchSample(sample, 0);
+	private Port port_Color;
+	private static EV3ColorSensor sensor_Color;
+	public static float[] sample;
+
+
+
+	public ColorSensor(String port) {
+		port_Color = LocalEV3.get().getPort(port);
+		sensor_Color = new EV3ColorSensor(port_Color);
+		sensor_Color.getRGBMode();
+		sensor_Color.setFloodlight(Color.WHITE);
+	}
+
+
+	public static Color getColorIn() {	
+		sample = new float[sensor_Color.sampleSize()];
+		sensor_Color.fetchSample(sample, 0);
 		return new Color((int)(sample[0] * 255), (int)(sample[0] * 255), (int)(sample[0] * 255));
 	}
-	
-public String toString(int r, int g, int b) {
-		
+
+	public static String color_String(int r, int g, int b) {
 		if((r<6 && g<6 && b<6)) {
 			return "NOIR";
 		}else if((r>8 && g>8 && b>8) && (r<27 && g<27 && b<27)) {
@@ -46,7 +51,4 @@ public String toString(int r, int g, int b) {
 		}else {
 			return "NON RECONNU";
 		}
-	
-	
-	
 	}}

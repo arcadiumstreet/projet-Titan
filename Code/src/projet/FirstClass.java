@@ -25,11 +25,7 @@ public class FirstClass {
 	public static void main(String[] args) {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
-		
-		//System.out.println("appuyer ");
-		//Button.waitForAnyPress();
-		//pierrot.moveCm(pierrot.FRONT, 100);
-		
+
 		for (int i = 0; i < 10; i++) {
 			pierrot.insertTurnDegres((int)(Math.random()*360),pierrot.RIGHT);
 		}
@@ -49,7 +45,6 @@ public class FirstClass {
 		if(i<30)
 			pierrot.catchTarget((int) (pierrot.getUltrasonics().getSample()[0]));*/
 
-		
 		//pierrot.moveCm(pierrot.FRONT, 100);
 		//pierrot.closePliers();
 		//pierrot.turn180Degres(pierrot.LEFT);
@@ -62,9 +57,9 @@ public class FirstClass {
 			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
 		Delay.msDelay(1000);*/
 		// attrapper un objet sans exception
-		//pierrot.openPliers();
-		
-		
+		//pierrot.openPliers(); 
+		  
+		 pierrot.allerjusqua("BLANC");
 		 //pierrot.research();
 		/*boolean again =true;
 		while (again) {
@@ -82,9 +77,6 @@ public class FirstClass {
 	}
 	    private static void log(final String msg)
 	    {
-	    	 
-	    	
-	    	
 	        System.out.println("log>\t" + msg);
 	        
 	    }

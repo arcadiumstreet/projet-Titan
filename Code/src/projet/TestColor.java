@@ -18,7 +18,7 @@ public static boolean goMessage() {
 		g.clear();
 		g.drawString("Color Sensor", 5, 0, 0);
 		g.setFont(Font.getSmallFont());
-		 
+		  
 		g.drawString("The code for this sample     ", 2, 20, 0);
 		g.drawString("shows how to work with the ", 2, 30, 0);
 		g.drawString("Color Sensor ", 2, 40, 0);
@@ -62,6 +62,7 @@ public static boolean goMessage() {
 		try {
 			
 			boolean again = true;
+			
 			
 			if (!goMessage()) System.exit(0);
 			
