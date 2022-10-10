@@ -17,8 +17,6 @@ public class ColorSensor  {
 	private static EV3ColorSensor sensor_Color;
 	public static float[] sample;
 
-
-
 	public ColorSensor(String port) {
 		port_Color = LocalEV3.get().getPort(port);
 		sensor_Color = new EV3ColorSensor(port_Color);
