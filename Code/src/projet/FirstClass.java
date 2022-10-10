@@ -65,9 +65,9 @@ public class FirstClass {
 			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
 		Delay.msDelay(1000);*/
 		// attrapper un objet sans exception
-		//pierrot.openPliers();
-		
-		
+		//pierrot.openPliers(); 
+		  
+		 pierrot.allerjusqua("BLANC");
 		 //pierrot.research();
 		boolean again =true;
 		while (again) {
@@ -85,9 +85,6 @@ public class FirstClass {
 	}
 	    private static void log(final String msg)
 	    {
-	    	 
-	    	
-	    	
 	        System.out.println("log>\t" + msg);
 	        
 	    }

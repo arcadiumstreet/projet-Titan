@@ -1,11 +1,9 @@
 package projet;
 
 import lejos.hardware.motor.MindsensorsGlideWheelMRegulatedMotor;
-import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
-import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.Color;
 import lejos.robotics.RegulatedMotor;
 
@@ -19,7 +17,7 @@ public class Robot {
 	public static final int SPEED_LEFTGEAR = 1000;
 	public static final int SPEED_RIGHTGEAR = 1000;
 	
-	private static  RegulatedMotor leftGear;
+	private static RegulatedMotor leftGear;
 	private static RegulatedMotor rightGear;
 	private static RegulatedMotor pliers;
 	
@@ -35,23 +33,31 @@ public class Robot {
 		this.pliers = new MindsensorsGlideWheelMRegulatedMotor(pliersPort);
 		
 		this.ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
-		this.touch = new EV3TouchSensor(touchPort) ;
-		this.color = new ColorSensor(colorport);
+		this.touch = new EV3TouchSensor(touchPort);
+		this.color = new ColorSensor("S1");
 		
 		leftGear.setSpeed(SPEED_LEFTGEAR);
 		rightGear.setSpeed(SPEED_RIGHTGEAR);
 		pliers.setSpeed(SPEED_PLIERS);
-
 		this.angle = 0;
-
-	}
+	} 
 
 	public String color() {
-		
-	
-		return getColor().toString(getColor().getColorOnGround().getRed(),getColor().getColorOnGround().getGreen(),getColor().getColorOnGround().getBlue());
+		Color rgb = ColorSensor.getColorIn();
+		return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
+				//getColor().toString(getColor().getRed(),getColor().getGreen(),getColor().getColor().getBlue());
 	}
 	
+	public void allerjusqua(String couleur) {
+		leftGear.forward();
+		rightGear.forward();
+	    Color rgb = ColorSensor.getColorIn();
+	    while( ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue()) != couleur) {
+	    	rgb = ColorSensor.getColorIn();
+	    }
+	    leftGear.stop();
+	    rightGear.stop();
+	}
 	
 	public void updateAngle(double degree) {
 		angle = (angle+degree)%360;
@@ -176,11 +182,11 @@ public class Robot {
 	public void setTouch(EV3TouchSensor touch) {
 		this.touch = touch;
 	}
-	public static ColorSensor getColor() {
+	public ColorSensor getColor() {
 		return color;
 	}
-
-	public static void setColor(ColorSensor color) {
-		Robot.color = color;
+	public void setColor(ColorSensor color) {
+		this.color = color;
 	}
+	
 }
