@@ -30,13 +30,10 @@ public class FirstClass {
 		//Button.waitForAnyPress();
 		//pierrot.moveCm(pierrot.FRONT, 100);
 		
-		/*pierrot.getLeftGear().setSpeed(500);
-		pierrot.getRightGear().setSpeed(500);
-		pierrot.turn180Degres(pierrot.RIGHT);
-		pierrot.turn90Degres(pierrot.RIGHT);
-		pierrot.turn180Degres(pierrot.RIGHT);
-		pierrot.goal();*/
-		//Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3);
+		for (int i = 0; i < 10; i++) {
+			pierrot.insertTurnDegres((int)(Math.random()*360),pierrot.RIGHT);
+		}
+		pierrot.goal();
 	
 		
 		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
@@ -69,7 +66,7 @@ public class FirstClass {
 		
 		
 		 //pierrot.research();
-		boolean again =true;
+		/*boolean again =true;
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
 			Button.ENTER.waitForPressAndRelease();
@@ -81,7 +78,7 @@ public class FirstClass {
 		 
 
 		//pierrot.closePliers(300);
-		}
+		}*/
 	}
 	    private static void log(final String msg)
 	    {
