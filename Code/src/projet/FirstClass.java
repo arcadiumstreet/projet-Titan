@@ -34,9 +34,9 @@ public class FirstClass {
 		pierrot.turn360Degres(pierrot.LEFT);
 		pierrot.turn360Degres(pierrot.RIGHT);
 		
-		pierrot.moveCm(pierrot.FRONT, 50);
+		pierrot.moveCm(pierrot.FRONT, 10);
 		
-		pierrot.moveCm(pierrot.BACK, 50);
+		pierrot.moveCm(pierrot.BACK, 10);
 
 
 		/*

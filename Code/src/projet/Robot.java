@@ -35,8 +35,6 @@ public class Robot {
 		
 		leftGear.setSpeed(SPEED_LEFTGEAR);
 		rightGear.setSpeed(SPEED_RIGHTGEAR);
-		leftGear.setAcceleration(SPEED_LEFTGEAR);
-		rightGear.setAcceleration(SPEED_RIGHTGEAR);
 		pliers.setSpeed(SPEED_PLIERS);
 		
 		
