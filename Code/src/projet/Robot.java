@@ -6,6 +6,7 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.Color;
 import lejos.robotics.RegulatedMotor;
+import lejos.utility.Delay;
 
 public class Robot {
 	
@@ -16,6 +17,7 @@ public class Robot {
 	public static final int SPEED_PLIERS = 1000;
 	public static final int SPEED_LEFTGEAR = 1000;
 	public static final int SPEED_RIGHTGEAR = 1000;
+	public static final int TURN_SPEED = 500;
 	
 	private static RegulatedMotor leftGear;
 	private static RegulatedMotor rightGear;
@@ -65,6 +67,8 @@ public class Robot {
 	
 	public static void catchTarget(int targetDistance)
 	{
+		leftGear.setSpeed(SPEED_LEFTGEAR);
+		rightGear.setSpeed(SPEED_RIGHTGEAR);
 		openPliers();
 		moveCm(FRONT,targetDistance + 3);
 		closePliers();
@@ -74,11 +78,15 @@ public class Robot {
 	
 	public static void moveCm(int direction,int distance)
 	{
+		leftGear.setSpeed(SPEED_LEFTGEAR);
+		rightGear.setSpeed(SPEED_RIGHTGEAR);
 		leftGear.rotate(direction * distance * 21,true);
 		rightGear.rotate(direction * distance * 21);
 	}
 	public void insertTurnDegres(int degree,int direction)
 	{	
+		leftGear.setSpeed(TURN_SPEED);
+		rightGear.setSpeed(TURN_SPEED);
 		leftGear.rotate(direction * degree,true);
 		rightGear.rotate(direction * -degree);
 		updateAngle(direction*degree/2.2);
@@ -87,18 +95,20 @@ public class Robot {
 	public void research() {
 		int i =0;
 		float dis=1;
-		while(dis>0.5){
+		leftGear.setSpeed(TURN_SPEED);
+		rightGear.setSpeed(TURN_SPEED);
+		leftGear.forward();
+		rightGear.backward();
+		while(/*i < 975*/dis>0.5){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 			dis = getUltrasonics().getSample0();
-			leftGear.forward();
-			rightGear.backward();
+			//i++;
+			//System.out.print(angle);
 			//System.out.print(dis);
 			}
 		leftGear.stop();
 		rightGear.stop();
 		
-		leftGear.setSpeed(SPEED_LEFTGEAR);
-		rightGear.setSpeed(SPEED_RIGHTGEAR);
 		catchTarget((int)(100*dis));
 	}
 	
@@ -108,21 +118,28 @@ public class Robot {
 		} else {
 			insertTurnDegres((int)(angle*2.2), LEFT);
 		}
+		leftGear.setSpeed(SPEED_LEFTGEAR);
+		rightGear.setSpeed(SPEED_RIGHTGEAR);
+		leftGear.forward();
+		rightGear.forward();
 		int i = 0;
-		while(i < 500) {
-			leftGear.forward();
-			rightGear.forward();
+		while(i < 500) { 
 			i++;
 		}
+		leftGear.stop();
+		rightGear.stop();
 
-		ultrasonics.arrete();
+		//ultrasonics.arrete();
 
 		openPliers();
 		moveCm(BACK, 50);
+		closePliers();
 	}
 	
 	public void turn90Degres(int direction)
-	{	
+	{
+		leftGear.setSpeed(TURN_SPEED);
+		rightGear.setSpeed(TURN_SPEED);
 		leftGear.rotate(direction * 198,true);
 		rightGear.rotate(direction * (-198));
 		updateAngle(direction*90);

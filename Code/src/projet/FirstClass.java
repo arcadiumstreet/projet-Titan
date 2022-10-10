@@ -25,8 +25,45 @@ public class FirstClass {
 	public static void main(String[] args) {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
-		
+
+		for (int i = 0; i < 10; i++) {
+			pierrot.insertTurnDegres((int)(Math.random()*360),pierrot.RIGHT);
+		}
+		pierrot.goal();
+	
 		boolean again =true;
+		
+		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
+		float dist = pierrot.getUltrasonics().getSample()[0];
+		pierrot.getRightGear().rotate(360, true);
+		int i = 0;
+		while (Math.abs(pierrot.getUltrasonics().getSample()[0] - dist) < 0.1 && i < 30) {
+			dist = pierrot.getUltrasonics().getSample()[0];
+			
+			i++;
+		}
+		pierrot.getRightGear().stop();
+		if(i<30)
+			pierrot.catchTarget((int) (pierrot.getUltrasonics().getSample()[0]));*/
+
+		//pierrot.moveCm(pierrot.FRONT, 100);
+		//pierrot.closePliers();
+		//pierrot.turn180Degres(pierrot.LEFT);
+		//pierrot.turn360Degres(pierrot.RIGHT);
+		//pierrot.goal();
+		//pierrot.turn90Degres(pierrot.RIGHT);
+		//pierrot.goal();
+		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
+		if(pierrot.getUltrasonics().objectDetectedInRange(100))
+			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
+		Delay.msDelay(1000);*/
+		// attrapper un objet sans exception
+		//pierrot.openPliers(); 
+		  
+		 pierrot.allerjusqua("BLANC");
+		 //pierrot.research();
+		/*boolean again =true;
+>>>>>>> 92bcbf89b6f063ea321c6c9f3373c0c95b5294fa
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
 			Button.ENTER.waitForPressAndRelease();
@@ -35,7 +72,13 @@ public class FirstClass {
 			if(Button.ESCAPE.isDown()) {
 				again = false;
 			}
+<<<<<<< HEAD
 		}
+=======
+		 
+
+		//pierrot.closePliers(300);
+		}*/
 	}
 	    private static void log(final String msg)
 	    {
