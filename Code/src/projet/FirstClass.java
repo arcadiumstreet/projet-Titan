@@ -25,10 +25,25 @@ public class FirstClass {
 	public static void main(String[] args) {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
+
+		for (int i = 0; i < 10; i++) {
+			pierrot.insertTurnDegres((int)(Math.random()*360),pierrot.RIGHT);
+		}
+		pierrot.goal();
+	
 		
-		pierrot.moveCm(pierrot.FRONT, 10);
-		
-		pierrot.moveCm(pierrot.BACK, 10);
+		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
+		float dist = pierrot.getUltrasonics().getSample()[0];
+		pierrot.getRightGear().rotate(360, true);
+		int i = 0;
+		while (Math.abs(pierrot.getUltrasonics().getSample()[0] - dist) < 0.1 && i < 30) {
+			dist = pierrot.getUltrasonics().getSample()[0];
+			
+			i++;
+		}
+		pierrot.getRightGear().stop();
+		if(i<30)
+			pierrot.catchTarget((int) (pierrot.getUltrasonics().getSample()[0]));*/
 
 		//pierrot.moveCm(pierrot.FRONT, 100);
 		//pierrot.closePliers();
@@ -46,7 +61,7 @@ public class FirstClass {
 		  
 		 pierrot.allerjusqua("BLANC");
 		 //pierrot.research();
-		boolean again =true;
+		/*boolean again =true;
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
 			Button.ENTER.waitForPressAndRelease();
@@ -58,7 +73,7 @@ public class FirstClass {
 		 
 
 		//pierrot.closePliers(300);
-		}
+		}*/
 	}
 	    private static void log(final String msg)
 	    {
