@@ -43,7 +43,7 @@ public class Robot {
 		pliers.setSpeed(SPEED_PLIERS);
 		this.angle = 0;
 	} 
-
+ 
 	public String color() {
         Color rgb = ColorSensor.getColorIn();
         return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
@@ -205,5 +205,4 @@ public class Robot {
 	public void setColor(ColorSensor color) {
 		this.color = color;
 	}
-	
 }
