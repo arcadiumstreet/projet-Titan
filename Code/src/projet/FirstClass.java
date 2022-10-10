@@ -31,6 +31,7 @@ public class FirstClass {
 		}
 		pierrot.goal();
 	
+		boolean again =true;
 		
 		/*pierrot.getUltrasonics().getDistance().fetchSample(pierrot.getUltrasonics().getSample(), 0);
 		float dist = pierrot.getUltrasonics().getSample()[0];
@@ -62,6 +63,7 @@ public class FirstClass {
 		 pierrot.allerjusqua("BLANC");
 		 //pierrot.research();
 		/*boolean again =true;
+>>>>>>> 92bcbf89b6f063ea321c6c9f3373c0c95b5294fa
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
 			Button.ENTER.waitForPressAndRelease();
@@ -70,6 +72,9 @@ public class FirstClass {
 			if(Button.ESCAPE.isDown()) {
 				again = false;
 			}
+<<<<<<< HEAD
+		}
+=======
 		 
 
 		//pierrot.closePliers(300);
@@ -80,19 +85,4 @@ public class FirstClass {
 	        System.out.println("log>\t" + msg);
 	        
 	    }
-		//leftMotor.backward();
-		//rightMotor.backward();
-		/*
-		int i=0;
-		leftMotor.setSpeed(900);
-		rightMotor.setSpeed(900);
-		pince.setSpeed(900);
-		while(i<10000) {
-		leftMotor.backward();
-		rightMotor.backward();
-		pince.backward();
-		//pince2.forward();
-		i++;}*/
-		//pince.rotate(400);
-		//rightMotor.rotate(180);
 }
