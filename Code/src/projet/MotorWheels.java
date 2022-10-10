@@ -40,17 +40,26 @@ public class MotorWheels {
 	public Wheel getMoteur1() {
 		return motor1;
 	}
+	
+	public Wheel getMoteur2() {
+		return motor2;
+	}
+	
+	public Chassis getChassis() {
+		return chassis;
+	}
 
 	public void setMoteur1(Wheel motor1) {
 		this.motor1 = motor1;
 	}
 
-	public Wheel getMoteur2() {
-		return motor2;
-	}
-
+	
 	public void setMoteur2(Wheel motor2) {
 		this.motor2 = motor2;
+	}
+	
+	public void setChassis(Chassis c) {
+		chassis=c;
 	}
 	
 }
