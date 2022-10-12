@@ -48,14 +48,14 @@ public class Robot {
 
 	
 	public String colorint() {
-        int [] e = color.colorint();
+        int [] e = color.getcolorint();
                 //getColor().toString(getColor().getRed(),getColor().getGreen(),getColor().getColor().getBlue());
         String s = Arrays.toString(e) ;
          return s ;
 	}
 	
 	public String color() {
-        Color rgb = ColorSensor.getColorIn();
+        Color rgb = ColorSensor.getColor();
         return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
                 //getColor().toString(getColor().getRed(),getColor().getGreen(),getColor().getColor().getBlue());
     }
@@ -63,9 +63,9 @@ public class Robot {
 	public void allerjusqua(String couleur) {
 		leftGear.forward();
 		rightGear.forward();
-	    Color rgb = ColorSensor.getColorIn();
+	    Color rgb = ColorSensor.getColor();
 	    while( ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue()) != couleur) {
-	    	rgb = ColorSensor.getColorIn();
+	    	rgb = ColorSensor.getColor();
 	    }
 	    leftGear.stop();
 	    rightGear.stop();

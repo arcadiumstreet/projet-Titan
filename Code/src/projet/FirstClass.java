@@ -55,7 +55,6 @@ public class FirstClass {
 		Delay.msDelay(1000);*/
 		// attrapper un objet sans exception
 		//pierrot.openPliers(); 
-		  
 		// pierrot.allerjusqua("BLANC");
 		 //pierrot.research();
 		boolean again =true;
@@ -72,7 +71,6 @@ public class FirstClass {
 
 		}
 
-		 
 
 		//pierrot.closePliers(300);
 		}

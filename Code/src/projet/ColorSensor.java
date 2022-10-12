@@ -20,20 +20,21 @@ public class ColorSensor  {
 	public ColorSensor(String port) {
 		port_Color = LocalEV3.get().getPort(port);
 		sensor_Color = new EV3ColorSensor(port_Color);
+		//sensor_Color.setCurrentMode("RGB");
 		sensor_Color.getRGBMode();
 		sensor_Color.setFloodlight(Color.WHITE);
 	}
 
-	public static Color getColorIn(){	
+	public static Color getColor(){	
 		sample = new float[sensor_Color.sampleSize()];
 		sensor_Color.fetchSample(sample, 0);
 		return new Color((int)(sample[0] * 255), (int)(sample[1] * 255), (int)(sample[2] * 255));
 	}
 
-	public int[] colorint() {
+	public int[] getcolorint() {
 		sample = new float[sensor_Color.sampleSize()];
 		sensor_Color.fetchSample(sample, 0);
-		return new int [] {(int)(sample[0] * 255), (int)(sample[0] * 255), (int)(sample[0] * 255)};
+		return new int [] {(int)(sample[0] * 255), (int)(sample[1] * 255), (int)(sample[2] * 255)};
                 //getColor().toString(getColor().getRed(),getColor().getGreen(),getColor().getColor().getBlue());
     }
 	
