@@ -10,6 +10,7 @@ import lejos.hardware.port.Port;
 
 
 public class MotorWheels {
+	
 	private Wheel motor1 ;
 	private Wheel motor2 ; 
 	private Chassis chassis ; 
@@ -23,17 +24,17 @@ public class MotorWheels {
 		Wheel moteur2 = WheeledChassis.modelWheel(Motor.D, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ moteur1, moteur2 }, WheeledChassis.TYPE_DIFFERENTIAL);*/
 	public MotorWheels() {
-		Wheel motor1 = WheeledChassis.modelWheel(Motor.A, 81.6).offset(-70);
-		Wheel motor2 = WheeledChassis.modelWheel(Motor.D, 81.6).offset(70);
+		Wheel motor1 = WheeledChassis.modelWheel(Motor.B, 81.6).offset(-70);
+		Wheel motor2 = WheeledChassis.modelWheel(Motor.C, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		boussole=0;
 		this.longueur =1000; 
 		this.longueur=0;
-	}
+		chassis.setSpeed(1000,1000);	}
 	
 	public MotorWheels(int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
-		Wheel motor1 = WheeledChassis.modelWheel(Motor.A, 81.6).offset(-70);
-		Wheel motor2 = WheeledChassis.modelWheel(Motor.D, 81.6).offset(70);
+		Wheel motor1 = WheeledChassis.modelWheel(Motor.B, 81.6).offset(-70);
+		Wheel motor2 = WheeledChassis.modelWheel(Motor.C, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		boussole=0;
 		this.longueur =1000; 
@@ -95,7 +96,12 @@ public class MotorWheels {
 		chassis.travel(-distance);
 	}
 	
+	public void boussole_a_0() {
+		chassis.rotate(30);
+		this.setBoussole(0);
+	}
 
+	
 	public void rotate(double angle,int i) {
 		
 		chassis.rotate(angle*0.908);
@@ -139,6 +145,7 @@ public class MotorWheels {
 		}		
 	}
 	
+	
 	public void rotateEnFonctionBoussole(double angleArrivee) { 
 
 		double boussoleB;
@@ -176,7 +183,6 @@ public class MotorWheels {
 	}
 
 	public void mettreAJourBoussole(double i) {
-		
 		
 		if(this.boussole >= 0) {
 			if(i <= 0) {
