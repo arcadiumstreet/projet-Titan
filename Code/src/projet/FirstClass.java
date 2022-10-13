@@ -55,17 +55,22 @@ public class FirstClass {
 		Delay.msDelay(1000);*/
 		// attrapper un objet sans exception
 		//pierrot.openPliers(); 
+		
+		
+		
+		//pierrot.demitour();
 		pierrot.allerjusqua("BLANC");
-		// pierrot.research();
-		//pierrot.getMotor().forward();
+		 //pierrot.research();
 		
-		/*boolean again =true;
+		//pierrot.avancer(100);
 		
-
+		
+	/*	
+		boolean again =true;
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
 			Button.ENTER.waitForPressAndRelease();
-			System.out.println(pierrot.colorint());
+			//System.out.println(pierrot.colorint());
 			System.out.println("la couleur est "+pierrot.color());
 			Delay.msDelay(1000);
 			if(Button.ESCAPE.isDown()) {
@@ -73,9 +78,9 @@ public class FirstClass {
 			}
 
 		}
-
-		*/
-		//pierrot.closePliers(300);
+*/
+		//pierrot.getMotor().forward();
+		//pierrot.openPliers();
 		
 		}
 	

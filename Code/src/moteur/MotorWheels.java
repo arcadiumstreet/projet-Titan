@@ -1,4 +1,4 @@
-package projet;
+package moteur;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.Motor;
@@ -50,8 +50,9 @@ public class MotorWheels {
 		this.longueur =1000; 
 		this.largeur=0;
 		//chassis.setAngularSpeed(chassis.getMaxLinearSpeed());
-		//chassis.setVelocity(10000, 10000);
-		chassis.setAngularSpeed(200);
+		//chassis.setVelocity(10000, 10000);	
+		chassis.setLinearSpeed(chassis.getLinearSpeed());
+		chassis.setAngularSpeed(chassis.getMaxAngularSpeed()-50);
 		}
 	
 	public MotorWheels(int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
@@ -106,6 +107,7 @@ public class MotorWheels {
 		chassis.stop();
 	}
 	public void forward() {
+		chassis.travel(1000);
 	
 	}
 	public void forward(double distance) {

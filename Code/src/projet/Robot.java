@@ -9,6 +9,9 @@ import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.Color;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
+import moteur.MotorWheels;
+import sensors.ColorSensor;
+import sensors.UltrasonicSensor;
 
 public class Robot {
 	
@@ -34,6 +37,7 @@ public class Robot {
 		//this.leftGear = new MindsensorsGlideWheelMRegulatedMotor(leftGearPort);
 		//this.rightGear = new MindsensorsGlideWheelMRegulatedMotor(rightGearPort);
 		this.motor = new MotorWheels(leftGearPort,rightGearPort);
+		
 		this.pliers = new MindsensorsGlideWheelMRegulatedMotor(pliersPort);
 		
 		this.ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
@@ -57,7 +61,7 @@ public class Robot {
     }
 	
 	public void allerjusqua(String couleur) {
-		motor.getChassis().setLinearSpeed(motor.getChassis().getMaxLinearSpeed()-50);
+		
 		motor.forward(10000);
 	    Color rgb = ColorSensor.getColor();
 	    while( ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue()) != couleur) {
@@ -66,6 +70,12 @@ public class Robot {
 	   motor.stop();
 	}
 	
+	public void avancer(int i) {
+		motor.forward(100);
+	}
+	public void demitour() {
+		motor.getChassis().rotate(180);
+	}
 	public void updateAngle(double degree) {
 		angle = (angle+degree)%360;
 	}
@@ -111,7 +121,7 @@ public class Robot {
 	{
 		pliers.rotate(700);
 	}
-	public static  void closePliers()
+	public  static void closePliers()
 	{
 		pliers.rotate(-700);
 	}

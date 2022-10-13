@@ -1,4 +1,4 @@
-package projet;
+package sensors;
 
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.GraphicsLCD;
