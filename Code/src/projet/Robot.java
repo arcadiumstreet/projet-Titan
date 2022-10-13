@@ -33,13 +33,12 @@ public class Robot {
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
 		//this.leftGear = new MindsensorsGlideWheelMRegulatedMotor(leftGearPort);
 		//this.rightGear = new MindsensorsGlideWheelMRegulatedMotor(rightGearPort);
-		this.motor = new MotorWheels();
+		this.motor = new MotorWheels(leftGearPort,rightGearPort);
 		this.pliers = new MindsensorsGlideWheelMRegulatedMotor(pliersPort);
 		
 		this.ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		this.touch = new EV3TouchSensor(touchPort) ;
 		this.color = new ColorSensor("S1");
-	
 		pliers.setSpeed(SPEED_PLIERS);
 		this.angle = 0;
 	} 

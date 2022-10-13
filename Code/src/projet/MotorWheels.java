@@ -1,11 +1,14 @@
 package projet;
 
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.Motor;
+import lejos.robotics.RegulatedMotor;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
+import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 
 
@@ -23,13 +26,15 @@ public class MotorWheels {
 		Wheel moteur1 = WheeledChassis.modelWheel(Motor.A, 81.6).offset(-70);
 		Wheel moteur2 = WheeledChassis.modelWheel(Motor.D, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ moteur1, moteur2 }, WheeledChassis.TYPE_DIFFERENTIAL);*/
-	public MotorWheels() {
-		Wheel motor1 = WheeledChassis.modelWheel(Motor.B, 81.6).offset(-70);
-		Wheel motor2 = WheeledChassis.modelWheel(Motor.C, 81.6).offset(70);
+	public MotorWheels(Port port,Port port2) {
+		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
+		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
+		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
+		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		boussole=0;
 		this.longueur =1000; 
-		this.longueur=0;
+		this.largeur=0;
 		chassis.setSpeed(1000,1000);	}
 	
 	public MotorWheels(int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
