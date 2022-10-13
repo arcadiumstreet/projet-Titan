@@ -20,8 +20,8 @@ public class ColorSensor  {
 	public ColorSensor(String port) {
 		port_Color = LocalEV3.get().getPort(port);
 		sensor_Color = new EV3ColorSensor(port_Color);
-		//sensor_Color.setCurrentMode("RGB");
-		sensor_Color.getRGBMode();
+		sensor_Color.setCurrentMode("RGB");
+		//sensor_Color.getRGBMode();
 		sensor_Color.setFloodlight(Color.WHITE);
 	}
 
