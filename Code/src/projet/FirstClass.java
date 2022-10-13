@@ -55,10 +55,12 @@ public class FirstClass {
 		Delay.msDelay(1000);*/
 		// attrapper un objet sans exception
 		//pierrot.openPliers(); 
-		// pierrot.allerjusqua("BLANC");
-		 //pierrot.research();
+		pierrot.allerjusqua("BLANC");
+		// pierrot.research();
+		//pierrot.getMotor().forward();
+		
 		/*boolean again =true;
-
+		
 
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
@@ -74,6 +76,7 @@ public class FirstClass {
 
 		*/
 		//pierrot.closePliers(300);
+		
 		}
 	
 	    private static void log(final String msg)

@@ -20,9 +20,6 @@ public class UltrasonicSensor {
 		
 	}
 	
-	public void arrete() {
-		 ((EV3UltrasonicSensor) ultrasonic).disable();
-	}
 	
 	public boolean objectDetectedInRange(int range)
 	{

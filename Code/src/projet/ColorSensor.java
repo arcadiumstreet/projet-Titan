@@ -34,7 +34,6 @@ public class ColorSensor  {
 		sample = new float[sensor_Color.sampleSize()];
 		sensor_Color.fetchSample(sample, 0);
 		return new int [] {(int)(sample[0] * 255), (int)(sample[1] * 255), (int)(sample[2] * 255)};
-                //getColor().toString(getColor().getRed(),getColor().getGreen(),getColor().getColor().getBlue());
     }
 	
 	public static String color_String(int r, int g, int b) {

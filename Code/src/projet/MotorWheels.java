@@ -10,6 +10,19 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
+import lejos.hardware.BrickFinder;
+import lejos.hardware.lcd.GraphicsLCD;
+import lejos.hardware.motor.BaseRegulatedMotor;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.Motor;
+import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.TachoMotorPort;
+import lejos.robotics.Color;
+import lejos.robotics.RegulatedMotor;
+import lejos.robotics.chassis.Wheel;
+import lejos.utility.Delay;
+import lejos.robotics.navigation.MovePilot;
+import lejos.robotics.navigation.MovePilot.*;
 
 
 public class MotorWheels {
@@ -29,13 +42,17 @@ public class MotorWheels {
 	public MotorWheels(Port port,Port port2) {
 		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
 		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
+		
 		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		boussole=0;
 		this.longueur =1000; 
 		this.largeur=0;
-		chassis.setSpeed(1000,1000);	}
+		//chassis.setAngularSpeed(chassis.getMaxLinearSpeed());
+		//chassis.setVelocity(10000, 10000);
+		chassis.setAngularSpeed(200);
+		}
 	
 	public MotorWheels(int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
 		Wheel motor1 = WheeledChassis.modelWheel(Motor.B, 81.6).offset(-70);
@@ -89,7 +106,6 @@ public class MotorWheels {
 		chassis.stop();
 	}
 	public void forward() {
-		chassis.travel(1000);;
 	
 	}
 	public void forward(double distance) {

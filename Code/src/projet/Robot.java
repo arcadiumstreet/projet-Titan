@@ -40,6 +40,7 @@ public class Robot {
 		this.touch = new EV3TouchSensor(touchPort) ;
 		this.color = new ColorSensor("S1");
 		pliers.setSpeed(SPEED_PLIERS);
+		
 		this.angle = 0;
 	} 
 
@@ -56,7 +57,8 @@ public class Robot {
     }
 	
 	public void allerjusqua(String couleur) {
-		motor.forward(30);
+		motor.getChassis().setLinearSpeed(motor.getChassis().getMaxLinearSpeed()-50);
+		motor.forward(10000);
 	    Color rgb = ColorSensor.getColor();
 	    while( ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue()) != couleur) {
 	    	rgb = ColorSensor.getColor();
@@ -100,7 +102,6 @@ public class Robot {
 			i++;
 		}
 		motor.stop();
-		ultrasonics.arrete();
 		openPliers();
 		motor.forward(-500);
 		closePliers();
