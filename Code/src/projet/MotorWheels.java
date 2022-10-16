@@ -29,8 +29,8 @@ public class MotorWheels {
 	
 	
 	
-	public void avance() {
-		
+	public void avance(double dist) {
+		chassis.travel(dist);
 	}
 	
 	public void tournedroit() {
