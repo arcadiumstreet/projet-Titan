@@ -1,4 +1,4 @@
-package projet;
+package sensors;
 
 import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
@@ -8,21 +8,18 @@ import lejos.robotics.SampleProvider;
  
 public class UltrasonicSensor {
 	
-	private SensorModes ultrasonic;
+	private EV3UltrasonicSensor ultrasonic;
 	private SampleProvider distance;
 	private float[] sample;
 	
 	public UltrasonicSensor(Port port) 
 	{
-		EV3UltrasonicSensor ultrasonic = new EV3UltrasonicSensor(port);
+		 ultrasonic = new EV3UltrasonicSensor(port);
 		this.distance= ultrasonic.getMode("Distance");
 		this.sample = new float[distance.sampleSize()];
 		
 	}
 	
-	public void arrete() {
-		 ((EV3UltrasonicSensor) ultrasonic).disable();
-	}
 	
 	public boolean objectDetectedInRange(int range)
 	{
@@ -54,7 +51,7 @@ public class UltrasonicSensor {
 		return ultrasonic;
 	}
 
-	public void setUltrasonic(SensorModes ultrasonic) {
+	public void setUltrasonic(EV3UltrasonicSensor ultrasonic) {
 		this.ultrasonic = ultrasonic;
 	}
 

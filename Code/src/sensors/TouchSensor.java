@@ -1,4 +1,4 @@
-package projet;
+package sensors;
 
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3TouchSensor;
