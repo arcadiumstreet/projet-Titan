@@ -53,17 +53,13 @@ public class MotorWheels {
 		pilot.setAngularSpeed(200);
 		}
 	
-<<<<<<< HEAD
-	public MotorWheels(int i) { //i = 1 a gauche i=2 au milieu i=3 a droite
-		Wheel motor1 = WheeledChassis.modelWheel(Motor.B, 81.6).offset(-70);
-		Wheel motor2 = WheeledChassis.modelWheel(Motor.C, 81.6).offset(70);
-=======
+
 	public MotorWheels(Port port,Port port2,int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
 		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
 		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
 		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
->>>>>>> 072a8d6854590242cb9fe7986d81e57da3b7a42c
+
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		boussole=0;
 		this.longueur =1000; 
