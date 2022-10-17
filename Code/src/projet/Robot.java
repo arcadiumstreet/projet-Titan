@@ -44,32 +44,6 @@ public class Robot {
 	} 
 	
 	public void test() {
-		float dis=1;
-		motor.getPilot().setAngularSpeed(150);
-		motor.rotate();
-		long t1= System.currentTimeMillis();
-		while(dis>0.5){
-			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
-			dis = getUltrasonics().getSample0();
-			}
-		long t2 = System.currentTimeMillis();
-		motor.stop();
-		long temps = t2-t1 ;
-		long coeff = 0;
-		if(temps<=900) {coeff= (long) 11;
-		}
-		if(temps>900&&temps<=1800) {coeff= (long) 10.01;
-		}
-		if(temps>1800&&temps<=2700) {coeff= (long) 9.47;
-		}
-		if(temps>2700) {coeff=(long)9.28;}
-		long angle = (temps/coeff)+15;
-		System.out.println("angle = "+angle);
-		motor.getPilot().setAngularSpeed(200);
-		//Delay.msDelay(10000);
-		motor.mettreAJourBoussole(angle);
-		motor.boussole_a_0();
-		allerjusqua("BLANC");
 	}
 	
 	
@@ -114,10 +88,11 @@ public class Robot {
 	public boolean catchTarget(int targetDistance){
 		ouvrirPinces();
 		motor.forward(targetDistance + 3);
-		fermerPinces();
 		if (touch.isPressed()) {
+			fermerPinces();
 			return true;
 		} else {
+			fermerPinces();
 			return false;
 		}
 	}
