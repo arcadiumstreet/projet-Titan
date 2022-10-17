@@ -14,6 +14,7 @@ import moteur.Pinces;
 
 import sensors.ColorSensor;
 import sensors.UltrasonicSensor;
+import sensors.TouchSensor;
 
 public class Robot {
 	
@@ -39,9 +40,9 @@ public class Robot {
 		pinces = new Pinces(pliersPort);
 		
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
-		touch = new EV3TouchSensor(touchPort) ;
+		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
-		this.angle = 0;
+		
 	} 
 	
 	public void test() {
