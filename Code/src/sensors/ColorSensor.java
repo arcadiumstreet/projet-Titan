@@ -17,6 +17,10 @@ public class ColorSensor  {
 	private static EV3ColorSensor sensor_Color;
 	public static float[] sample;
 
+	/**
+	 * 
+	 * @param port
+	 */
 	public ColorSensor(String port) {
 		port_Color = LocalEV3.get().getPort(port);
 		sensor_Color = new EV3ColorSensor(port_Color);
@@ -24,18 +28,33 @@ public class ColorSensor  {
 		sensor_Color.setFloodlight(Color.WHITE);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static Color getColor(){	
 		sample = new float[sensor_Color.sampleSize()];
 		sensor_Color.fetchSample(sample, 0);
 		return new Color((int)(sample[0] * 255), (int)(sample[1] * 255), (int)(sample[2] * 255));
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int[] getcolorint() {
 		sample = new float[sensor_Color.sampleSize()];
 		sensor_Color.fetchSample(sample, 0);
 		return new int [] {(int)(sample[0] * 255), (int)(sample[1] * 255), (int)(sample[2] * 255)};
     }
 	
+	/**
+	 * 
+	 * @param r
+	 * @param g
+	 * @param b
+	 * @return
+	 */
 	public static String color_String(int r, int g, int b) {
 		if((r<6 && g<6 && b<6)) {
 			return "NOIR";

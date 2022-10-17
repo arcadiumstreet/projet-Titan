@@ -12,6 +12,10 @@ public class UltrasonicSensor {
 	private SampleProvider distance;
 	private float[] sample;
 	
+	/**
+	 * 
+	 * @param port
+	 */
 	public UltrasonicSensor(Port port) 
 	{
 		 ultrasonic = new EV3UltrasonicSensor(port);
@@ -20,10 +24,18 @@ public class UltrasonicSensor {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void stop() {
 		ultrasonic.disable();
 	}
 	
+	/**
+	 * 
+	 * @param range
+	 * @return
+	 */
 	public boolean objectDetectedInRange(int range)
 	{
 		if(this.sample[0]<(range/100))
@@ -31,6 +43,10 @@ public class UltrasonicSensor {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean objectDetectedInRange()
 	{
 		if(this.sample[0]<0.5)
@@ -38,30 +54,58 @@ public class UltrasonicSensor {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public float[] getSample() {
 		return sample;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public float getSample0() {
 		return sample[0];
 	}
 	
+	/**
+	 * 
+	 * @param sample
+	 */
 	public void setSample(float[] sample) {
 		this.sample = sample;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public SensorModes getUltrasonic() {
 		return ultrasonic;
 	}
 
+	/**
+	 * 
+	 * @param ultrasonic
+	 */
 	public void setUltrasonic(EV3UltrasonicSensor ultrasonic) {
 		this.ultrasonic = ultrasonic;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public SampleProvider getDistance() {
 		return distance;
 	}
 
+	/**
+	 * 
+	 * @param distance
+	 */
 	public void setDistance(SampleProvider distance) {
 		this.distance = distance;
 	}
