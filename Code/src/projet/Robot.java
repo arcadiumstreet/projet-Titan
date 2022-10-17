@@ -109,10 +109,11 @@ public class Robot {
 	public boolean catchTarget(int targetDistance){
 		ouvrirPinces();
 		motor.forward(targetDistance + 3);
-		fermerPinces();
 		if (touch.isPressed()) {
+			fermerPinces();
 			return true;
 		} else {
+			fermerPinces();
 			return false;
 		}
 	}
