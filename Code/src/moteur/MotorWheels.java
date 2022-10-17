@@ -191,7 +191,7 @@ public class MotorWheels {
 	 * Recalibre la boussole à 0°
 	 */
 	public void boussole_a_0() {
-		//double d=1.29*degre ;//a refaire sur le plan de jeu car pas la meme surface
+		//double d=1.29*degre 
 		pilot.setAngularSpeed(200);//jamais le changer
 		if (boussole <180) {pilot.rotate(-boussole*1.29);}
 		else pilot.rotate((180-boussole)*1.29);

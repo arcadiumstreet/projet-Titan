@@ -40,10 +40,7 @@ public class Robot {
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
-<<<<<<< HEAD
-		
-=======
->>>>>>> 7288834f94667e9b05a3d2aa1062b53a0abf9f2b
+
 	} 
 	
 	public void test() {
