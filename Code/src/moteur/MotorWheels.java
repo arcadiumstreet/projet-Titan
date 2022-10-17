@@ -156,18 +156,22 @@ public class MotorWheels {
 	public void forward() {
 		pilot.forward();
 	}
-<<<<<<< HEAD
-	
+
 	/**
-	 * avance de 66*1.5cm pour distance=1000
+	 * 
+	 * 
 	 * @param distance
+	 * @param immediateReturn
 	 */
-=======
 	public void forward(double distance,boolean immediateReturn) {
 		pilot.travel(distance,immediateReturn);
 		
 	}
->>>>>>> 3f65515868310e5ed0d50d8487101691f980ae62
+
+	/**
+	 * 
+	 * @param distance
+	 */
 	public void forward(double distance) {
 		//distance=1000,66cm(*1.5)
 		double dis= distance*1.5;
@@ -338,12 +342,15 @@ public class MotorWheels {
 	
 	
 	/**
-	 * fait 2 tours sur soi par la droite avec un retour immediat
+	 * fait 1 tours sur soi par la droite avec un retour immediat
 	 */
 	public void rotate() {
 		pilot.rotate(360*1.29, true);
 	}
 	
+	/**
+	 * fait 1 tours sur soi par la gauche avec un retour immediat
+	 */
 	public void rotateneg() {
 		pilot.rotate(-360, true);
 	}
