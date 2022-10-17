@@ -11,12 +11,9 @@ import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 import moteur.MotorWheels;
 import moteur.Pinces;
-<<<<<<< HEAD
-import sensors.*;
-=======
+
 import sensors.ColorSensor;
 import sensors.UltrasonicSensor;
->>>>>>> 072a8d6854590242cb9fe7986d81e57da3b7a42c
 
 public class Robot {
 	
@@ -26,11 +23,8 @@ public class Robot {
 	public static final int BACK = - 1;
 	public static final int TURN_SPEED = 500;
 
-<<<<<<< HEAD
-	private static Pinces pince;
-=======
+
 	private static Pinces pinces ;
->>>>>>> 072a8d6854590242cb9fe7986d81e57da3b7a42c
 	private static MotorWheels motor;
 	
 	private static UltrasonicSensor ultrasonics;
@@ -40,21 +34,9 @@ public class Robot {
 	private double angle;
 	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
-<<<<<<< HEAD
-		//this.leftGear = new MindsensorsGlideWheelMRegulatedMotor(leftGearPort);
-		//this.rightGear = new MindsensorsGlideWheelMRegulatedMotor(rightGearPort);
-		motor = new MotorWheels(leftGearPort,rightGearPort);
-		
-		pince = new Pinces(pliersPort);
-		
-		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
-		touch = new TouchSensor(touchPort) ;
-		color = new ColorSensor("S1");
-		pince.setSpeed(SPEED_PLIERS);
-=======
+
 		motor = new MotorWheels(leftGearPort,rightGearPort);
 		pinces = new Pinces(pliersPort);
->>>>>>> 072a8d6854590242cb9fe7986d81e57da3b7a42c
 		
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new EV3TouchSensor(touchPort) ;
@@ -91,16 +73,12 @@ public class Robot {
 	   motor.stop();
 	}
 	
-<<<<<<< HEAD
-	public void avancer(double i) {
-		motor.forward(100);
-=======
+
 	public void avancer(int i) {
 		motor.forward(i);
 	}
 	public void reculer(int i) {
 		motor.backward(i);
->>>>>>> 072a8d6854590242cb9fe7986d81e57da3b7a42c
 	}
 	public void demitour() {
 		motor.rotate(180);

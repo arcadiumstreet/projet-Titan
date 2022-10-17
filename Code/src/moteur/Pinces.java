@@ -26,12 +26,6 @@ public class Pinces {
 	public void ouvrir() {
 		this.pinces.rotate(3*360);
 	}
-<<<<<<< HEAD
-	
-	public void setSpeed(int sp) {
-		pinces.setSpeed(sp);
-	}
+
 }
-=======
-}
->>>>>>> 072a8d6854590242cb9fe7986d81e57da3b7a42c
+
