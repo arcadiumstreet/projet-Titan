@@ -53,19 +53,20 @@ public class FirstClass {
 		if(pierrot.getUltrasonics().objectDetectedInRange(100))
 			pierrot.catchTarget((int)(pierrot.getUltrasonics().getSample()[0] * 100));
 		Delay.msDelay(1000);*/
+		
 		// attrapper un objet sans exception
 		//pierrot.openPliers(); 
 		
+		//pierrot.avancer(-100);
 		
-		
-		//pierrot.demitour();
-		pierrot.allerjusqua("BLANC");
-		 //pierrot.research();
+		//pierrot.allerjusqua("BLANC");
+		 pierrot.research();
 		
 		//pierrot.avancer(100);
 		
 		
 	/*	
+	 //test les couleurs 
 		boolean again =true;
 		while (again) {
 		 System.out.println("\nPress enter to detect a color...");
@@ -79,9 +80,7 @@ public class FirstClass {
 
 		}
 */
-		//pierrot.getMotor().forward();
-		//pierrot.openPliers();
-		
+
 		}
 	
 	    private static void log(final String msg)

@@ -30,15 +30,12 @@ public class MotorWheels {
 	private Wheel motor1 ;
 	private Wheel motor2 ; 
 	private Chassis chassis ; 
+	private MovePilot pilot ;
+
 	private double boussole;
 	private double longueur;
 	private double largeur;
 	 
-
-	/*public MotorWheels(Port A,Port D) {
-		Wheel moteur1 = WheeledChassis.modelWheel(Motor.A, 81.6).offset(-70);
-		Wheel moteur2 = WheeledChassis.modelWheel(Motor.D, 81.6).offset(70);
-		chassis = new WheeledChassis(new Wheel[]{ moteur1, moteur2 }, WheeledChassis.TYPE_DIFFERENTIAL);*/
 	public MotorWheels(Port port,Port port2) {
 		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
 		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
@@ -46,18 +43,27 @@ public class MotorWheels {
 		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
+		pilot = new MovePilot(chassis);
 		boussole=0;
 		this.longueur =1000; 
 		this.largeur=0;
 		//chassis.setAngularSpeed(chassis.getMaxLinearSpeed());
 		//chassis.setVelocity(10000, 10000);	
-		chassis.setLinearSpeed(chassis.getLinearSpeed());
-		chassis.setAngularSpeed(chassis.getMaxAngularSpeed()-50);
+		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
+		pilot.setAngularSpeed(200);
 		}
 	
+<<<<<<< HEAD
 	public MotorWheels(int i) { //i = 1 a gauche i=2 au milieu i=3 a droite
 		Wheel motor1 = WheeledChassis.modelWheel(Motor.B, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(Motor.C, 81.6).offset(70);
+=======
+	public MotorWheels(Port port,Port port2,int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
+		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
+		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
+		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
+		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
+>>>>>>> 072a8d6854590242cb9fe7986d81e57da3b7a42c
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		boussole=0;
 		this.longueur =1000; 
@@ -104,30 +110,30 @@ public class MotorWheels {
 	}
 	
 	public void stop() {
-		chassis.stop();
+		pilot.stop();
 	}
 	public void forward() {
-		chassis.travel(1000);
-	
+		pilot.forward();
 	}
 	public void forward(double distance) {
-		chassis.travel(distance);
-		
+		//distance=1000,66cm(*1.5)
+		pilot.travel(distance*1.5);
 	}
 	
 	public void backward(double distance) {
-		chassis.travel(-distance);
+		pilot.travel(-distance*1.5);
 	}
 	
 	public void boussole_a_0() {
-		chassis.rotate(30);
+		//double d=1.29*degre ;//a refaire sur le plan de jeu car pas la meme surface
+		pilot.setAngularSpeed(200);//jamais le changer
+		if (boussole <180) {pilot.rotate(-boussole*1.29);}
+		else pilot.rotate((180-boussole)*1.29);
 		this.setBoussole(0);
 	}
-
 	
 	public void rotate(double angle,int i) {
-		
-		chassis.rotate(angle*0.908);
+		pilot.rotate(angle*1.29);
 		if(angle==0)
 			return;
 		if(this.boussole<0 && angle>0){
@@ -167,7 +173,6 @@ public class MotorWheels {
 			return;
 		}		
 	}
-	
 	
 	public void rotateEnFonctionBoussole(double angleArrivee) { 
 
@@ -235,64 +240,58 @@ public class MotorWheels {
 	}
 	
 	public void afficheBoussole() {
-		System.out.println(this.boussole);
-	}
+		System.out.println(this.boussole);}
 
 	public void afficheLongueur() {
-		System.out.println("LONGUEUR " + this.longueur);
-	}
+		System.out.println("LONGUEUR " + this.longueur);}
 	
 	public void afficheLargeur() {
-		System.out.println("LARGUEUR "+ this.largeur);
-	}
+		System.out.println("LARGEUR "+ this.largeur);}
 	
 	public void move(double distance) {
-		chassis.travel(distance);
-	}
-	public void rotate(double degre) {
-		chassis.rotate(degre);
-	}
-	public boolean enMouvement() {
-		return chassis.isMoving();
+		pilot.travel(distance);}
+	
+	public void rotate() {
+		pilot.rotate(360*2, true);
 	}
 	
-	public void tournedroit() {
-		chassis.getLinearDirection();
-	}
+	public void rotate(double degre) {
+		double d=1.29*degre ;//a refaire sur le plan de jeu car pas la meme surface
+		pilot.setAngularSpeed(200);
+		pilot.rotate(d);
+		mettreAJourBoussole(degre);}
+	
+	public boolean enMouvement() {
+		return chassis.isMoving();}
 	
 	public Wheel getMoteur1() {
-		return motor1;
-	}
+		return motor1;}
 	
 	public Wheel getMoteur2() {
-		return motor2;
-	}
+		return motor2;}
 	
 	public Chassis getChassis() {
-		return chassis;
-	}
+		return chassis;}
 
 	public void setMoteur1(Wheel motor1) {
-		this.motor1 = motor1;
-	}
-
+		this.motor1 = motor1;}
 	
 	public void setMoteur2(Wheel motor2) {
-		this.motor2 = motor2;
-	}
+		this.motor2 = motor2;}
 	
 	public void setChassis(Chassis c) {
-		chassis=c;
-	}
-
+		chassis=c;}
 
 	public double getBoussole() {
-		return boussole;
-	}
-
+		return boussole;}
 
 	public void setBoussole(double boussole) {
-		this.boussole = boussole;
-	}
+		this.boussole = boussole;}
+	
+	public MovePilot getPilot() {
+		return pilot;}
+
+	public void setPilot(MovePilot pilot) {
+		this.pilot = pilot;}
 	
 }
