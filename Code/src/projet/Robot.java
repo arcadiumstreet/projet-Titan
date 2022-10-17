@@ -32,8 +32,6 @@ public class Robot {
 	private static TouchSensor touch; 
 	private static ColorSensor color;
 	
-	private double angle;
-	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
 
 		motor = new MotorWheels(leftGearPort,rightGearPort);
@@ -42,7 +40,10 @@ public class Robot {
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 7288834f94667e9b05a3d2aa1062b53a0abf9f2b
 	} 
 	
 	public void test() {
@@ -112,16 +113,15 @@ public class Robot {
 	public void boussole_a_0() {
 		motor.boussole_a_0();
 	}
-	public void updateAngle(double degree) {
-		angle = (angle+degree)%360;
-	}
 	
-	public void catchTarget(int targetDistance){
+	public boolean catchTarget(int targetDistance){
 		ouvrirPinces();
 		motor.forward(targetDistance + 3);
 		fermerPinces();
 		if (touch.isPressed()) {
-			goal();
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -130,7 +130,7 @@ public class Robot {
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
-		while(/*i < 975*/dis>0.5){
+		while(dis>0.5){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 			dis = getUltrasonics().getSample0();
 			//i++;
