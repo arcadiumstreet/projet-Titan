@@ -7,6 +7,7 @@ import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.robotics.RegulatedMotor;
 
+
 public class Pinces {
 
 	private RegulatedMotor pinces;

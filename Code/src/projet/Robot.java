@@ -94,11 +94,13 @@ public class Robot {
 		angle = (angle+degree)%360;
 	}
 	
-	public static void catchTarget(int targetDistance){
+	public void catchTarget(int targetDistance){
 		ouvrirPinces();
 		motor.forward(targetDistance + 3);
 		fermerPinces();
-		//moveCm(BACK,targetDistance + 3);
+		if (touch.isPressed()) {
+			goal();
+		}
 	}
 	
 	public void research() {
@@ -147,7 +149,7 @@ public class Robot {
 	public EV3TouchSensor getTouch() {
 		return touch;
 	}
-	public void setTouch(EV3TouchSensor touch) {
+	public void setTouch(TouchSensor touch) {
 		this.touch = touch;
 	}
 	public ColorSensor getColor() {
