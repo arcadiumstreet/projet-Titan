@@ -10,6 +10,7 @@ import lejos.robotics.Color;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 import moteur.MotorWheels;
+import moteur.Pinces;
 import sensors.ColorSensor;
 import sensors.UltrasonicSensor;
 
@@ -19,12 +20,9 @@ public class Robot {
 	public static final int FRONT = 1;
 	public static final int LEFT = - 1;
 	public static final int BACK = - 1;
-	public static final int SPEED_PLIERS = 1000;
-	public static final int SPEED_LEFTGEAR = 1000;
-	public static final int SPEED_RIGHTGEAR = 1000;
 	public static final int TURN_SPEED = 500;
 
-	private static RegulatedMotor pliers;
+	private static Pinces pinces ;
 	private static MotorWheels motor;
 	
 	private static UltrasonicSensor ultrasonics;
@@ -34,20 +32,22 @@ public class Robot {
 	private double angle;
 	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
-		//this.leftGear = new MindsensorsGlideWheelMRegulatedMotor(leftGearPort);
-		//this.rightGear = new MindsensorsGlideWheelMRegulatedMotor(rightGearPort);
-		this.motor = new MotorWheels(leftGearPort,rightGearPort);
+		motor = new MotorWheels(leftGearPort,rightGearPort);
+		pinces = new Pinces(pliersPort);
 		
-		this.pliers = new MindsensorsGlideWheelMRegulatedMotor(pliersPort);
-		
-		this.ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
-		this.touch = new EV3TouchSensor(touchPort) ;
-		this.color = new ColorSensor("S1");
-		pliers.setSpeed(SPEED_PLIERS);
-		
+		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
+		touch = new EV3TouchSensor(touchPort) ;
+		color = new ColorSensor("S1");
 		this.angle = 0;
 	} 
-
+	
+	public void test() {
+		allerjusqua("BLANC");
+		ouvrirPinces();
+		motor.backward(300);
+		fermerPinces();
+	}
+	
 	
 	public String colorint() {
         int [] e = color.getcolorint();
@@ -60,9 +60,9 @@ public class Robot {
         return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
     }
 	
+	//initialiser apres longueur aux max 
 	public void allerjusqua(String couleur) {
-		
-		motor.forward(10000);
+		motor.forward();
 	    Color rgb = ColorSensor.getColor();
 	    while( ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue()) != couleur) {
 	    	rgb = ColorSensor.getColor();
@@ -71,27 +71,36 @@ public class Robot {
 	}
 	
 	public void avancer(int i) {
-		motor.forward(100);
+		motor.forward(i);
+	}
+	public void reculer(int i) {
+		motor.backward(i);
 	}
 	public void demitour() {
-		motor.getChassis().rotate(180);
+		motor.rotate(180);
+	}
+	public void rotate(double d) {
+		motor.rotate(d);
+	}
+	public void boussole_a_0() {
+		motor.boussole_a_0();
 	}
 	public void updateAngle(double degree) {
 		angle = (angle+degree)%360;
 	}
 	
 	public static void catchTarget(int targetDistance){
-		openPliers();
+		ouvrirPinces();
 		motor.forward(targetDistance + 3);
-		closePliers();
+		fermerPinces();
 		//moveCm(BACK,targetDistance + 3);
 	}
 	
-	
 	public void research() {
-		int i =0;
+		//int i =0;
 		float dis=1;
-		motor.rotate(360);
+		motor.getPilot().setAngularSpeed(150);
+		motor.rotate();
 		while(/*i < 975*/dis>0.5){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 			dis = getUltrasonics().getSample0();
@@ -100,55 +109,29 @@ public class Robot {
 			//System.out.print(dis);
 			}
 		motor.stop();
+		motor.getPilot().setAngularSpeed(200);
+		catchTarget((int)dis);
 		
-		catchTarget((int)(100*dis));
 	}
 	
 	public void goal() {
 		motor.boussole_a_0();
-		motor.forward(2000);
-		int i = 0;
-		while(i < 500) { 
-			i++;
-		}
-		motor.stop();
-		openPliers();
-		motor.forward(-500);
-		closePliers();
+		allerjusqua("BLANC");
+		ouvrirPinces();
+		motor.backward(200);
+		fermerPinces();
 	}
-	
-	public static  void openPliers()
-	{
-		pliers.rotate(700);
+	public static void ouvrirPinces() {
+		pinces.ouvrir();
 	}
-	public  static void closePliers()
-	{
-		pliers.rotate(-700);
+	public static void fermerPinces() {
+		pinces.fermer();
 	}
-	public static  void openPliers(int i)
-	{
-		pliers.rotate(i);
-	}
-	public static  void closePliers(int i)
-	{
-		pliers.rotate(-i);
-	}
-	
-	
-	public static RegulatedMotor getPliers() {
-		return pliers;
-	}
-	
 	public static MotorWheels getMotor() {
 		return motor;
 	}
-
 	public static void setMotor(MotorWheels motor) {
 		Robot.motor = motor;
-	}
-	
-	public static void setPliers(RegulatedMotor pliers) {
-		Robot.pliers = pliers;
 	}
 	public static UltrasonicSensor getUltrasonics() {
 		return ultrasonics;
