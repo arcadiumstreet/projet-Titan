@@ -11,6 +11,7 @@ import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 import moteur.MotorWheels;
 import moteur.Pinces;
+
 import sensors.ColorSensor;
 import sensors.UltrasonicSensor;
 import sensors.TouchSensor;
@@ -23,6 +24,7 @@ public class Robot {
 	public static final int BACK = - 1;
 	public static final int TURN_SPEED = 500;
 
+
 	private static Pinces pinces ;
 	private static MotorWheels motor;
 	
@@ -31,12 +33,14 @@ public class Robot {
 	private static ColorSensor color;
 	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
+
 		motor = new MotorWheels(leftGearPort,rightGearPort);
 		pinces = new Pinces(pliersPort);
 		
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
+
 	} 
 	
 	public void test() {
@@ -64,6 +68,7 @@ public class Robot {
 	   motor.stop();
 	}
 	
+
 	public void avancer(int i) {
 		motor.forward(i);
 	}
@@ -92,30 +97,22 @@ public class Robot {
 		}
 	}
 	
-	public void research() {
+	public void research() {//faire un calcul avec la boussole
+		//int i =0;
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
-		long t1= System.currentTimeMillis();
 		while(dis>0.5){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 			dis = getUltrasonics().getSample0();
+			//i++;
+			//System.out.print(angle);
+			//System.out.print(dis);
 			}
-		long t2 = System.currentTimeMillis();
 		motor.stop();
-		long temps = t2-t1 ;
-		long coeff = 0;
-		if(temps<=900) {coeff= (long) 11;
-		}
-		if(temps>900&&temps<=1800) {coeff= (long) 10.01;
-		}
-		if(temps>1800&&temps<=2700) {coeff= (long) 9.47;
-		}
-		if(temps>2700) {coeff=(long)9.28;}
-		long angle = (temps/coeff)+15;
-		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
-		motor.mettreAJourBoussole(angle);
+		catchTarget((int)dis);
+		
 	}
 	
 	public void goal() {
