@@ -93,9 +93,8 @@ public class Robot {
 	public void catchTarget(int targetDistance){
 		ouvrirPinces();
 		motor.forward(targetDistance + 3);
-		fermerPinces();
 		if (touch.isPressed()) {
-			goal();
+			fermerPinces();
 		}
 	}
 	
