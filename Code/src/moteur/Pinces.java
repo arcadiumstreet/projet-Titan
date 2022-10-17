@@ -23,4 +23,8 @@ public class Pinces {
 		pinces.setSpeed(10000);
 		this.pinces.rotate(4*360,true);
 	}
+	
+	public void setSpeed(int sp) {
+		pinces.setSpeed(sp);
+	}
 }

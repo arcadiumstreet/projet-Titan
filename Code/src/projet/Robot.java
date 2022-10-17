@@ -10,8 +10,8 @@ import lejos.robotics.Color;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 import moteur.MotorWheels;
-import sensors.ColorSensor;
-import sensors.UltrasonicSensor;
+import moteur.Pinces;
+import sensors.*;
 
 public class Robot {
 	
@@ -24,11 +24,11 @@ public class Robot {
 	public static final int SPEED_RIGHTGEAR = 1000;
 	public static final int TURN_SPEED = 500;
 
-	private static RegulatedMotor pliers;
+	private static Pinces pince;
 	private static MotorWheels motor;
 	
 	private static UltrasonicSensor ultrasonics;
-	private static EV3TouchSensor touch;
+	private static TouchSensor touch;
 	private static ColorSensor color;
 	
 	private double angle;
@@ -36,14 +36,14 @@ public class Robot {
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
 		//this.leftGear = new MindsensorsGlideWheelMRegulatedMotor(leftGearPort);
 		//this.rightGear = new MindsensorsGlideWheelMRegulatedMotor(rightGearPort);
-		this.motor = new MotorWheels(leftGearPort,rightGearPort);
+		motor = new MotorWheels(leftGearPort,rightGearPort);
 		
-		this.pliers = new MindsensorsGlideWheelMRegulatedMotor(pliersPort);
+		pince = new Pinces(pliersPort);
 		
-		this.ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
-		this.touch = new EV3TouchSensor(touchPort) ;
-		this.color = new ColorSensor("S1");
-		pliers.setSpeed(SPEED_PLIERS);
+		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
+		touch = new TouchSensor(touchPort) ;
+		color = new ColorSensor("S1");
+		pince.setSpeed(SPEED_PLIERS);
 		
 		this.angle = 0;
 	} 
@@ -70,7 +70,7 @@ public class Robot {
 	   motor.stop();
 	}
 	
-	public void avancer(int i) {
+	public void avancer(double i) {
 		motor.forward(100);
 	}
 	public void demitour() {

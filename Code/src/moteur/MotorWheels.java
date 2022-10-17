@@ -55,7 +55,7 @@ public class MotorWheels {
 		chassis.setAngularSpeed(chassis.getMaxAngularSpeed()-50);
 		}
 	
-	public MotorWheels(int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
+	public MotorWheels(int i) { //i = 1 a gauche i=2 au milieu i=3 a droite
 		Wheel motor1 = WheeledChassis.modelWheel(Motor.B, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(Motor.C, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
