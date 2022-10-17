@@ -45,8 +45,8 @@ public class MotorWheels {
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
 		boussole=0;
-		this.longueur =1000; 
-		this.largeur=0;
+		this.longueur =0; 
+		this.largeur=1000;
 		//chassis.setAngularSpeed(chassis.getMaxLinearSpeed());
 		//chassis.setVelocity(10000, 10000);	
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
@@ -109,9 +109,15 @@ public class MotorWheels {
 	public void forward() {
 		pilot.forward();
 	}
+	public void forward(double distance,boolean immediateReturn) {
+		pilot.travel(distance,immediateReturn);
+		
+	}
 	public void forward(double distance) {
 		//distance=1000,66cm(*1.5)
-		pilot.travel(distance*1.5);
+		double dis= distance*1.5;
+		pilot.travel(dis);
+		mettre_a_jour_longueur_largeur(distance);
 	}
 	
 	public void backward(double distance) {
@@ -246,7 +252,11 @@ public class MotorWheels {
 		pilot.travel(distance);}
 	
 	public void rotate() {
-		pilot.rotate(360*2, true);
+		pilot.rotate(360*1.29, true);
+	}
+	
+	public void rotateneg() {
+		pilot.rotate(-360, true);
 	}
 	
 	public void rotate(double degre) {

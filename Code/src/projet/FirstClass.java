@@ -24,7 +24,7 @@ public class FirstClass {
 	
 	public static void main(String[] args) {
 		
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1);
+		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1);
 
 		  
 	
@@ -57,12 +57,14 @@ public class FirstClass {
 		// attrapper un objet sans exception
 		//pierrot.openPliers(); 
 		
+		pierrot.test();
+		
+		//pierrot.rotate(180);
+		//pierrot.rotate(90);
+		//pierrot.rotate(180);
+		// pierrot.research();
+		// pierrot.allerjusqua("BLANC");
 		//pierrot.avancer(-100);
-		
-		//pierrot.allerjusqua("BLANC");
-		 pierrot.research();
-		
-		//pierrot.avancer(100);
 		
 		
 	/*	
