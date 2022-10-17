@@ -13,6 +13,7 @@ import moteur.MotorWheels;
 import moteur.Pinces;
 import sensors.ColorSensor;
 import sensors.UltrasonicSensor;
+import sensors.TouchSensor;
 
 public class Robot {
 	
@@ -26,7 +27,7 @@ public class Robot {
 	private static MotorWheels motor;
 	
 	private static UltrasonicSensor ultrasonics;
-	private static EV3TouchSensor touch;
+	private static TouchSensor touch;
 	private static ColorSensor color;
 	
 	private double angle;
@@ -36,7 +37,7 @@ public class Robot {
 		pinces = new Pinces(pliersPort);
 		
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
-		touch = new EV3TouchSensor(touchPort) ;
+		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
 		this.angle = 0;
 	} 
@@ -89,11 +90,13 @@ public class Robot {
 		angle = (angle+degree)%360;
 	}
 	
-	public static void catchTarget(int targetDistance){
+	public void catchTarget(int targetDistance){
 		ouvrirPinces();
 		motor.forward(targetDistance + 3);
 		fermerPinces();
-		//moveCm(BACK,targetDistance + 3);
+		if (touch.isPressed()) {
+			goal();
+		}
 	}
 	
 	public void research() {
@@ -142,7 +145,7 @@ public class Robot {
 	public EV3TouchSensor getTouch() {
 		return touch;
 	}
-	public void setTouch(EV3TouchSensor touch) {
+	public void setTouch(TouchSensor touch) {
 		this.touch = touch;
 	}
 	public ColorSensor getColor() {
