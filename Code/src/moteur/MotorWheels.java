@@ -47,26 +47,28 @@ public class MotorWheels {
 		boussole=0;
 		this.longueur =0; 
 		this.largeur=1000;
-		//chassis.setAngularSpeed(chassis.getMaxLinearSpeed());
-		//chassis.setVelocity(10000, 10000);	
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
 		pilot.setAngularSpeed(200);
 		}
 	
-	public MotorWheels(Port port,Port port2,int i) { //i = 1 a gauche i=2 a milieu i=3 a droite
+	public MotorWheels(Port port,Port port2,int i) { //i = 1 a droite i=2 a milieu i=3 a gauche
 		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
 		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
+		
 		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
+		pilot = new MovePilot(chassis);
 		boussole=0;
-		this.longueur =1000; 
+		longueur =0; 
+		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
+		pilot.setAngularSpeed(200);
 	if ( i == 1) {
-		this.largeur = 500;
+		largeur = 500;
 	}else if (i == 2){
-		this.largeur = 1000;
+		largeur = 1000;
 	}else if( i == 3) {
-		this.largeur = 1500;
+		largeur = 1500;
 	}}
 
 	public void mettre_a_jour_longueur_largeur(double distance) {
@@ -107,11 +109,13 @@ public class MotorWheels {
 		pilot.stop();
 	}
 	public void forward() {
+		//mettre a jour 
 		pilot.forward();
 	}
 	public void forward(double distance,boolean immediateReturn) {
-		pilot.travel(distance,immediateReturn);
-		
+		double dis= distance*1.5;
+		pilot.travel(dis,immediateReturn);
+		mettre_a_jour_longueur_largeur(distance);
 	}
 	public void forward(double distance) {
 		//distance=1000,66cm(*1.5)
@@ -122,11 +126,12 @@ public class MotorWheels {
 	
 	public void backward(double distance) {
 		pilot.travel(-distance*1.5);
+		mettre_a_jour_longueur_largeur(-distance);
 	}
 	
 	public void boussole_a_0() {
 		//double d=1.29*degre 
-		pilot.setAngularSpeed(200);//jamais le changer
+		pilot.setAngularSpeed(200);
 		if (boussole <180) {pilot.rotate(-boussole*1.29);}
 		else pilot.rotate((180-boussole)*1.29);
 		this.setBoussole(0);
