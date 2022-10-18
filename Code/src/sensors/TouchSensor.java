@@ -6,7 +6,7 @@ import lejos.hardware.sensor.EV3TouchSensor;
 public class TouchSensor extends EV3TouchSensor{
 
 	/**
-	 * initiallise une instance de TouchSensor à partir de' EV3TouchSensor branché sur port
+	 * initiallise une instance de TouchSensor à partir de l' EV3TouchSensor branché sur port
 	 * 
 	 * @param port le port de branchement de l'EV3TouchSensor
 	 */
