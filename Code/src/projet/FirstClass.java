@@ -22,6 +22,7 @@ import lejos.hardware.sensor.EV3TouchSensor;
 public class FirstClass {
 	
 	
+	
 	public static void main(String[] args) {
 		
 		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1);
@@ -57,16 +58,20 @@ public class FirstClass {
 		// attrapper un objet sans exception
 		//pierrot.openPliers(); 
 		
-		pierrot.test();
-		
-		//pierrot.rotate(180);
+		//pierrot.test();
+		//pierrot.fermerPinces();
+		//pierrot.allera(1500,1200);
+		//pierrot.allera(1000,0);
+		//pierrot.rotate(360);
 		//pierrot.rotate(90);
 		//pierrot.rotate(180);
 		// pierrot.research();
 		// pierrot.allerjusqua("BLANC");
 		//pierrot.avancer(-100);
-		
-		
+		//pierrot.getMotor().afficheLargeur();
+		//pierrot.getMotor().afficheLongueur();
+		//pierrot.getMotor().afficheLongueur();
+		Delay.msDelay(8000);
 	/*	
 	 //test les couleurs 
 		boolean again =true;
@@ -82,7 +87,8 @@ public class FirstClass {
 
 		}
 */
-
+		 
+	
 		}
 	
 	    private static void log(final String msg)
