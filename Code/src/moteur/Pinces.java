@@ -21,7 +21,7 @@ public class Pinces {
 		pinces = new MindsensorsGlideWheelMRegulatedMotor(pincesPort);
 		pinces.setSpeed((int) pinces.getMaxSpeed());
 	}
-
+ 
 	/**
 	 * 
 	 * @param i un entier
