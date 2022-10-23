@@ -21,11 +21,32 @@ import lejos.hardware.sensor.EV3TouchSensor;
 
 public class FirstClass {
 	
+	static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1);
+	
+	
+	/**
+	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
+	 * @param d va prendre 45 ou -45 en fonction de l'endroit de depart 
+	 * @param d2 va prendre 45 ou -45 en fonction de l'endroit de depart 
+	 * @param placement va prendre 0,1,2 en fonction de si il est a gauche au mileu ou a droite 
+	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
+	 */
+	public static void strategie1(int d, int d2, int placement, double angle) {}
+	
+	/**
+	 * methode strategie1 qui est appelee apres la pause du round lorsqu'au moins encore un palet est bien plac�
+	 * @param d d va prendre 45 ou -45 en fonction de l'endroit de depart 
+	 * @param d2 va prendre 45 ou -45 en fonction de l'endroit de depart
+	 * @param placement va prendre 0,1,2 en fonction de si il est a gauche au mileu ou a droite 
+	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
+	 */
+	public static void strategie2(int d, int d2, int placement, double angle) {}
+	
 	
 	
 	public static void main(String[] args) {
 		
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1);
+		
 
 		  
 	
@@ -63,7 +84,7 @@ public class FirstClass {
 		//pierrot.allera(1500,1200);
 		//pierrot.allera(1000,0);
 		//pierrot.rotate(360);
-		//pierrot.rotate(90);
+		pierrot.rotate(90);
 		//pierrot.rotate(180);
 		// pierrot.research();
 		// pierrot.allerjusqua("BLANC");
