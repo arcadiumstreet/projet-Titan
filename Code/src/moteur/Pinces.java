@@ -27,21 +27,21 @@ public class Pinces {
 	 * @param i un entier
 	 */
 	public void reglagepinces(int i) {
-		pinces.rotate(i);
+		pinces.rotate(i,false);
 	}
 	
 	/**
-	 * Ferme la pince
+	 * Ferme les pinces
 	 */
 	public void fermer(){
-		pinces.rotate(-3*360);
+		pinces.rotate(-3*360,true);
 	}
 
 	/** 
-	 * Ouvre la pince   
+	 * Ouvre les pinces 
 	 */
 	public void ouvrir() {
-		this.pinces.rotate(3*360);
+		this.pinces.rotate(3*360,true);
 	}
 
 }

@@ -58,7 +58,7 @@ public class MotorWheels {
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
-		boussole=0;
+		this.boussole=0;
 		this.longueur =0; 
 		this.largeur=1000;
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
@@ -83,32 +83,26 @@ public class MotorWheels {
 	 * 
 	 */
 	public MotorWheels(Port port,Port port2,int i) {
-
 		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
 		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
 		
 		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
-		pilot = new MovePilot(chassis);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
-		boussole=0;
-		longueur =0; 
+		this.boussole=0;
+		this.longueur =0; 
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
 		pilot.setAngularSpeed(200);
 	if ( i == 1) {
-		largeur = 500;
+		this.largeur = 500;
 	}else if (i == 2){
-		largeur = 1000;
+		this.largeur = 1000;
 	}else if( i == 3) {
 
-		largeur = 1500;
-	}
-
 		this.largeur = 1500;
-	
-	pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
-	pilot.setAngularSpeed(200);
+	}
+	else {this.largeur=1000;}
 	}
 
 	/**
@@ -385,9 +379,10 @@ public class MotorWheels {
 			System.out.println("J'y suis deja");
 			return;
 		}
+		boussole_a_0();
 		if (longueurF >= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 1");
-			boussole_a_0();
+			
 			double a;
 			if(this.largeur-largeurF == 0) {
 				a = 0;
@@ -403,7 +398,7 @@ public class MotorWheels {
 		}else if (longueurF >= this.longueur && largeurF >= this.largeur) {
 			//essayer optimiser ca 
 			System.out.println("pass 2");
-			rotateEnFonctionBoussole(-90);
+			rotate(-90);
 			double a;
 			if(longueurF-this.longueur == 0) {
 				a = 0;
@@ -418,7 +413,7 @@ public class MotorWheels {
 			this.longueur = longueurF;
 		}else if (longueurF <= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 3");
-			rotateEnFonctionBoussole(90);
+			rotate(90);
 			double a;
 			if(longueurF - this.longueur == 0) {
 				a = 0;
@@ -433,7 +428,7 @@ public class MotorWheels {
 			this.longueur = longueurF;
 		}else {
 			System.out.println("pass 4");
-			rotateEnFonctionBoussole(180);
+			rotate(180);
 			double a;
 			if(largeurF - this.largeur == 0) {
 				a = 0;
