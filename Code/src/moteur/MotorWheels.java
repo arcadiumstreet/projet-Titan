@@ -150,6 +150,39 @@ public class MotorWheels {
 	}
 	
 	/**
+	 * met à jour la boussole en lui appliquant une rotation de i degres
+	 * 
+	 * @param i en degre
+	 */
+	public void mettreAJourBoussole(double i) {
+		
+		if(this.boussole >= 0) {
+			if(i <= 0) {
+				//System.out.println("maj 1");
+				this.boussole += i;
+			}else if(i > 0 && this.boussole+i >= 180) {
+				//System.out.println("maj 2");
+				double a = 180 - this.boussole;
+				double b = i - a;
+				this.boussole = (180 - b)*-1;
+			}else {
+				this.boussole += i; 
+			}
+		}else {
+			if(i > 0) {
+				//System.out.println("maj 3");
+				this.boussole +=i;
+			}else if(i < 0 && this.boussole - i >= -180) {
+				//System.out.println("maj 4");
+				double a = 180 +this.boussole;
+				double b = i - a;
+				this.boussole = 180 - b;
+			}else {
+				this.boussole +=i;
+			}
+		}
+	}
+	/**
 	 * stop les 2 roues du pilot
 	 */
 	public void stop() {
@@ -272,39 +305,6 @@ public class MotorWheels {
 		this.boussole = angleArrivee;
 	}
 
-	/**
-	 * met à jour la boussole en lui appliquant une rotation de i degres
-	 * 
-	 * @param i en degre
-	 */
-	public void mettreAJourBoussole(double i) {
-		
-		if(this.boussole >= 0) {
-			if(i <= 0) {
-				//System.out.println("maj 1");
-				this.boussole += i;
-			}else if(i > 0 && this.boussole+i >= 180) {
-				//System.out.println("maj 2");
-				double a = 180 - this.boussole;
-				double b = i - a;
-				this.boussole = (180 - b)*-1;
-			}else {
-				this.boussole += i; 
-			}
-		}else {
-			if(i > 0) {
-				//System.out.println("maj 3");
-				this.boussole +=i;
-			}else if(i < 0 && this.boussole - i >= -180) {
-				//System.out.println("maj 4");
-				double a = 180 +this.boussole;
-				double b = i - a;
-				this.boussole = 180 - b;
-			}else {
-				this.boussole +=i;
-			}
-		}
-	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -370,7 +370,8 @@ public class MotorWheels {
 		System.out.println("fin");
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	//essayer de diminuer l'erreur de longueur largueur
 	//boussole trouver une methode pour tourner de 90degre 
 	
@@ -463,7 +464,9 @@ public class MotorWheels {
 	public void afficheLargeur() {
 		System.out.println("LARGEUR "+ this.largeur);}
 	
-	
+	public double angle() {
+		return pilot.getMovement().getAngleTurned();
+	}
 	/**
 	 * fait 1 tours sur soi par la droite avec un retour immediat
 	 */
@@ -475,6 +478,7 @@ public class MotorWheels {
 	 */
 	public boolean enMouvement() {
 		return chassis.isMoving();}
+	
 	
 	/**
 	 * 

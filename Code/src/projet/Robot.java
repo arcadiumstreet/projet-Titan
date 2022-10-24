@@ -32,9 +32,9 @@ public class Robot {
 	private static TouchSensor touch; 
 	private static ColorSensor color;
 	
-	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
+	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport,int i){
 
-		motor = new MotorWheels(leftGearPort,rightGearPort);
+		motor = new MotorWheels(leftGearPort,rightGearPort, i);
 		pinces = new Pinces(pliersPort);
 		
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
@@ -86,8 +86,8 @@ public class Robot {
 	}
 	
 	public void allera(double x, double y) {
-		motor.goTo(x, y);
-	            //  motor.moveToCoordinates(x,y);
+		motor.goTo(x, y);        
+		//motor.moveToCoordinates(x,y);
 	}
 	public boolean catchTarget(int targetDistance){
 		ouvrirPinces();
@@ -101,7 +101,7 @@ public class Robot {
 		}
 	}
 	
-	public void research() {//faire un calcul avec la boussole
+	public double research() {
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
@@ -125,15 +125,36 @@ public class Robot {
 		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
 		motor.mettreAJourBoussole(angle);
+		return dis ;
 	}
 	
 	public void goal() {
 		motor.boussole_a_0();
 		allerjusqua("BLANC");
+		erreurs_boussole();
 		ouvrirPinces();
 		motor.backward(200);
 		fermerPinces();
 	}
+	
+	public void erreurs_boussole() {
+        motor.rotate(30,false);
+        motor.rotate(-60,true);
+        double min = 100;
+        double angle_trouver = 0;
+        while(motor.enMouvement()) {
+        	getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
+            double valeur_en_cours = getUltrasonics().getSample0();;
+            if(valeur_en_cours<min) {
+                min=valeur_en_cours;
+                angle_trouver = motor.angle();
+            }
+            Delay.msDelay(3);
+        }
+        motor.rotate(60+angle_trouver, false);
+        motor.setBoussole(0);
+    }
+	
 	public void ouvrirPinces() {
 		pinces.ouvrir();
 	}
