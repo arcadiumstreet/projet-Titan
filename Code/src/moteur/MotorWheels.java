@@ -150,6 +150,39 @@ public class MotorWheels {
 	}
 	
 	/**
+	 * met à jour la boussole en lui appliquant une rotation de i degres
+	 * 
+	 * @param i en degre
+	 */
+	public void mettreAJourBoussole(double i) {
+		
+		if(this.boussole >= 0) {
+			if(i <= 0) {
+				//System.out.println("maj 1");
+				this.boussole += i;
+			}else if(i > 0 && this.boussole+i >= 180) {
+				//System.out.println("maj 2");
+				double a = 180 - this.boussole;
+				double b = i - a;
+				this.boussole = (180 - b)*-1;
+			}else {
+				this.boussole += i; 
+			}
+		}else {
+			if(i > 0) {
+				//System.out.println("maj 3");
+				this.boussole +=i;
+			}else if(i < 0 && this.boussole - i >= -180) {
+				//System.out.println("maj 4");
+				double a = 180 +this.boussole;
+				double b = i - a;
+				this.boussole = 180 - b;
+			}else {
+				this.boussole +=i;
+			}
+		}
+	}
+	/**
 	 * stop les 2 roues du pilot
 	 */
 	public void stop() {
@@ -272,40 +305,71 @@ public class MotorWheels {
 		this.boussole = angleArrivee;
 	}
 
-	/**
-	 * met à jour la boussole en lui appliquant une rotation de i degres
-	 * 
-	 * @param i en degre
-	 */
-	public void mettreAJourBoussole(double i) {
-		
-		if(this.boussole >= 0) {
-			if(i <= 0) {
-				//System.out.println("maj 1");
-				this.boussole += i;
-			}else if(i > 0 && this.boussole+i >= 180) {
-				//System.out.println("maj 2");
-				double a = 180 - this.boussole;
-				double b = i - a;
-				this.boussole = (180 - b)*-1;
-			}else {
-				this.boussole += i; 
-			}
-		}else {
-			if(i > 0) {
-				//System.out.println("maj 3");
-				this.boussole +=i;
-			}else if(i < 0 && this.boussole - i >= -180) {
-				//System.out.println("maj 4");
-				double a = 180 +this.boussole;
-				double b = i - a;
-				this.boussole = 180 - b;
-			}else {
-				this.boussole +=i;
-			}
-		}
-	}
 	
+
+
+	public double distanceCoordonee(double x1, double x2)
+	{
+		return Math.abs(Math.max(x1,x2)-Math.min(x1,x2));
+	}
+
+	public double pythagore(double x1, double y1, double x2, double y2)
+	{
+		return Math.sqrt((auCarre(distanceCoordonee(x1,x2)) + auCarre(distanceCoordonee(y1,y2))));
+	}
+
+	public double produitScalaireAB_AC (double AB, double AC, double BC )
+	{
+		return (auCarre(AB) +  auCarre(AC) - auCarre(BC))/2;
+	}
+
+	public Coordinate calculateCoordinatesEndSegment(Coordinate pv, double len, double angle)
+	{
+		return new Coordinate(pv.x + (len * Math.cos(angle)), pv.y + (len * Math.sin(angle)));   
+	}
+
+	public double calculateAngle(double distance, double xR, double xT)
+	{
+		return Math.toDegrees(Math.acos((xT-xR)/distance));
+	}
+
+	public double auCarre(double i)
+	{
+		return i * i;
+	}
+
+	public double calculateAngleToReachCoordinates(double xRobot, double yRobot, double xTarget, double yTarget, double xRange, double yRange) {
+	double range = 60;
+		double distanceRobot_Target = pythagore(xRobot,yRobot,xTarget,yTarget);
+		double distanceRange_Target = pythagore(xRange,yRange,xTarget,yTarget);
+		double pS = produitScalaireAB_AC(range,distanceRobot_Target,distanceRange_Target);
+	return Math.toDegrees(Math.acos(pS/((range) * distanceRobot_Target)));
+	}
+
+	public void moveToCoordinates(double xT, double yT){
+		double range = 100;
+		//y=longueur,x=largeur
+		Coordinate robot = new Coordinate(largeur,longueur);
+		Coordinate target = new Coordinate(xT,yT);
+		Coordinate rCoord = calculateCoordinatesEndSegment(robot, range, Math.toRadians(boussole));
+		//System.out.println("MAJ 1");
+		double xR = rCoord.x;
+		double yR = rCoord.y;
+		//System.out.println("MAJ 2");
+		double angleToTurn = calculateAngleToReachCoordinates(robot.x,robot.y,xT,yT,xR,yR);
+		double distanceRobot_Target = pythagore(robot.x,robot.y,target.x,target.y);
+		System.out.println(angleToTurn);
+		System.out.println(distanceRobot_Target);
+		Coordinate finalRobotCoordinatesR = calculateCoordinatesEndSegment(robot, distanceRobot_Target, Math.toRadians((angleToTurn)));
+		//Coordinate finalRobotCoordinatesL = calculateCoordinatesEndSegment(robot, distanceRobot_Target, Math.toRadians((-angleToTurn)));
+		if(Math.round(finalRobotCoordinatesR.x) == Math.round(xT) && Math.round(finalRobotCoordinatesR.y) == Math.round(yT))
+			rotate(angleToTurn-95);
+		else 
+			rotate(-(angleToTurn-95));
+		forward(distanceRobot_Target);
+		System.out.println("fin");
+	}
+
 
 	//essayer de diminuer l'erreur de longueur largueur
 	//boussole trouver une methode pour tourner de 90degre 
@@ -404,7 +468,9 @@ public class MotorWheels {
 	public void afficheLargeur() {
 		System.out.println("LARGEUR "+ this.largeur);}
 	
-	
+	public double angle() {
+		return pilot.getMovement().getAngleTurned();
+	}
 	/**
 	 * fait 1 tours sur soi par la droite avec un retour immediat
 	 */
@@ -416,6 +482,7 @@ public class MotorWheels {
 	 */
 	public boolean enMouvement() {
 		return chassis.isMoving();}
+	
 	
 	/**
 	 * 
