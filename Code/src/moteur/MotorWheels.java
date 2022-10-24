@@ -222,7 +222,7 @@ public class MotorWheels {
 	 * @param distance
 	 */
 	public void backward(double distance) {
-		pilot.travel(-distance*1.5);
+		pilot.travel(-distance*1.5,true);
 		mettre_a_jour_longueur_largeur(-distance);
 	}
 	

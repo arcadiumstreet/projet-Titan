@@ -69,12 +69,20 @@ public class Robot {
 	}
 	
 
-	public void avancer(int i) {
-		motor.forward(i);
+	public void forward(double d) {
+		motor.forward(d);
 	}
-	public void reculer(int i) {
-		motor.backward(i);
+	
+	public void backward(double d) {
+		motor.backward(d);
 	}
+	
+	public void forward(double d,boolean b) {
+		motor.forward(d,b);
+	}
+	
+	
+	
 	public void demitour() {
 		motor.rotate(180);
 	}

@@ -28,11 +28,12 @@ static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.
 	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
 	 * @param d va prendre 45 ou -45 en fonction de l'endroit de depart 
 	 * @param d2 va prendre 45 ou -45 en fonction de l'endroit de depart 
-	 * @param placement va prendre 0,1,2 en fonction de si il est a gauche au mileu ou a droite 
+	 * @param placement va prendre 1,2,3 en fonction de si il est a gauche au mileu ou a droite 
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
 	 */
-	public static void strategie1(Robot p,int d, int d2, int placement, double angle){
+	public static void strategie1(Robot p,int d, int placement){
 
+		
 	}
 	
 	/**
@@ -42,7 +43,7 @@ static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.
 	 * @param placement va prendre 0,1,2 en fonction de si il est a gauche au mileu ou a droite 
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
 	 */
-	public static void strategie2(Robot p,int d, int d2, int placement, double angle){	
+	public static void strategie2(Robot p,int d, int placement){	
 		
 		
 	}
@@ -50,6 +51,63 @@ static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.
 	public static void main(String[] args) {
 		
 		
+		
+		
+		int placement,strat;
+		placement=strat=0;
+		
+		System.out.println("Ou est le robot ?");
+		while(placement==0) {
+			if(Button.RIGHT.isDown()) {
+				placement=3;
+			}
+			if(Button.LEFT.isDown()) {
+				placement=1;
+			}
+			if(Button.ENTER.isDown()) {
+				placement=2;
+			}
+		}
+		
+		System.out.println("Doit-on utiliser la stratégie 1 ?");
+		while(strat==0) {
+			if(Button.ENTER.isDown()) {
+				strat=1;
+			}
+			if(Button.ESCAPE.isDown())
+				strat=2;
+		}
+		
+		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1,placement);
+		
+		boolean b=true;
+		System.out.println("Fermer les pinces ?");
+		while( b) {
+			if(Button.ENTER.isDown()) {
+				pierrot.fermerPinces();;
+				b=!b;
+			}
+			if(Button.ESCAPE.isDown()) {
+				b=!b;
+			}
+		}
+		
+		System.out.println("Pierrot pret à partir!");
+		Button.ENTER.waitForPressAndRelease();
+		
+		
+		if(placement==1) {
+			if(strat==1)
+				FirstClass.strategie1(pierrot,-1,placement);
+			if(strat==2)
+				FirstClass.strategie2(pierrot,-1,placement);
+		}
+		if(placement==3||placement==2) {
+			if(strat==1)
+				FirstClass.strategie1(pierrot,1,placement);
+			if(strat==2)
+				FirstClass.strategie2(pierrot,1,placement);
+		}
 		
 		
 		
