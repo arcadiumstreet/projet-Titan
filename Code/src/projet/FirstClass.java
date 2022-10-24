@@ -21,9 +21,7 @@ import lejos.hardware.sensor.EV3TouchSensor;
 
 public class FirstClass {
 	
-	///1 gauche 2 milieu 3 gauche 
-static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1,1);
-	
+
 	/**
 	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
 	 * @param d va prendre 45 ou -45 en fonction de l'endroit de depart 
@@ -32,7 +30,10 @@ static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
 	 */
 	public static void strategie1(Robot p,int d, int d2, int placement, double angle){
-
+		
+		p.avancer(1000);
+		
+		
 	}
 	
 	/**
@@ -50,18 +51,14 @@ static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.
 	public static void main(String[] args) {
 		
 		
+	
 		
 		
 		
-		//pierrot.rotate(360);
-		pierrot.erreurs_boussole();
-		// pierrot.research();
-		// pierrot.allerjusqua("BLANC");
-		//pierrot.avancer(-100);
-		//pierrot.getMotor().afficheLargeur();
-		//pierrot.getMotor().afficheLongueur();
-		//pierrot.getMotor().afficheLongueur();
-		Delay.msDelay(800);
+		
+		///1 gauche 2 milieu 3 gauche 
+	Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1,1);
+			
 	/*	
 	 //test les couleurs 
 		boolean again =true;
@@ -75,6 +72,8 @@ static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.
 				again = false;
 			}
 		}
+		
+		
 */
 		 
 	

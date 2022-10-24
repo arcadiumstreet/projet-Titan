@@ -11,7 +11,6 @@ import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 import moteur.MotorWheels;
 import moteur.Pinces;
-
 import sensors.ColorSensor;
 import sensors.UltrasonicSensor;
 import sensors.TouchSensor;
@@ -81,6 +80,15 @@ public class Robot {
 	public void rotate(double d) {
 		motor.rotate(d);
 	}
+	public void rotate(double d,boolean b) {
+		motor.rotate(d,b);
+	}
+	public void rotateneg(double d,boolean b) {
+		motor.rotate(-d,b);
+	}
+	public void lap() {
+		motor.rotate();
+	}
 	public void boussole_a_0() {
 		motor.boussole_a_0();
 	}
@@ -138,23 +146,26 @@ public class Robot {
 	}
 	
 	public void erreurs_boussole() {
+		motor.getPilot().setAngularSpeed(200);
         motor.rotate(30,false);
         motor.rotate(-60,true);
         double min = 100;
         double angle_trouver = 0;
         while(motor.enMouvement()) {
         	getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
-            double valeur_en_cours = getUltrasonics().getSample0();;
+            double valeur_en_cours = getUltrasonics().getSample0();
             if(valeur_en_cours<min) {
                 min=valeur_en_cours;
                 angle_trouver = motor.angle();
             }
             Delay.msDelay(3);
         }
+        System.out.println("angle trouver "+angle_trouver);
+        System.out.println("valeurs min"+min);
         motor.rotate(60+angle_trouver, false);
         motor.setBoussole(0);
     }
-	
+
 	public void ouvrirPinces() {
 		pinces.ouvrir();
 	}
