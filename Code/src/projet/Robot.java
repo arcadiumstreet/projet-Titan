@@ -85,6 +85,10 @@ public class Robot {
 		motor.boussole_a_0();
 	}
 	
+	public void allera(double x, double y) {
+		motor.goTo(x, y);
+	            //  motor.moveToCoordinates(x,y);
+	}
 	public boolean catchTarget(int targetDistance){
 		ouvrirPinces();
 		motor.forward(targetDistance + 3);
@@ -98,21 +102,29 @@ public class Robot {
 	}
 	
 	public void research() {//faire un calcul avec la boussole
-		//int i =0;
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
+		long t1= System.currentTimeMillis();
 		while(dis>0.5){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 			dis = getUltrasonics().getSample0();
-			//i++;
-			//System.out.print(angle);
-			//System.out.print(dis);
 			}
+		long t2 = System.currentTimeMillis();
 		motor.stop();
+		long temps = t2-t1 ;
+		long coeff = 0;
+		if(temps<=900) {coeff= (long) 11;
+		}
+		if(temps>900&&temps<=1800) {coeff= (long) 10.01;
+		}
+		if(temps>1800&&temps<=2700) {coeff= (long) 9.47;
+		}
+		if(temps>2700) {coeff=(long)9.28;}
+		long angle = (temps/coeff)+15;
+		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
-		catchTarget((int)dis);
-		
+		motor.mettreAJourBoussole(angle);
 	}
 	
 	public void goal() {
@@ -122,10 +134,10 @@ public class Robot {
 		motor.backward(200);
 		fermerPinces();
 	}
-	public static void ouvrirPinces() {
+	public void ouvrirPinces() {
 		pinces.ouvrir();
 	}
-	public static void fermerPinces() {
+	public void fermerPinces() {
 		pinces.fermer();
 	}
 	public static MotorWheels getMotor() {
