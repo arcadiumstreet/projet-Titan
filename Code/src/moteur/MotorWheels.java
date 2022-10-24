@@ -300,7 +300,7 @@ public class MotorWheels {
 	}
 
 	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	public double distanceCoordonee(double x1, double x2)
 	{
@@ -364,11 +364,16 @@ public class MotorWheels {
 		System.out.println("fin");
 	}
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	//essayer de diminuer l'erreur de longueur largueur
 	//boussole trouver une methode pour tourner de 90degre 
 	
+	/**
+	 * se déplace jusqu'à la coordonnée dont la largeur et la longueur sont en paramétre
+	 * 
+	 * @param largeurF un reel correspondant à la largeur de la coordonnée de déstination
+	 * @param longueurF un reel correspondant à la longueur de la coordonnée de déstination
+	 */
 	public void goTo(double largeurF, double longueurF) {
 		if(largeurF==this.largeur && longueurF==this.longueur) {
 			System.out.println("J'y suis deja");
@@ -439,7 +444,6 @@ public class MotorWheels {
 		}	
 	}
 	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Affiche la valeur de la boussole

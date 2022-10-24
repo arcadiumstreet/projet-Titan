@@ -55,10 +55,22 @@ public class FirstClass {
 		
 		
 		
+
 		
 		///1 gauche 2 milieu 3 gauche 
 	Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1,1);
 			
+
+		//pierrot.rotate(360);
+		//pierrot.erreurs_boussole();
+		// pierrot.research();
+		// pierrot.allerjusqua("BLANC");
+		//pierrot.avancer(-100);
+		//pierrot.getMotor().afficheLargeur();
+		//pierrot.getMotor().afficheLongueur();
+		//pierrot.getMotor().afficheLongueur();
+		//Delay.msDelay(800);
+
 	/*	
 	 //test les couleurs 
 		boolean again =true;
