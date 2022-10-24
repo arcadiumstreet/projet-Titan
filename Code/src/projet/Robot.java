@@ -67,6 +67,9 @@ public class Robot {
 	   motor.stop();
 	}
 	
+	public void forward() {
+		motor.forward();
+	}
 
 	public void forward(double d) {
 		motor.forward(d);
@@ -204,4 +207,14 @@ public class Robot {
 	public void setColor(ColorSensor color) {
 		this.color = color;
 	}
+	
+	public void stop() {
+		motor.stop();
+	}
+
+	public boolean isPressed() {
+		// TODO Auto-generated method stub
+		return touch.isPressed();
+	}
+	
 }

@@ -32,6 +32,15 @@ public class FirstClass {
 
 	public static void strategie1(Robot p,int d, int placement){
 
+		p.forward();
+		while(!p.isPressed()) {
+		}
+		p.stop();
+		p.fermerPinces();
+		p.rotate(45*d);
+		p.forward(200);
+		p.rotate(45*(-d));
+		
 
 	}
 	
