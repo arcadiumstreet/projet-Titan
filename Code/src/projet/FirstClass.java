@@ -58,9 +58,11 @@ public class FirstClass {
 
 		
 		///1 gauche 2 milieu 3 gauche 
-	Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,SensorPort.S1,1);
+	Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1,2);
 			
 
+	 pierrot.allera(1500,1800);
+	 pierrot.allera(500,600);
 		//pierrot.rotate(360);
 		//pierrot.erreurs_boussole();
 		// pierrot.research();

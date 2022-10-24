@@ -21,9 +21,6 @@ public class Robot {
 	public static final int FRONT = 1;
 	public static final int LEFT = - 1;
 	public static final int BACK = - 1;
-	public static final int TURN_SPEED = 500;
-
-
 	private static Pinces pinces ;
 	private static MotorWheels motor;
 	
@@ -146,7 +143,6 @@ public class Robot {
 	}
 	
 	public void erreurs_boussole() {
-		motor.getPilot().setAngularSpeed(200);
         motor.rotate(30,false);
         motor.rotate(-60,true);
         double min = 100;
