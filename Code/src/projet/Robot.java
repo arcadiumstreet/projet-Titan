@@ -64,13 +64,24 @@ public class Robot {
 	   motor.stop();
 	}
 	
+	public void forward() {
+		motor.forward();
+	}
 
-	public void avancer(int i) {
-		motor.forward(i);
+	public void forward(double d) {
+		motor.forward(d);
 	}
-	public void reculer(int i) {
-		motor.backward(i);
+	
+	public void backward(double d) {
+		motor.backward(d);
 	}
+	
+	public void forward(double d,boolean b) {
+		motor.forward(d,b);
+	}
+	
+	
+	
 	public void demitour() {
 		motor.rotate(180);
 	}
@@ -192,4 +203,14 @@ public class Robot {
 	public void setColor(ColorSensor color) {
 		this.color = color;
 	}
+	
+	public void stop() {
+		motor.stop();
+	}
+
+	public boolean isPressed() {
+		// TODO Auto-generated method stub
+		return touch.isPressed();
+	}
+	
 }
