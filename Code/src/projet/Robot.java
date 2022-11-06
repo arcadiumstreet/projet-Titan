@@ -21,15 +21,23 @@ public class Robot {
 	public static final int FRONT = 1;
 	public static final int LEFT = - 1;
 	public static final int BACK = - 1;
-	public static final int TURN_SPEED = 500;
-
-
 	private static Pinces pinces ;
 	private static MotorWheels motor;
 	
 	private static UltrasonicSensor ultrasonics;
 	private static TouchSensor touch; 
 	private static ColorSensor color;
+	private static final double[][] palet = {
+			{500,600},
+			{1000,600},
+			{1500,600},
+			{500,1200},
+			{1000,1200},
+			{1500,1200},
+			{500,1800},
+			{1000,1800},
+			{1500,1800}};
+	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,};//pensez a l'initailiser au debut la partie 
 	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport,int i){
 
@@ -66,6 +74,31 @@ public class Robot {
 	    }
 	   motor.stop();
 	}
+
+	public static double[] getpalet(int i){
+		return palet[i-1];
+	}
+	public static double getpaletlongueur(double[] palet){
+		return palet[0];
+		}
+	public static double getpaletlargeur(double[] palet){
+		return palet[1];
+	}
+	public static void majPaletpresent(int i) {
+		paletpresent[i-1]=false;
+	}
+
+	public static void alleraupalet(int i) {///mettre a jour 
+		if(paletpresent[i-1]) {
+		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
+		paletpresent[i-1]=false;}
+		//return;}
+		//else {alleraupalet(i+1);}
+	}
+	
+	public void allera(double x, double y) {
+		motor.goTo(x, y);
+	}
 	
 	public void forward() {
 		motor.forward();
@@ -82,7 +115,6 @@ public class Robot {
 	public void forward(double d,boolean b) {
 		motor.forward(d,b);
 	}
-	
 	
 	
 	public void demitour() {
@@ -104,23 +136,27 @@ public class Robot {
 		motor.boussole_a_0();
 	}
 	
-	public void allera(double x, double y) {
-		motor.goTo(x, y);        
-		//motor.moveToCoordinates(x,y);
-	}
-	public boolean catchTarget(int targetDistance){
-		ouvrirPinces();
-		motor.forward(targetDistance + 3);
-		if (touch.isPressed()) {
-			fermerPinces();
-			return true;
-		} else {
-			fermerPinces();
-			return false;
-		}
+	public boolean catchTarget(float targetDistance){//a tester
+		ouvrirPinces(true);
+		motor.forward(targetDistance + 3,true);
+		while(estunpalet()&&motor.enMouvement()) {
+			if(touch.isPressed()){
+				return true;}
+		} 
+		return false ;
 	}
 	
-	public double research() {
+	public boolean estunpalet() {
+		float dis=1;
+		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
+		if(dis>0.2){
+			dis = getUltrasonics().getSample0();
+			return true;
+			}
+		return false;
+	}
+	
+	public void research(){
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
@@ -144,20 +180,29 @@ public class Robot {
 		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
 		motor.mettreAJourBoussole(angle);
+		
+	}
+
+	public float distance() {
+		float dis=1;
+		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
+		dis = getUltrasonics().getSample0();
 		return dis ;
 	}
 	
 	public void goal() {
 		motor.boussole_a_0();
 		allerjusqua("BLANC");
+		ouvrirPinces(false);
+		//mettre en true avec du delay
 		erreurs_boussole();
-		ouvrirPinces();
 		motor.backward(200);
-		fermerPinces();
+		fermerPinces(true);
+		motor.setLongueur(2400);//mettre a jour car le centre est pas le capteur de couleur
+		motor.afficheLongueur();
 	}
 	
 	public void erreurs_boussole() {
-		motor.getPilot().setAngularSpeed(200);
         motor.rotate(30,false);
         motor.rotate(-60,true);
         double min = 100;
@@ -177,11 +222,11 @@ public class Robot {
         motor.setBoussole(0);
     }
 
-	public void ouvrirPinces() {
-		pinces.ouvrir();
+	public void ouvrirPinces(boolean t) {
+		pinces.ouvrir(t);
 	}
-	public void fermerPinces() {
-		pinces.fermer();
+	public void fermerPinces(boolean t) {
+		pinces.fermer(t);
 	}
 	public static MotorWheels getMotor() {
 		return motor;
@@ -216,5 +261,12 @@ public class Robot {
 		// TODO Auto-generated method stub
 		return touch.isPressed();
 	}
-	
+	public static boolean[] getPaletpresent() {
+		return paletpresent;
+	}
+
+	public static void setPaletpresent(boolean[] paletpresent) {
+		Robot.paletpresent = paletpresent;
+	}
+
 }
