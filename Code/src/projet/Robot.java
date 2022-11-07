@@ -28,18 +28,13 @@ public class Robot {
 	private static TouchSensor touch; 
 	private static ColorSensor color;
 	private static final double[][] palet = {
-			{500,600},
-			{1000,600},
-			{1500,600},
-			{500,1200},
-			{1000,1200},
-			{1500,1200},
-			{500,1800},
-			{1000,1800},
-			{1500,1800}};
+			{500,600},{1000,600},{1500,600},
+			{500,1200},{1000,1200},{1500,1200},
+			{500,1800},{1000,1800},{1500,1800}};
+	
 	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,};//pensez a l'initailiser au debut la partie 
 	
-	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport,int i){
+	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,int i){
 
 		motor = new MotorWheels(leftGearPort,rightGearPort, i);
 		pinces = new Pinces(pliersPort);
@@ -49,9 +44,6 @@ public class Robot {
 		color = new ColorSensor("S1");
 
 	} 
-	
-	public void test() {
-	}
 	
 	
 	public String colorint() {
@@ -65,7 +57,6 @@ public class Robot {
         return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
     }
 	
-	//initialiser apres longueur aux max 
 	public void allerjusqua(String couleur) {
 		motor.forward();
 	    Color rgb = ColorSensor.getColor();
@@ -91,13 +82,8 @@ public class Robot {
 	public static void alleraupalet(int i) {///mettre a jour 
 		if(paletpresent[i-1]) {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
-		paletpresent[i-1]=false;}
-		//return;}
-		//else {alleraupalet(i+1);}
-	}
-	
-	public void allera(double x, double y) {
-		motor.goTo(x, y);
+		majPaletpresent(i);}
+		
 	}
 	
 	public void forward() {
@@ -115,8 +101,6 @@ public class Robot {
 	public void forward(double d,boolean b) {
 		motor.forward(d,b);
 	}
-	
-	
 	public void demitour() {
 		motor.rotate(180);
 	}
@@ -136,24 +120,23 @@ public class Robot {
 		motor.boussole_a_0();
 	}
 	
-	public boolean catchTarget(float targetDistance){//a tester
+	public void allera(double x, double y) {
+		motor.goTo(x, y);
+	    //motor.moveTo(x,y);
+	}
+
+	public void catchTarget(float targetDistance){
 		ouvrirPinces(true);
-		motor.forward(targetDistance + 3,true);
-		while(estunpalet()&&motor.enMouvement()) {
-			if(touch.isPressed()){
-				return true;}
-		} 
-		return false ;
+		motor.forward(targetDistance + 50,true);
+		while((estunpalet() && motor.enMouvement() && !isPressed())){}
+		fermerPinces(true);
 	}
 	
 	public boolean estunpalet() {
 		float dis=1;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
-		if(dis>0.2){
-			dis = getUltrasonics().getSample0();
-			return true;
-			}
-		return false;
+		dis = getUltrasonics().getSample0();
+		return dis > 0.15 ;
 	}
 	
 	public void research(){
@@ -179,26 +162,25 @@ public class Robot {
 		long angle = (temps/coeff)+15;
 		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
-		motor.mettreAJourBoussole(angle);
-		
+		motor.majBoussole(angle);
 	}
 
 	public float distance() {
 		float dis=1;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();
-		return dis ;
+		return dis*1000 ;
 	}
 	
 	public void goal() {
 		motor.boussole_a_0();
 		allerjusqua("BLANC");
+		erreurs_boussole();
 		ouvrirPinces(false);
 		//mettre en true avec du delay
-		erreurs_boussole();
 		motor.backward(200);
 		fermerPinces(true);
-		motor.setLongueur(2400);//mettre a jour car le centre est pas le capteur de couleur
+		motor.setLongueur(2300);//distance max-10cm(distance entre le capteur couleur et le centre du robot 
 		motor.afficheLongueur();
 	}
 	
@@ -206,22 +188,26 @@ public class Robot {
         motor.rotate(30,false);
         motor.rotate(-60,true);
         double min = 100;
-        double angle_trouver = 0;
+        double angle = 0;
         while(motor.enMouvement()) {
         	getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
-            double valeur_en_cours = getUltrasonics().getSample0();
-            if(valeur_en_cours<min) {
-                min=valeur_en_cours;
-                angle_trouver = motor.angle();
+            double valeur= getUltrasonics().getSample0();
+            if(valeur<min) {
+                min=valeur;
+                angle= motor.angle();
             }
             Delay.msDelay(3);
         }
-        System.out.println("angle trouver "+angle_trouver);
+        System.out.println("angle trouver "+angle);
         System.out.println("valeurs min"+min);
-        motor.rotate(60+angle_trouver, false);
+        motor.rotate(60+angle, false);
         motor.setBoussole(0);
     }
 
+	public Pinces getPinces() {
+		return pinces ;
+	}
+	
 	public void ouvrirPinces(boolean t) {
 		pinces.ouvrir(t);
 	}
@@ -258,15 +244,13 @@ public class Robot {
 	}
 
 	public boolean isPressed() {
-		// TODO Auto-generated method stub
 		return touch.isPressed();
-	}
-	public static boolean[] getPaletpresent() {
-		return paletpresent;
 	}
 
 	public static void setPaletpresent(boolean[] paletpresent) {
 		Robot.paletpresent = paletpresent;
 	}
-
+	public boolean enMouvement() {
+		return motor.enMouvement();
+	}
 }

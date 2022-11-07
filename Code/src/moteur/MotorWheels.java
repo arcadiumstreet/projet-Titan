@@ -100,19 +100,18 @@ public class MotorWheels {
 	}else if (i == 2){
 		this.largeur = 1000;
 	}else if( i == 3) {
-
 		this.largeur = 1500;
 	}
 	else {this.largeur=1000;}
 	}
 
 	/**
-	 * 
 	 * @param distance
 	 */
-	public void mettre_a_jour_longueur_largeur(double distance) {
+	public void maj_longueur_largeur(double distance) {
 		System.out.println("Distance="+(int)distance);
 		System.out.println("Boussole="+this.boussole);
+		
 		if(boussole > 0 && boussole < 90) {
 			largeur -= Math.sin(Math.toRadians(boussole))*distance;
 			longueur += Math.cos(Math.toRadians(boussole))*distance; 
@@ -146,17 +145,14 @@ public class MotorWheels {
 	
 	/**
 	 * met à jour la boussole en lui appliquant une rotation de i degres
-	 * 
 	 * @param i en degre
 	 */
-	public void mettreAJourBoussole(double i) {
+	public void majBoussole(double i) {
 		
 		if(this.boussole >= 0) {
 			if(i <= 0) {
-				//System.out.println("maj 1");
 				this.boussole += i;
 			}else if(i > 0 && this.boussole+i >= 180) {
-				//System.out.println("maj 2");
 				double a = 180 - this.boussole;
 				double b = i - a;
 				this.boussole = (180 - b)*-1;
@@ -165,10 +161,8 @@ public class MotorWheels {
 			}
 		}else {
 			if(i > 0) {
-				//System.out.println("maj 3");
 				this.boussole +=i;
 			}else if(i < 0 && this.boussole - i >= -180) {
-				//System.out.println("maj 4");
 				double a = 180 +this.boussole;
 				double b = i - a;
 				this.boussole = 180 - b;
@@ -177,6 +171,7 @@ public class MotorWheels {
 			}
 		}
 	}
+	
 	/**
 	 * stop les 2 roues du pilot
 	 */
@@ -199,7 +194,7 @@ public class MotorWheels {
 	public void forward(double distance,boolean immediateReturn) {
 		double dis= distance*1.5;
 		pilot.travel(dis,immediateReturn);
-		mettre_a_jour_longueur_largeur(distance);
+		maj_longueur_largeur(distance);
 	}
 	/**
 	 * 
@@ -209,7 +204,7 @@ public class MotorWheels {
 		//distance=1000,66cm(*1.5)
 		double dis= distance*1.5;
 		pilot.travel(dis);
-		mettre_a_jour_longueur_largeur(distance);
+		maj_longueur_largeur(distance);
 	}
 	
 	/**
@@ -218,7 +213,7 @@ public class MotorWheels {
 	 */
 	public void backward(double distance) {
 		pilot.travel(-distance*1.5,true);
-		mettre_a_jour_longueur_largeur(-distance);
+		maj_longueur_largeur(-distance);
 	}
 	
 	public void rotate() {
@@ -232,8 +227,11 @@ public class MotorWheels {
 		pilot.rotate(-360*1.29, true);
 	}
 	
-	public void rotate(double d,boolean i){
-		pilot.rotate(d, i);
+	public void rotate(double degre,boolean i){
+		double d=1.29*degre ;
+		pilot.setAngularSpeed(200);
+		pilot.rotate(d,i);
+		majBoussole(degre);
 	}
 	
 	/**
@@ -242,10 +240,10 @@ public class MotorWheels {
 	 * @param degre
 	 */
 	public void rotate(double degre) {
-		double d=1.29*degre ;//a refaire sur le plan de jeu car pas la meme surface
+		double d=1.29*degre ;
 		pilot.setAngularSpeed(200);
 		pilot.rotate(d);
-		mettreAJourBoussole(degre);}
+		majBoussole(degre);}
 	
 	/**
 	 * Recalibre la boussole à 0°
@@ -257,61 +255,8 @@ public class MotorWheels {
 		else pilot.rotate((180-boussole)*1.29);
 		this.setBoussole(0);
 	}
-	
-	
-	/**
-	 * pivot de façon à ce que la boussole soit égale à l'angle d'arrivé
-	 * 
-	 * @param angleArrivee en degre
-	 */
-	public void rotateEnFonctionBoussole(double angleArrivee) { 
-
-		double boussoleB;
-		double angleB;
-		if(angleArrivee == this.boussole) {
-			return;
-		}
-		if(Math.abs(angleArrivee) == Math.abs(this.boussole) && Math.abs(angleArrivee) == 180) {
-			return;
-		}
-		if(boussole < 0) {
-			boussoleB = 360 + boussole;
-		}else {
-			boussoleB = boussole;
-		}
-		if(angleArrivee < 0) {
-			angleB = 360 + angleArrivee;
-		}else {
-			angleB = angleArrivee;
-		}
-		if(angleB > boussoleB) {
-			if(angleB - boussoleB > 180) { 
-				rotate((angleB-360)-boussoleB);
-			}else { //angleB - boussoleB <= 180
-				rotate(angleB - boussoleB);
-			}	
-		}else {
-			if(boussoleB - angleB < 180) {
-				rotate(angleB - boussoleB);//
-			}else { //boussoleB - angleB >= 180		
-				rotate((360-boussoleB)+angleB);
-			}
-		}
-		this.boussole = angleArrivee;
-	}
-
-	
 
 
-	//essayer de diminuer l'erreur de longueur largueur
-	//boussole trouver une methode pour tourner de 90degre 
-	
-	/**
-	 * se déplace jusqu'à la coordonnée dont la largeur et la longueur sont en paramétre
-	 * 
-	 * @param largeurF un reel correspondant à la largeur de la coordonnée de déstination
-	 * @param longueurF un reel correspondant à la longueur de la coordonnée de déstination
-	 */
 	public void goTo(double largeurF, double longueurF) {
 		if(largeurF==this.largeur && longueurF==this.longueur) {
 			System.out.println("J'y suis deja");
@@ -382,12 +327,11 @@ public class MotorWheels {
 		}	
 	}
 	
-	
 	/**
 	 * Affiche la valeur de la boussole
 	 */
 	public void afficheBoussole() {
-		System.out.println(this.boussole);}
+		System.out.println("boussole"+this.boussole);}
 
 	/**
 	 * affiche la valeur de la longueur
@@ -404,11 +348,7 @@ public class MotorWheels {
 	public double angle() {
 		return pilot.getMovement().getAngleTurned();
 	}
-	/**
-	 * fait 1 tours sur soi par la droite avec un retour immediat
-	 */
-	
-	
+		
 	/**
 	 * détect si le chassis est en mouvement
 	 * @return true si le chassis est en mouvement, false sinon
