@@ -20,9 +20,9 @@ public class TouchSensor extends EV3TouchSensor{
 	 * @return true si le detecteur de touché est activé, false sinon
 	 */
 	public boolean isPressed() {
+		
         float[] sample = new float[1];
         fetchSample(sample, 0);
-
         return sample[0] != 0;
     }
 	

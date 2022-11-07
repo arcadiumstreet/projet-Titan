@@ -19,7 +19,7 @@ import java.math.*;
 import lejos.hardware.sensor.EV3TouchSensor;
 
 
-public class FirstClass {
+public class cerveau {
 	//essayer de mettre a jour largeur en fonction des ligne de couleurs 
 	
 	/**
@@ -68,7 +68,7 @@ public class FirstClass {
 	}
 	
 	public static void strategie1a(Robot p,int d, int placement){
-		//si ladversaire ce met au lieu 
+		//si ladversaire ce met au milieu 
 		//on on fait la strat 1 ou on prend 1,7
 		//on va a 4 ou a 5
 		
@@ -108,19 +108,21 @@ public class FirstClass {
 		//quand aucun des palets est a sa place 
 		//utiliser que research() pour aller au palets
 		
+		
 	}
 	
 	public static void strategierisque(Robot p,int d, int placement){
 		//essayer de pousser une ligne entiere de lautre cote du terrain 
 		//risque mais ca peut marché 
 		//
+		
+		
+		
 	}	
 	
 	public static void main(String[] args) {
-		
 		int placement,strat;
 		placement=strat=0;
-		
 		System.out.println("Ou est le robot ?");
 		while(placement==0) {
 			if(Button.RIGHT.isDown()) {
@@ -143,8 +145,8 @@ public class FirstClass {
 				strat=2;
 		}
 		
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1,placement);
-		
+		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,placement);
+							
 		boolean b=true;
 		System.out.println("Fermer les pinces ?");
 		while( b) {
@@ -162,27 +164,16 @@ public class FirstClass {
 		
 		if(placement==1) {
 			if(strat==1)
-				FirstClass.strategie1(pierrot,-1,placement);
+				strategie1(pierrot,-1,placement);
 			if(strat==2)
-				FirstClass.strategie2(pierrot,-1,placement);
+				strategie2(pierrot,-1,placement);
 		}
 		if(placement==3||placement==2) {
 			if(strat==1)
-				FirstClass.strategie1(pierrot,1,placement);
+				strategie1(pierrot,1,placement);
 			if(strat==2)
-				FirstClass.strategie2(pierrot,1,placement);
+				strategie2(pierrot,1,placement);
 		}
-	/*	
-	 //test les couleurs 
-		boolean again =true;
-		while (again) {
-		 System.out.println("\nPress enter to detect a color...");
-			Button.ENTER.waitForPressAndRelease();
-			//System.out.println(pierrot.colorint());
-			System.out.println("la couleur est "+pierrot.color());
-			Delay.msDelay(1000);
-			if(Button.ESCAPE.isDown()) {
-				again = false;}}
-				*/
+	
 		}
 }
