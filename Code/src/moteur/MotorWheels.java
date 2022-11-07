@@ -307,7 +307,7 @@ public class MotorWheels {
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	/*
 	public double distanceCoordonee(double x1, double x2)
 	{
 		return Math.abs(Math.max(x1,x2)-Math.min(x1,x2));
@@ -368,11 +368,45 @@ public class MotorWheels {
 			rotate(-(angleToTurn-95));
 		forward(distanceRobot_Target);
 		System.out.println("fin");
-	}
+	}*/
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//essayer de diminuer l'erreur de longueur largueur
 	//boussole trouver une methode pour tourner de 90degre 
+	
+	public void moveTo(double largeur, double longueur)
+	{
+		//Calcul des distances avec Pythagore
+		
+		double range = 600;
+		double distanceRobot_Target = Math.sqrt(Math.pow(Math.abs(Math.max(this.largeur,largeur)-Math.min(this.largeur,largeur)),2) + Math.pow(Math.abs(Math.max(this.longueur,longueur)-Math.min(this.longueur,longueur)),2));
+		
+		double xR =  this.largeur + (range * Math.cos(Math.toRadians(boussole))); //	METTRE BOUSSOLE EN RADIAN	-->		Math.toRadians(boussole)
+		double yR =  this.longueur + (range * Math.sin(Math.toRadians(boussole))); //	METTRE BOUSSOLE EN RADIAN	-->		Math.toRadians(boussole)
+		
+		double distanceRange_Target = Math.sqrt(Math.pow(Math.abs(Math.max(xR,largeur)-Math.min(xR,largeur)),2) + Math.pow(Math.abs(Math.max(yR,longueur)-Math.min(yR,longueur)),2));
+		
+		//Calcul de l'angle
+		double pS = (range * range) + (distanceRobot_Target * distanceRobot_Target) - (distanceRange_Target * distanceRange_Target);
+        double angleToTurn = Math.toDegrees(Math.atan(distanceRange_Target/range));
+        System.out.println(angleToTurn);
+        // Calculs des points arrivés
+        double largeurFinaleDroite = this.largeur + (distanceRobot_Target * Math.cos(Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
+        double longueurFinaleDroite = this.longueur + (distanceRobot_Target * Math.sin(Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
+        double largeurFinaleGauche = this.largeur + (distanceRobot_Target * Math.cos(-Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
+        double longueurFinaleGauche = this.longueur + (distanceRobot_Target * Math.sin(-Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
+        
+        if(Math.round(longueurFinaleDroite) == Math.round(longueur) && Math.round(largeurFinaleDroite) == Math.round(largeur))
+        {
+        	rotate(angleToTurn + 90); System.out.println("D"+angleToTurn);
+        }
+        else
+        {
+        	rotate(angleToTurn - 90); 
+        }        
+        
+        forward(distanceRobot_Target);
+	}
 	
 	public void goTo(double largeurF, double longueurF) {
 		if(largeurF==this.largeur && longueurF==this.longueur) {

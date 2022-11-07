@@ -43,9 +43,6 @@ public class Robot {
 
 	} 
 	
-	public void test() {
-	}
-	
 	
 	public String colorint() {
         int [] e = color.getcolorint();
@@ -86,8 +83,8 @@ public class Robot {
 	}
 	
 	public void allera(double x, double y) {
-		motor.goTo(x, y);
-	            //  motor.moveToCoordinates(x,y);
+		//motor.goTo(x, y);
+	    motor.moveTo(x,y);
 	}
 	public boolean catchTarget(int targetDistance){
 		ouvrirPinces();

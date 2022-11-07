@@ -22,7 +22,7 @@ import lejos.hardware.sensor.EV3TouchSensor;
 public class FirstClass {
 	
 	static Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,SensorPort.S1);
-	
+
 	
 	/**
 	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
@@ -84,8 +84,8 @@ public class FirstClass {
 		//pierrot.allera(1500,1200);
 		//pierrot.allera(1000,0);
 		//pierrot.rotate(360);
-		pierrot.rotate(90);
-		//pierrot.rotate(180);
+		pierrot.allera(500,600);
+		//pierrot.rotate(180);+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		// pierrot.research();
 		// pierrot.allerjusqua("BLANC");
 		//pierrot.avancer(-100);
