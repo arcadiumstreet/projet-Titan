@@ -35,6 +35,7 @@ public class MotorWheels {
 
 	private double boussole;
 	private double longueur;
+
 	private double largeur;
 	 
 	/**
@@ -58,7 +59,7 @@ public class MotorWheels {
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
-		boussole=0;
+		this.boussole=0;
 		this.longueur =0; 
 		this.largeur=1000;
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
@@ -83,41 +84,34 @@ public class MotorWheels {
 	 * 
 	 */
 	public MotorWheels(Port port,Port port2,int i) {
-
 		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
 		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
 		
 		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
-		pilot = new MovePilot(chassis);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
-		boussole=0;
-		longueur =0; 
+		this.boussole=0;
+		this.longueur =0; 
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
 		pilot.setAngularSpeed(200);
 	if ( i == 1) {
-		largeur = 500;
+		this.largeur = 500;
 	}else if (i == 2){
-		largeur = 1000;
+		this.largeur = 1000;
 	}else if( i == 3) {
-
-		largeur = 1500;
-	}
-
 		this.largeur = 1500;
-	
-	pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
-	pilot.setAngularSpeed(200);
+	}
+	else {this.largeur=1000;}
 	}
 
 	/**
-	 * 
 	 * @param distance
 	 */
-	public void mettre_a_jour_longueur_largeur(double distance) {
+	public void maj_longueur_largeur(double distance) {
 		System.out.println("Distance="+(int)distance);
 		System.out.println("Boussole="+this.boussole);
+		
 		if(boussole > 0 && boussole < 90) {
 			largeur -= Math.sin(Math.toRadians(boussole))*distance;
 			longueur += Math.cos(Math.toRadians(boussole))*distance; 
@@ -150,6 +144,35 @@ public class MotorWheels {
 	}
 	
 	/**
+	 * met à jour la boussole en lui appliquant une rotation de i degres
+	 * @param i en degre
+	 */
+	public void majBoussole(double i) {
+		
+		if(this.boussole >= 0) {
+			if(i <= 0) {
+				this.boussole += i;
+			}else if(i > 0 && this.boussole+i >= 180) {
+				double a = 180 - this.boussole;
+				double b = i - a;
+				this.boussole = (180 - b)*-1;
+			}else {
+				this.boussole += i; 
+			}
+		}else {
+			if(i > 0) {
+				this.boussole +=i;
+			}else if(i < 0 && this.boussole - i >= -180) {
+				double a = 180 +this.boussole;
+				double b = i - a;
+				this.boussole = 180 - b;
+			}else {
+				this.boussole +=i;
+			}
+		}
+	}
+	
+	/**
 	 * stop les 2 roues du pilot
 	 */
 	public void stop() {
@@ -171,7 +194,7 @@ public class MotorWheels {
 	public void forward(double distance,boolean immediateReturn) {
 		double dis= distance*1.5;
 		pilot.travel(dis,immediateReturn);
-		mettre_a_jour_longueur_largeur(distance);
+		maj_longueur_largeur(distance);
 	}
 	/**
 	 * 
@@ -181,7 +204,7 @@ public class MotorWheels {
 		//distance=1000,66cm(*1.5)
 		double dis= distance*1.5;
 		pilot.travel(dis);
-		mettre_a_jour_longueur_largeur(distance);
+		maj_longueur_largeur(distance);
 	}
 	
 	/**
@@ -189,8 +212,8 @@ public class MotorWheels {
 	 * @param distance
 	 */
 	public void backward(double distance) {
-		pilot.travel(-distance*1.5);
-		mettre_a_jour_longueur_largeur(-distance);
+		pilot.travel(-distance*1.5,true);
+		maj_longueur_largeur(-distance);
 	}
 	
 	public void rotate() {
@@ -204,8 +227,11 @@ public class MotorWheels {
 		pilot.rotate(-360*1.29, true);
 	}
 	
-	public void rotate(double d,boolean i){
-		pilot.rotate(d, i);
+	public void rotate(double degre,boolean i){
+		double d=1.29*degre ;
+		pilot.setAngularSpeed(200);
+		pilot.rotate(d,i);
+		majBoussole(degre);
 	}
 	
 	/**
@@ -214,10 +240,10 @@ public class MotorWheels {
 	 * @param degre
 	 */
 	public void rotate(double degre) {
-		double d=1.29*degre ;//a refaire sur le plan de jeu car pas la meme surface
+		double d=1.29*degre ;
 		pilot.setAngularSpeed(200);
 		pilot.rotate(d);
-		mettreAJourBoussole(degre);}
+		majBoussole(degre);}
 	
 	/**
 	 * Recalibre la boussole à 0°
@@ -229,193 +255,17 @@ public class MotorWheels {
 		else pilot.rotate((180-boussole)*1.29);
 		this.setBoussole(0);
 	}
-	
-	
-	/**
-	 * pivot de façon à ce que la boussole soit égale à l'angle d'arrivé
-	 * 
-	 * @param angleArrivee en degre
-	 */
-	public void rotateEnFonctionBoussole(double angleArrivee) { 
 
-		double boussoleB;
-		double angleB;
-		if(angleArrivee == this.boussole) {
-			return;
-		}
-		if(Math.abs(angleArrivee) == Math.abs(this.boussole) && Math.abs(angleArrivee) == 180) {
-			return;
-		}
-		if(boussole < 0) {
-			boussoleB = 360 + boussole;
-		}else {
-			boussoleB = boussole;
-		}
-		if(angleArrivee < 0) {
-			angleB = 360 + angleArrivee;
-		}else {
-			angleB = angleArrivee;
-		}
-		if(angleB > boussoleB) {
-			if(angleB - boussoleB > 180) { 
-				rotate((angleB-360)-boussoleB);
-			}else { //angleB - boussoleB <= 180
-				rotate(angleB - boussoleB);
-			}	
-		}else {
-			if(boussoleB - angleB < 180) {
-				rotate(angleB - boussoleB);//
-			}else { //boussoleB - angleB >= 180		
-				rotate((360-boussoleB)+angleB);
-			}
-		}
-		this.boussole = angleArrivee;
-	}
 
-	/**
-	 * met à jour la boussole en lui appliquant une rotation de i degres
-	 * 
-	 * @param i en degre
-	 */
-	public void mettreAJourBoussole(double i) {
-		
-		if(this.boussole >= 0) {
-			if(i <= 0) {
-				//System.out.println("maj 1");
-				this.boussole += i;
-			}else if(i > 0 && this.boussole+i >= 180) {
-				//System.out.println("maj 2");
-				double a = 180 - this.boussole;
-				double b = i - a;
-				this.boussole = (180 - b)*-1;
-			}else {
-				this.boussole += i; 
-			}
-		}else {
-			if(i > 0) {
-				//System.out.println("maj 3");
-				this.boussole +=i;
-			}else if(i < 0 && this.boussole - i >= -180) {
-				//System.out.println("maj 4");
-				double a = 180 +this.boussole;
-				double b = i - a;
-				this.boussole = 180 - b;
-			}else {
-				this.boussole +=i;
-			}
-		}
-	}
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	public double distanceCoordonee(double x1, double x2)
-	{
-		return Math.abs(Math.max(x1,x2)-Math.min(x1,x2));
-	}
-
-	public double pythagore(double x1, double y1, double x2, double y2)
-	{
-		return Math.sqrt((auCarre(distanceCoordonee(x1,x2)) + auCarre(distanceCoordonee(y1,y2))));
-	}
-
-	public double produitScalaireAB_AC (double AB, double AC, double BC )
-	{
-		return (auCarre(AB) +  auCarre(AC) - auCarre(BC))/2;
-	}
-
-	public Coordinate calculateCoordinatesEndSegment(Coordinate pv, double len, double angle)
-	{
-		return new Coordinate(pv.x + (len * Math.cos(angle)), pv.y + (len * Math.sin(angle)));   
-	}
-
-	public double calculateAngle(double distance, double xR, double xT)
-	{
-		return Math.toDegrees(Math.acos((xT-xR)/distance));
-	}
-
-	public double auCarre(double i)
-	{
-		return i * i;
-	}
-
-	public double calculateAngleToReachCoordinates(double xRobot, double yRobot, double xTarget, double yTarget, double xRange, double yRange) {
-	double range = 60;
-		double distanceRobot_Target = pythagore(xRobot,yRobot,xTarget,yTarget);
-		double distanceRange_Target = pythagore(xRange,yRange,xTarget,yTarget);
-		double pS = produitScalaireAB_AC(range,distanceRobot_Target,distanceRange_Target);
-	return Math.toDegrees(Math.acos(pS/((range) * distanceRobot_Target)));
-	}
-
-	public void moveToCoordinates(double xT, double yT){
-		double range = 100;
-		//y=longueur,x=largeur
-		Coordinate robot = new Coordinate(largeur,longueur);
-		Coordinate target = new Coordinate(xT,yT);
-		Coordinate rCoord = calculateCoordinatesEndSegment(robot, range, Math.toRadians(boussole));
-		//System.out.println("MAJ 1");
-		double xR = rCoord.x;
-		double yR = rCoord.y;
-		//System.out.println("MAJ 2");
-		double angleToTurn = calculateAngleToReachCoordinates(robot.x,robot.y,xT,yT,xR,yR);
-		double distanceRobot_Target = pythagore(robot.x,robot.y,target.x,target.y);
-		System.out.println(angleToTurn);
-		System.out.println(distanceRobot_Target);
-		Coordinate finalRobotCoordinatesR = calculateCoordinatesEndSegment(robot, distanceRobot_Target, Math.toRadians((angleToTurn)));
-		//Coordinate finalRobotCoordinatesL = calculateCoordinatesEndSegment(robot, distanceRobot_Target, Math.toRadians((-angleToTurn)));
-		if(Math.round(finalRobotCoordinatesR.x) == Math.round(xT) && Math.round(finalRobotCoordinatesR.y) == Math.round(yT))
-			rotate(angleToTurn-95);
-		else 
-			rotate(-(angleToTurn-95));
-		forward(distanceRobot_Target);
-		System.out.println("fin");
-	}*/
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//essayer de diminuer l'erreur de longueur largueur
-	//boussole trouver une methode pour tourner de 90degre 
-	
-	public void moveTo(double largeur, double longueur)
-	{
-		//Calcul des distances avec Pythagore
-		
-		double range = 600;
-		double distanceRobot_Target = Math.sqrt(Math.pow(Math.abs(Math.max(this.largeur,largeur)-Math.min(this.largeur,largeur)),2) + Math.pow(Math.abs(Math.max(this.longueur,longueur)-Math.min(this.longueur,longueur)),2));
-		
-		double xR =  this.largeur + (range * Math.cos(Math.toRadians(boussole))); //	METTRE BOUSSOLE EN RADIAN	-->		Math.toRadians(boussole)
-		double yR =  this.longueur + (range * Math.sin(Math.toRadians(boussole))); //	METTRE BOUSSOLE EN RADIAN	-->		Math.toRadians(boussole)
-		
-		double distanceRange_Target = Math.sqrt(Math.pow(Math.abs(Math.max(xR,largeur)-Math.min(xR,largeur)),2) + Math.pow(Math.abs(Math.max(yR,longueur)-Math.min(yR,longueur)),2));
-		
-		//Calcul de l'angle
-		double pS = (range * range) + (distanceRobot_Target * distanceRobot_Target) - (distanceRange_Target * distanceRange_Target);
-        double angleToTurn = Math.toDegrees(Math.atan(distanceRange_Target/range));
-        System.out.println(angleToTurn);
-        // Calculs des points arrivés
-        double largeurFinaleDroite = this.largeur + (distanceRobot_Target * Math.cos(Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
-        double longueurFinaleDroite = this.longueur + (distanceRobot_Target * Math.sin(Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
-        double largeurFinaleGauche = this.largeur + (distanceRobot_Target * Math.cos(-Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
-        double longueurFinaleGauche = this.longueur + (distanceRobot_Target * Math.sin(-Math.toRadians(angleToTurn))); //	METTRE angleToTurn EN RADIAN	-->		Math.toRadians(angleToTurn)
-        
-        if(Math.round(longueurFinaleDroite) == Math.round(longueur) && Math.round(largeurFinaleDroite) == Math.round(largeur))
-        {
-        	rotate(angleToTurn + 90); System.out.println("D"+angleToTurn);
-        }
-        else
-        {
-        	rotate(angleToTurn - 90); 
-        }        
-        
-        forward(distanceRobot_Target);
-	}
-	
 	public void goTo(double largeurF, double longueurF) {
 		if(largeurF==this.largeur && longueurF==this.longueur) {
 			System.out.println("J'y suis deja");
 			return;
 		}
+		boussole_a_0();
 		if (longueurF >= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 1");
-			boussole_a_0();
+			
 			double a;
 			if(this.largeur-largeurF == 0) {
 				a = 0;
@@ -431,7 +281,7 @@ public class MotorWheels {
 		}else if (longueurF >= this.longueur && largeurF >= this.largeur) {
 			//essayer optimiser ca 
 			System.out.println("pass 2");
-			rotateEnFonctionBoussole(-90);
+			rotate(-90);
 			double a;
 			if(longueurF-this.longueur == 0) {
 				a = 0;
@@ -446,7 +296,7 @@ public class MotorWheels {
 			this.longueur = longueurF;
 		}else if (longueurF <= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 3");
-			rotateEnFonctionBoussole(90);
+			rotate(90);
 			double a;
 			if(longueurF - this.longueur == 0) {
 				a = 0;
@@ -461,7 +311,7 @@ public class MotorWheels {
 			this.longueur = longueurF;
 		}else {
 			System.out.println("pass 4");
-			rotateEnFonctionBoussole(180);
+			rotate(180);
 			double a;
 			if(largeurF - this.largeur == 0) {
 				a = 0;
@@ -477,13 +327,11 @@ public class MotorWheels {
 		}	
 	}
 	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	/**
 	 * Affiche la valeur de la boussole
 	 */
 	public void afficheBoussole() {
-		System.out.println(this.boussole);}
+		System.out.println("boussole"+this.boussole);}
 
 	/**
 	 * affiche la valeur de la longueur
@@ -497,18 +345,17 @@ public class MotorWheels {
 	public void afficheLargeur() {
 		System.out.println("LARGEUR "+ this.largeur);}
 	
-	
-	/**
-	 * fait 1 tours sur soi par la droite avec un retour immediat
-	 */
-	
-	
+	public double angle() {
+		return pilot.getMovement().getAngleTurned();
+	}
+		
 	/**
 	 * détect si le chassis est en mouvement
 	 * @return true si le chassis est en mouvement, false sinon
 	 */
 	public boolean enMouvement() {
 		return chassis.isMoving();}
+	
 	
 	/**
 	 * 
@@ -585,4 +432,19 @@ public class MotorWheels {
 	public void setPilot(MovePilot pilot) {
 		this.pilot = pilot;}
 	
+	public double getLongueur() {
+		return longueur;
+	}
+
+	public void setLongueur(double longueur) {
+		this.longueur = longueur;
+	}
+
+	public double getLargeur() {
+		return largeur;
+	}
+
+	public void setLargeur(double largeur) {
+		this.largeur = largeur;
+	}
 }

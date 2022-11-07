@@ -11,7 +11,6 @@ import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 import moteur.MotorWheels;
 import moteur.Pinces;
-
 import sensors.ColorSensor;
 import sensors.UltrasonicSensor;
 import sensors.TouchSensor;
@@ -22,19 +21,22 @@ public class Robot {
 	public static final int FRONT = 1;
 	public static final int LEFT = - 1;
 	public static final int BACK = - 1;
-	public static final int TURN_SPEED = 500;
-
-
 	private static Pinces pinces ;
 	private static MotorWheels motor;
 	
 	private static UltrasonicSensor ultrasonics;
 	private static TouchSensor touch; 
 	private static ColorSensor color;
+	private static final double[][] palet = {
+			{500,600},{1000,600},{1500,600},
+			{500,1200},{1000,1200},{1500,1200},
+			{500,1800},{1000,1800},{1500,1800}};
 	
-	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,Port colorport){
+	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,};//pensez a l'initailiser au debut la partie 
+	
+	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,int i){
 
-		motor = new MotorWheels(leftGearPort,rightGearPort);
+		motor = new MotorWheels(leftGearPort,rightGearPort, i);
 		pinces = new Pinces(pliersPort);
 		
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
@@ -55,7 +57,6 @@ public class Robot {
         return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
     }
 	
-	//initialiser apres longueur aux max 
 	public void allerjusqua(String couleur) {
 		motor.forward();
 	    Color rgb = ColorSensor.getColor();
@@ -64,13 +65,41 @@ public class Robot {
 	    }
 	   motor.stop();
 	}
-	
 
-	public void avancer(int i) {
-		motor.forward(i);
+	public static double[] getpalet(int i){
+		return palet[i-1];
 	}
-	public void reculer(int i) {
-		motor.backward(i);
+	public static double getpaletlongueur(double[] palet){
+		return palet[0];
+		}
+	public static double getpaletlargeur(double[] palet){
+		return palet[1];
+	}
+	public static void majPaletpresent(int i) {
+		paletpresent[i-1]=false;
+	}
+
+	public static void alleraupalet(int i) {///mettre a jour 
+		if(paletpresent[i-1]) {
+		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
+		majPaletpresent(i);}
+		
+	}
+	
+	public void forward() {
+		motor.forward();
+	}
+
+	public void forward(double d) {
+		motor.forward(d);
+	}
+	
+	public void backward(double d) {
+		motor.backward(d);
+	}
+	
+	public void forward(double d,boolean b) {
+		motor.forward(d,b);
 	}
 	public void demitour() {
 		motor.rotate(180);
@@ -78,27 +107,39 @@ public class Robot {
 	public void rotate(double d) {
 		motor.rotate(d);
 	}
+	public void rotate(double d,boolean b) {
+		motor.rotate(d,b);
+	}
+	public void rotateneg(double d,boolean b) {
+		motor.rotate(-d,b);
+	}
+	public void lap() {
+		motor.rotate();
+	}
 	public void boussole_a_0() {
 		motor.boussole_a_0();
 	}
 	
 	public void allera(double x, double y) {
-		//motor.goTo(x, y);
-	    motor.moveTo(x,y);
+		motor.goTo(x, y);
+	    //motor.moveTo(x,y);
 	}
-	public boolean catchTarget(int targetDistance){
-		ouvrirPinces();
-		motor.forward(targetDistance + 3);
-		if (touch.isPressed()) {
-			fermerPinces();
-			return true;
-		} else {
-			fermerPinces();
-			return false;
-		}
+
+	public void catchTarget(float targetDistance){
+		ouvrirPinces(true);
+		motor.forward(targetDistance + 50,true);
+		while((estunpalet() && motor.enMouvement() && !isPressed())){}
+		fermerPinces(true);
 	}
 	
-	public void research() {//faire un calcul avec la boussole
+	public boolean estunpalet() {
+		float dis=1;
+		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
+		dis = getUltrasonics().getSample0();
+		return dis > 0.15 ;
+	}
+	
+	public void research(){
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
@@ -121,21 +162,57 @@ public class Robot {
 		long angle = (temps/coeff)+15;
 		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
-		motor.mettreAJourBoussole(angle);
+		motor.majBoussole(angle);
+	}
+
+	public float distance() {
+		float dis=1;
+		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
+		dis = getUltrasonics().getSample0();
+		return dis*1000 ;
 	}
 	
 	public void goal() {
 		motor.boussole_a_0();
 		allerjusqua("BLANC");
-		ouvrirPinces();
+		erreurs_boussole();
+		ouvrirPinces(false);
+		//mettre en true avec du delay
 		motor.backward(200);
-		fermerPinces();
+		fermerPinces(true);
+		motor.setLongueur(2300);//distance max-10cm(distance entre le capteur couleur et le centre du robot 
+		motor.afficheLongueur();
 	}
-	public void ouvrirPinces() {
-		pinces.ouvrir();
+	
+	public void erreurs_boussole() {
+        motor.rotate(30,false);
+        motor.rotate(-60,true);
+        double min = 100;
+        double angle = 0;
+        while(motor.enMouvement()) {
+        	getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
+            double valeur= getUltrasonics().getSample0();
+            if(valeur<min) {
+                min=valeur;
+                angle= motor.angle();
+            }
+            Delay.msDelay(3);
+        }
+        System.out.println("angle trouver "+angle);
+        System.out.println("valeurs min"+min);
+        motor.rotate(60+angle, false);
+        motor.setBoussole(0);
+    }
+
+	public Pinces getPinces() {
+		return pinces ;
 	}
-	public void fermerPinces() {
-		pinces.fermer();
+	
+	public void ouvrirPinces(boolean t) {
+		pinces.ouvrir(t);
+	}
+	public void fermerPinces(boolean t) {
+		pinces.fermer(t);
 	}
 	public static MotorWheels getMotor() {
 		return motor;
@@ -160,5 +237,20 @@ public class Robot {
 	}
 	public void setColor(ColorSensor color) {
 		this.color = color;
+	}
+	
+	public void stop() {
+		motor.stop();
+	}
+
+	public boolean isPressed() {
+		return touch.isPressed();
+	}
+
+	public static void setPaletpresent(boolean[] paletpresent) {
+		Robot.paletpresent = paletpresent;
+	}
+	public boolean enMouvement() {
+		return motor.enMouvement();
 	}
 }
