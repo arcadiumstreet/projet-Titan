@@ -34,26 +34,52 @@ public class Robot {
 	
 	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,};//pensez a l'initailiser au debut la partie 
 	
+	/**
+	 * instancie un robot en initialisant : 
+	 * ces roues, pinces, son detecteur ultrasonic, son detecteur de touché et son detecteur de couleur
+	 * à partir des ports passés en paramètre ainsi que l'entier correspondant à la position sur le terrain (1:droit,2:milieu et 3:gauche)
+	 * @param leftGearPort
+	 * @param rightGearPort
+	 * @param pliersPort
+	 * @param ultrasonicsPort
+	 * @param touchPort
+	 * @param i
+	 */
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,int i){
 		motor = new MotorWheels(leftGearPort,rightGearPort, i);
 		pinces = new Pinces(pliersPort);
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
+
 	} 
 	
-	
+	/**
+	 * 
+	 * @return une chaine de charactère représentant un tableau 
+	 * comprenant les valeur en entier des proportions de rouge, vert et bleu dans la couleur détectée par le capteur de couleur 
+	 */
 	public String colorint() {
         int [] e = color.getcolorint();
         String s = Arrays.toString(e) ;
          return s ;
 	}
 	
+	/**
+	 * 
+	 * @return une chaine de charactère représentant la couleur détectée par 
+	 * le capteur de couleur ("NOIR", "GRIS", "JAUNE", "BLANC", "ROUGE", "VERT", "BLEU" OU "NON RECONNU")
+	 */
 	public String color() {
         Color rgb = ColorSensor.getColor();
         return ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
     }
 	
+	/**
+	 * fait avance le robot jusqu'à ce que le capteur detecte la couleur passée en paramètre
+	 * 
+	 * @param couleur
+	 */
 	public void allerjusqua(String couleur) {
 		motor.forward();
 	    Color rgb = ColorSensor.getColor();
@@ -63,19 +89,47 @@ public class Robot {
 	   motor.stop();
 	} 
 
+	/**
+	 * 
+	 * @param i le numéro d'un palet
+	 * @return un tableau de double contenant les coordonnées du palet voulu
+	 */
 	public static double[] getpalet(int i){
 		return palet[i-1];
 	}
+	
+	/**
+	 * 
+	 * @param palet est un tableau de double contenant les coordonnées d'un palet 
+	 * @return la longueur de l'emplacement du palet
+	 */
 	public static double getpaletlongueur(double[] palet){
 		return palet[0];
 		}
+	
+	/**
+	 * 
+	 * @param palet est un tableau de double contenant les coordonnées d'un palet 
+	 * @return la largeur de l'emplacement du palet
+	 */
 	public static double getpaletlargeur(double[] palet){
 		return palet[1];
 	}
+	
+	/**
+	 * passe le boolean du tableau paletpresent correspondant au palet dont le numéro est passé en paramètre sur false
+	 * 
+	 * @param i le numéro du palet à mettre à jour
+	 */
 	public static void majPaletpresent(int i) {
 		paletpresent[i-1]=false;
 	}
 
+	/**
+	 *  le obot va chercher le palet dont le numéro est passé en paramètre 
+	 *  et indique dans le tableau paletpresent qu'il est deja récupéré (passe de true à false)
+	 * @param i est le numéro du palet à récupérer
+	 */
 	public static void alleraupalet(int i) {///mettre a jour 
 		if(paletpresent[i-1]) {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
@@ -83,49 +137,110 @@ public class Robot {
 		
 	}
 	
+	
+	/**
+	 * avance jusqu'à lappel de la methode stop()
+	 */
 	public void forward() {
 		motor.forward();
 	}
 
+	
+	/**
+	 * le robot avance de d mm
+	 * @param d un distance entière en mm
+	 */
 	public void forward(double d) {
 		motor.forward(d);
 	}
 	
+	/**
+	 * le robot recule de d
+	 * @param d une distance entière en mm
+	 */
 	public void backward(double d) {
 		motor.backward(d);
 	}
 	
+
+	/**
+	 * le robot avance de d mm tout en continiant d'exécuter la suite du code si b vaut true
+	 * sinon il avance juste de d mm
+	 * @param d distance entière en mm
+	 * @param b boolean indiquant si le mouvement est syncrone ou non
+	 */
 	public void backward(double d,boolean c) {
 		motor.backward(d,c);
 	}
 	
+
 	public void forward(double d,boolean b) {
 		motor.forward(d,b);
 	}
+	
+	/**
+	 * le robot exécute un demitour(rotation de 180° vers la droite
+	 */
 	public void demitour() {
 		motor.rotate(180);
 	}
+	
+	/**
+	 * le robot tourne de d degre
+	 * @param d degre de rotation, positif vers la droite et négatif vers la gauche
+	 */
 	public void rotate(double d) {
 		motor.rotate(d);
 	}
+	
+	/**
+	 * le robot tourne de d degre tout en exécutant la suite du code si b vaut true
+	 * sinon effectue seulement la rotation de d degre
+	 * @param d degre de rotation, positif vers la droite et négatif vers la gauche
+	 * @param b boolean indiquant si le mouvement est syncrone ou non
+	 */
 	public void rotate(double d,boolean b) {
 		motor.rotate(d,b);
 	}
+	
+	/**
+	 * le robot tourne de d degre tout en exécutant la suite du code si b vaut true
+	 * sinon effectue seulement la rotation de d degre
+	 * @param d degre de rotation, positif vers la gauche et négatif vers la droite
+	 * @param b boolean indiquant si le mouvement est syncrone ou non
+	 */
 	public void rotateneg(double d,boolean b) {
 		motor.rotate(-d,b);
 	}
+	
+	/**
+	 * le robot fait un tour complet sur lui meme (rotation de 360°)
+	 */
 	public void lap() {
 		motor.rotate();
 	}
+	
+	/**
+	 * recalibre la boussole à 0° et oriente le robot dans cette direction
+	 */
 	public void boussole_a_0() {
 		motor.boussole_a_0();
 	}
 	
+	/**
+	 * le robot se rend au coordonnées de largeur x et longueur y
+	 * @param x un double représentant la largeur de la coordonnée de destination
+	 * @param y un double représentant la longueur de la coordonnée de destination
+	 */
 	public void allera(double x, double y) {
 		motor.goTo(x, y);
 	   
 	}
 
+	/**
+	 * ouvre les pinces, attrape le palet dont la distance au robot a été passée en paramètre puis ferme les pinces
+	 * @param targetDistance est la distance en mm au palet à attraper
+	 */
 	public void catchTarget(float targetDistance){//// a voir 
 		ouvrirPinces(true);
 		motor.forward(targetDistance + 40,true);
@@ -140,13 +255,20 @@ public class Robot {
 		fermerPinces(false);
 	}
 	
+	/**
+	 * tout objet détecté à plus de 150mm est considéré comme un palet et ceux en dessous non
+	 * @return true si l'objet détécté est à plus de 150 mm et false si non
+	 */
 	public boolean estunpalet() {
-		float dis=1;
+		float dis;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();
 		return dis > 0.15 ;
 	}
 	
+	/**
+	 * le robot tourne sur lui meme jsuqu'à détécter un object à moins de 500mm  
+	 */
 	public void research(){
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
