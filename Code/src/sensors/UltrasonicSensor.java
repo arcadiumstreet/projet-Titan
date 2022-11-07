@@ -24,10 +24,8 @@ public class UltrasonicSensor {
 	{
 		 ultrasonic = new EV3UltrasonicSensor(port);
 		this.distance= ultrasonic.getMode("Distance");
-		this.sample = new float[distance.sampleSize()];
-		
+		this.sample = new float[distance.sampleSize()];	
 	}
-	
 	/**
 	 * Eteind le capteur ultrasonic
 	 */

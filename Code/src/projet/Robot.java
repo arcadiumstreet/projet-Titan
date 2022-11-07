@@ -35,14 +35,11 @@ public class Robot {
 	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,};//pensez a l'initailiser au debut la partie 
 	
 	public Robot(Port leftGearPort,Port rightGearPort,Port pliersPort,Port ultrasonicsPort,Port touchPort,int i){
-
 		motor = new MotorWheels(leftGearPort,rightGearPort, i);
 		pinces = new Pinces(pliersPort);
-		
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
-
 	} 
 	
 	public void test() {
@@ -89,7 +86,8 @@ public class Robot {
 		
 	}
 	
-	public void allera(double x, double y) {//faudarit lutiliser pour aller sur les zone de recherche dans dans la strat ou aucun palet est a sa place
+	public void allera(double x, double y) {
+		//faudrait l'utilisé pour aller sur les zones de recherche dans dans la strategie ou aucun palet est a sa place.
 		motor.goTo(x, y);
 	}
 	
@@ -103,6 +101,10 @@ public class Robot {
 	
 	public void backward(double d) {
 		motor.backward(d);
+	}
+	
+	public void backward(double d,boolean c) {
+		motor.backward(d,c);
 	}
 	
 	public void forward(double d,boolean b) {
@@ -129,9 +131,16 @@ public class Robot {
 	
 	public void catchTarget(float targetDistance){
 		ouvrirPinces(true);
-		motor.forward(targetDistance + 50,true);
-		while((estunpalet() && motor.enMouvement() && !isPressed())){}
-		fermerPinces(true);
+		motor.forward(targetDistance + 40,true);
+		while((estunpalet() && motor.enMouvement() && !isPressed())){
+		}
+		motor.stop();
+		if(!estunpalet()){
+			System.out.println("es la"+distance());
+			backward((targetDistance + 40)-350,false);
+			motor.maj_longueur_largeur(-350);
+		}
+		fermerPinces(false);
 	}
 	
 	public boolean estunpalet() {
@@ -148,8 +157,7 @@ public class Robot {
 		long t1= System.currentTimeMillis();
 		while(dis>0.5){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
-			dis = getUltrasonics().getSample0();
-			}
+		dis = getUltrasonics().getSample0();}
 		long t2 = System.currentTimeMillis();
 		motor.stop();
 		long temps = t2-t1 ;
@@ -174,19 +182,19 @@ public class Robot {
 		return dis*1000 ;
 	}
 	
-	public void goal() {
+	public void goal(boolean b) {
 		motor.boussole_a_0();
 		allerjusqua("BLANC");
-		erreurs_boussole();
+		if(b){erreurs_boussole();}
 		ouvrirPinces(false);
-		//mettre en true avec du delay
+		motor.setLongueur(2230);
 		motor.backward(200);
 		fermerPinces(true);
-		motor.setLongueur(2300);//distance max-10cm(distance entre le capteur couleur et le centre du robot 
 		motor.afficheLongueur();
 	}
 	
 	public void erreurs_boussole() {
+		
         motor.rotate(30,false);
         motor.rotate(-60,true);
         double min = 100;
