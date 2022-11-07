@@ -33,49 +33,61 @@ public class cerveau {
 		//ajouter la position de l'adversaire en pour savoir les palets pris par l'adversaire
 	public static void strategie1(Robot p,int d, int placement){
 		//voir si on a le droit de partir les pinces ouvertes
-		//on peut utiliser goto()
-		
-		//marque les 4 premiers palets (1,7,8,5)
+		//marque les 2 premiers palets (1,7)
 		//1er premier palet 1
-		p.forward();
-		while(!p.isPressed()) {
-		}
-		p.stop();
+		p.ouvrirPinces(true);
+		p.forward(600);
 		//p.stop() ,changer pour aller plus vite
 		p.fermerPinces(true);
 		p.rotate(45*d);
-		p.forward(200);
-		p.goal();
+		p.forward(300);
+		p.goal(false);
 		p.majPaletpresent(1);
 		// palet 7
-		p.rotate(-155*d);//a verifier
-		p.catchTarget(700);//
-		p.goal();
+		p.rotate(-140*d);
+		p.catchTarget(400);
+		p.goal(true);
 		p.majPaletpresent(7);
-		//palet 8
-		p.rotate(120*d);//a tester
-		p.catchTarget(1000);//
-		p.goal();
-		p.majPaletpresent(8);
-		//creer une autre strategie pour le dernier en fonction du placemnt de l'adversaire
-		//palet 5
-		p.demitour();//
-		p.forward(900);//
-		p.research();
-		p.catchTarget(p.distance());//
-		p.goal();
-		p.majPaletpresent(5);
 	}
 	
 	public static void strategie1a(Robot p,int d, int placement){
 		//si ladversaire ce met au milieu 
 		//on on fait la strat 1 ou on prend 1,7
-		//on va a 4 ou a 5
+		//on va a 4 puis 5 puis 9
 		
-		
-		
+		//palet 4
+				p.rotate(180*d);//a tester
+				p.catchTarget(1000);//
+				p.goal(true);
+				p.majPaletpresent(4);
+		//palet 5
+				p.demitour();//
+				p.forward(900);//
+				p.research();
+				p.catchTarget(p.distance());//
+				p.goal(true);
+				p.majPaletpresent(5);
+		//palet 9
+				p.demitour();	
 	}
 	
+	public static void strategie1b(Robot p,int d, int placement){
+		//si ladversaire se met au coté opposé
+		//on on fait la strat 1 ou on prend 1,7 ou 3,9
+		//on va a 8
+			//palet 8
+				p.rotate(120*d);//a tester
+				p.catchTarget(1000);//
+				p.goal(true);
+				p.majPaletpresent(8);
+			//palet 5
+				p.demitour();//
+				p.forward(900);//
+				p.research();
+				p.catchTarget(p.distance());//
+				p.goal(true);
+				p.majPaletpresent(5);	
+	}
 	
 	/**
 	 * methode strategie2 qui est appelee apres la pause du round lorsqu'au moins encore un palet est bien plac�
@@ -89,7 +101,7 @@ public class cerveau {
 		//meme strat que 1 mettre le premier palet en dure 
 		//savoir ceux qui reste 
 		//aller sur le lequelle
-		//prendre celui le plus pres de notre camp
+		//prendre celui le plus pres du robot
 		p.forward();
 		while(!p.isPressed()) {
 		}
@@ -99,8 +111,7 @@ public class cerveau {
 		// pas obligatoire si aucun palet a esquivé  
 		p.rotate(45*d);
 		p.forward(200);
-		//
-		p.goal();
+		p.goal(false);
 		//a develloper
 	}
 	

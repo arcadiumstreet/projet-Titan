@@ -9,7 +9,7 @@ public class test {
 	
 	public static void main(String[] args) {
 		int placement=1;
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,placement);
+		Robot p = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,placement);
 		
 		/*	
 		 //test les couleurs 
@@ -24,12 +24,13 @@ public class test {
 					again = false;}}
 					*/
 		
-		//pierrot.getPinces().reglagepinces(-200);
+		//p.getPinces().reglagepinces(-100);
 		
-		float d =pierrot.distance();
-		System.out.println(d);
-		System.out.println(pierrot.estunpalet());
+		
+		p.research();
+		p.catchTarget(700);
 		Delay.msDelay(5000);
+		//p.goal(true);
 		
 	}
 }
