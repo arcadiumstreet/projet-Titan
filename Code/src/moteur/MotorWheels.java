@@ -216,6 +216,11 @@ public class MotorWheels {
 		maj_longueur_largeur(-distance);
 	}
 	
+	public void backward(double distance,boolean b) {
+		pilot.travel(-distance*1.5,b);
+		maj_longueur_largeur(-distance);
+	}
+	
 	public void rotate() {
 		pilot.rotate(360*1.29, true);
 	}
