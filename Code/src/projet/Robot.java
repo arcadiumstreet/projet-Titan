@@ -42,9 +42,6 @@ public class Robot {
 		color = new ColorSensor("S1");
 	} 
 	
-	public void test() {
-	}
-	
 	
 	public String colorint() {
         int [] e = color.getcolorint();
@@ -64,7 +61,7 @@ public class Robot {
 	    	rgb = ColorSensor.getColor();
 	    }
 	   motor.stop();
-	}
+	} 
 
 	public static double[] getpalet(int i){
 		return palet[i-1];
@@ -84,11 +81,6 @@ public class Robot {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
 		majPaletpresent(i);}
 		
-	}
-	
-	public void allera(double x, double y) {
-		//faudrait l'utilisé pour aller sur les zones de recherche dans dans la strategie ou aucun palet est a sa place.
-		motor.goTo(x, y);
 	}
 	
 	public void forward() {
@@ -129,7 +121,12 @@ public class Robot {
 		motor.boussole_a_0();
 	}
 	
-	public void catchTarget(float targetDistance){
+	public void allera(double x, double y) {
+		motor.goTo(x, y);
+	   
+	}
+
+	public void catchTarget(float targetDistance){//// a voir 
 		ouvrirPinces(true);
 		motor.forward(targetDistance + 40,true);
 		while((estunpalet() && motor.enMouvement() && !isPressed())){
