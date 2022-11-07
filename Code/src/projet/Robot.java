@@ -125,7 +125,7 @@ public class Robot {
 	    //motor.moveTo(x,y);
 	}
 
-	public void catchTarget(float targetDistance){
+	public void catchTarget(float targetDistance){//// a voir 
 		ouvrirPinces(true);
 		motor.forward(targetDistance + 50,true);
 		while((estunpalet() && motor.enMouvement() && !isPressed())){}
