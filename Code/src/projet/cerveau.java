@@ -70,7 +70,16 @@ public class cerveau {
 	public static void strategie1a(Robot p,int d, int placement){
 		//si ladversaire ce met au milieu 
 		//on on fait la strat 1 ou on prend 1,7
-		//on va a 4 ou a 5
+		//on va a 4 puis a 5 ou 9 (en fonction de si le 5 est prit ou non)
+		
+		
+		
+	}
+	
+	public static void strategie1b(Robot p,int d, int placement){
+		//si ladversaire ce met sur une extremité 
+		//on on fait la strat 1 où on prend 1,7
+		//on va a 8 puis a 5 ou 4 (en fonction de si le 5 est prit ou non)
 		
 		
 		
