@@ -31,22 +31,37 @@ public class cerveau {
 	 */
 	
 		//ajouter la position de l'adversaire en pour savoir les palets pris par l'adversaire
-	public static void strategie1(Robot p,int d, int placement){
+	public static void strategie1(Robot p, int placement){
 		//voir si on a le droit de partir les pinces ouvertes
 		//marque les 2 premiers palets (1,7)ou (3,9)
 		//1er premier palet 1
+		int d, palet1, palet2;
+		if (placement == 1) {
+			d = -1;
+			palet1 = 3;
+			palet2 = 9;
+		} else {
+			d = 1;
+			if (placement == 2) {
+				palet1 = 2;
+				palet2 = 8;
+			} else {
+				palet1 = 1;
+				palet2 = 7;
+			}
+		}
 		p.ouvrirPinces(true);
 		p.forward(600);
 		p.fermerPinces(true);
 		p.rotate(45*d);
 		p.forward(300);
 		p.goal(false);
-		p.majPaletpresent(1);
+		p.majPaletpresent(palet1);
 		// palet 7
 		p.rotate(-140*d);
 		p.catchTarget(350);
 		p.goal(true);
-		p.majPaletpresent(7);
+		p.majPaletpresent(palet2);
 	}
 	
 	/**
@@ -58,30 +73,39 @@ public class cerveau {
 	
 	public static void strategie1a(Robot p,int d, int placement){
 		//si ladversaire ce met au milieu 
+<<<<<<< HEAD
 		//on on fait la strat 1 ou on prend 1,7 ou (3,9)
 		//on va a 4 puis 5 puis 9 ou (6 puis a 5 puis a 7)
 		
+=======
+		//on on fait la strat 1 ou on prend 1,7
+		//on va a 4 puis a 5 ou 9 (en fonction de si le 5 est prit ou non)
+>>>>>>> 1d52f67fed69cbba671af4f688f34d9f79591826
 		//palet 4
-				p.rotate(180*d);//a tester
-				p.catchTarget(1000);//
-				p.goal(true);
-				p.majPaletpresent(4);
+		p.rotate(180*d);//a tester
+		p.catchTarget(1000);//
+		p.goal(true);
+		p.majPaletpresent(4);
 		//palet 5
-				p.demitour();//
-				p.forward(900);//
-				p.research();
-				p.catchTarget(p.distance());//
-				p.goal(true);
-				p.majPaletpresent(5);
+		p.demitour();//
+		p.forward(900);//
+		p.research();
+		p.catchTarget(p.distance());//
+		p.goal(true);
+		p.majPaletpresent(5);
 		//palet 9
-				p.demitour();	
-	}
+		p.demitour();	
+	}	
 	
 	public static void strategie1b(Robot p,int d, int placement){
 		//si ladversaire se met au coté opposé
 		//on on fait la strat 1 ou on prend 1,7 ou 3,9
+<<<<<<< HEAD
 		// dnc on va chercher le 8 puis 5 ou
 		//on va a 8
+=======
+		//on va a 8 puis a 5 ou 4 (en fonction de si le 5 est prit ou non)
+>>>>>>> 1d52f67fed69cbba671af4f688f34d9f79591826
 			//palet 8
 				p.rotate(120*d);//a tester
 				p.catchTarget(1000);//
