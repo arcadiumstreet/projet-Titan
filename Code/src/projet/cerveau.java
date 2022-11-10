@@ -20,24 +20,23 @@ import lejos.hardware.sensor.EV3TouchSensor;
 
 
 public class cerveau {
-	//essayer de mettre a jour largeur en fonction des ligne de couleurs 
-	
+	//9 8 7//
+	//6 5 4//
+	//3 2 1//
 	/**
 	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
-	 * @param d va prendre 45 ou -45 en fonction de l'endroit de depart 
-	 * @param d2 va prendre 45 ou -45 en fonction de l'endroit de depart 
+	 * @param d va prendre 1 ou -1 en fonction de l'endroit de depart 
 	 * @param placement va prendre 1,2,3 en fonction de si il est a gauche au mileu ou a droite 
-	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
+	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (140 ou -140)
 	 */
 	
 		//ajouter la position de l'adversaire en pour savoir les palets pris par l'adversaire
 	public static void strategie1(Robot p,int d, int placement){
 		//voir si on a le droit de partir les pinces ouvertes
-		//marque les 2 premiers palets (1,7)
+		//marque les 2 premiers palets (1,7)ou (3,9)
 		//1er premier palet 1
 		p.ouvrirPinces(true);
 		p.forward(600);
-		//p.stop() ,changer pour aller plus vite
 		p.fermerPinces(true);
 		p.rotate(45*d);
 		p.forward(300);
@@ -45,15 +44,22 @@ public class cerveau {
 		p.majPaletpresent(1);
 		// palet 7
 		p.rotate(-140*d);
-		p.catchTarget(400);
+		p.catchTarget(350);
 		p.goal(true);
 		p.majPaletpresent(7);
 	}
 	
+	/**
+	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
+	 * @param d va prendre 1 ou -1 en fonction de l'endroit de depart 
+	 * @param placement va prendre 1,2,3 en fonction de si il est a gauche au mileu ou a droite 
+	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (140 ou -140)
+	 */
+	
 	public static void strategie1a(Robot p,int d, int placement){
 		//si ladversaire ce met au milieu 
-		//on on fait la strat 1 ou on prend 1,7
-		//on va a 4 puis 5 puis 9
+		//on on fait la strat 1 ou on prend 1,7 ou (3,9)
+		//on va a 4 puis 5 puis 9 ou (6 puis a 5 puis a 7)
 		
 		//palet 4
 				p.rotate(180*d);//a tester
@@ -74,6 +80,7 @@ public class cerveau {
 	public static void strategie1b(Robot p,int d, int placement){
 		//si ladversaire se met au coté opposé
 		//on on fait la strat 1 ou on prend 1,7 ou 3,9
+		// dnc on va chercher le 8 puis 5 ou
 		//on va a 8
 			//palet 8
 				p.rotate(120*d);//a tester
@@ -122,14 +129,6 @@ public class cerveau {
 		
 	}
 	
-	public static void strategierisque(Robot p,int d, int placement){
-		//essayer de pousser une ligne entiere de lautre cote du terrain 
-		//risque mais ca peut marché 
-		//
-		
-		
-		
-	}	
 	
 	public static void main(String[] args) {
 		int placement,strat;
