@@ -189,13 +189,13 @@ public class cerveau {
 		
 		if(placement==1) {
 			if(strat==1)
-				strategie1(pierrot,-1,placement);
+				strategie1(pierrot,placement);
 			if(strat==2)
 				strategie2(pierrot,-1,placement);
 		}
 		if(placement==3||placement==2) {
 			if(strat==1)
-				strategie1(pierrot,1,placement);
+				strategie1(pierrot,placement);
 			if(strat==2)
 				strategie2(pierrot,1,placement);
 		}
