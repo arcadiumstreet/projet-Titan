@@ -31,10 +31,25 @@ public class cerveau {
 	 */
 	
 		//ajouter la position de l'adversaire en pour savoir les palets pris par l'adversaire
-	public static void strategie1(Robot p,int d, int placement){
+	public static void strategie1(Robot p, int placement){
 		//voir si on a le droit de partir les pinces ouvertes
 		//marque les 2 premiers palets (1,7)
 		//1er premier palet 1
+		int d, palet1, palet2;
+		if (placement == 1) {
+			d = -1;
+			palet1 = 3;
+			palet2 = 9;
+		} else {
+			d = 1;
+			if (placement == 2) {
+				palet1 = 2;
+				palet2 = 8;
+			} else {
+				palet1 = 1;
+				palet2 = 7;
+			}
+		}
 		p.ouvrirPinces(true);
 		p.forward(600);
 		//p.stop() ,changer pour aller plus vite
@@ -42,12 +57,12 @@ public class cerveau {
 		p.rotate(45*d);
 		p.forward(300);
 		p.goal(false);
-		p.majPaletpresent(1);
+		p.majPaletpresent(palet1);
 		// palet 7
 		p.rotate(-140*d);
 		p.catchTarget(400);
 		p.goal(true);
-		p.majPaletpresent(7);
+		p.majPaletpresent(palet2);
 	}
 	
 	public static void strategie1a(Robot p,int d, int placement){
