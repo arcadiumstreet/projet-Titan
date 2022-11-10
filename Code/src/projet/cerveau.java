@@ -26,7 +26,7 @@ public class cerveau {
 	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
 	 * @param d va prendre 45 ou -45 en fonction de l'endroit de depart 
 	 * @param d2 va prendre 45 ou -45 en fonction de l'endroit de depart 
-	 * @param placement va prendre 1,2,3 en fonction de si il est a gauche au mileu ou a droite 
+	 * @param placement va prendre 1,2,3 en fonction de si il est a droite au mileu ou a gauche 
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
 	 */
 	
@@ -36,7 +36,7 @@ public class cerveau {
 		//marque les 2 premiers palets (1,7)
 		//1er premier palet 1
 		int d, palet1, palet2;
-		if (placement == 1) {
+		if (placement == 3) {
 			d = -1;
 			palet1 = 3;
 			palet2 = 9;
