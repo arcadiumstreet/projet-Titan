@@ -25,30 +25,29 @@ public class cerveau {
 	//3 2 1//
 	/**
 	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
+
 	 * @param d va prendre 1 ou -1 en fonction de l'endroit de depart 
 	 * @param placement va prendre 1,2,3 en fonction de si il est a gauche au mileu ou a droite 
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (140 ou -140)
+	 * @param d va prendre 45 ou -45 en fonction de l'endroit de depart 
+	 * @param d2 va prendre 45 ou -45 en fonction de l'endroit de depart 
+	 * @param placement va prendre 1 ou 3 en fonction de si il est a droite ou a gauche 
+	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
+
 	 */
 	
 		//ajouter la position de l'adversaire en pour savoir les palets pris par l'adversaire
-	public static void strategie1(Robot p, int placement){
+	public static void strategie1(Robot p, int d){
 		//voir si on a le droit de partir les pinces ouvertes
 		//marque les 2 premiers palets (1,7)ou (3,9)
 		//1er premier palet 1
-		int d, palet1, palet2;
-		if (placement == 1) {
-			d = -1;
+		int palet1, palet2;
+		if (d == -1) {
 			palet1 = 3;
 			palet2 = 9;
 		} else {
-			d = 1;
-			if (placement == 2) {
-				palet1 = 2;
-				palet2 = 8;
-			} else {
-				palet1 = 1;
-				palet2 = 7;
-			}
+			palet1 = 1;
+			palet2 = 7;
 		}
 		p.ouvrirPinces(true);
 		p.forward(600);
@@ -67,6 +66,7 @@ public class cerveau {
 		p.majPaletpresent(palet2);
 	}
 	
+
 	/**
 	 * methode strategie1 qui est appelee au depart du round lorsqu tous les palets sont la
 	 * @param d va prendre 1 ou -1 en fonction de l'endroit de depart 
@@ -74,7 +74,9 @@ public class cerveau {
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (140 ou -140)
 	 */
 	
-	public static void strategie1a(Robot p,int d, int placement){
+
+	public static void strategie1a(Robot p,int d){
+
 		//si ladversaire ce met au milieu 
 		//on on fait la strat 1 ou on prend 1,7 ou (3,9)
 		//on va a 4 puis 5 puis 9 ou (6 puis a 5 puis a 7)
@@ -84,10 +86,18 @@ public class cerveau {
 
 		
 		//palet 4
+		int palet1, palet2bis;
+		if (d == -1) {
+			palet1 = 6;
+			palet2bis = 7;
+		} else {
+			palet1 = 4;
+			palet2bis = 9;
+		}
 		p.rotate(180*d);//a tester
 		p.catchTarget(1000);//
 		p.goal(true);
-		p.majPaletpresent(4);
+		p.majPaletpresent(palet1);
 		//palet 5
 		p.demitour();//
 		p.forward(900);//
@@ -100,12 +110,15 @@ public class cerveau {
 		
 	}	
 	
-	public static void strategie1b(Robot p,int placement){
+
+	public static void strategie1b(Robot p,int placement ){
+
 		//si ladversaire se met au coté opposé
 		//on on fait la strat 1 ou on prend 1,7 ou 3,9
 		// dnc on va chercher le 8 puis 5 ou
 		//on va a 
 		//on va a 8 puis a 5 ou 4 (en fonction de si le 5 est prit ou non)
+
 
 		
 		int d, palet1, palet2;
@@ -138,6 +151,26 @@ public class cerveau {
 				//p.catchTarget(p.distance());//
 				//p.goal(true);
 				//p.majPaletpresent(5);	
+
+		//palet 8
+		int palet2bis;
+		if (d == -1) {
+			palet2bis = 6;
+		} else {
+			palet2bis = 4;
+		}
+		p.rotate(120*d);//a tester
+		p.catchTarget(1000);//
+		p.goal(true);
+		p.majPaletpresent(8);
+		//palet 5
+		p.demitour();//
+		p.forward(900);//
+		p.research();
+		p.catchTarget(p.distance());//
+		p.goal(true);
+		p.majPaletpresent(5);	
+
 	}
 	
 	/**
@@ -216,18 +249,16 @@ public class cerveau {
 		System.out.println("Pierrot pret à partir!");
 		Button.ENTER.waitForPressAndRelease();
 		
-		if(placement==1) {
-			if(strat==1)
-				strategie1(pierrot,placement);
-			if(strat==2)
-				strategie2(pierrot,-1,placement);
+		int d;
+		if (placement == 3) {
+			d = -1;
+		} else {
+			d = 1;
 		}
-		if(placement==3||placement==2) {
-			if(strat==1)
-				strategie1(pierrot,placement);
-			if(strat==2)
-				strategie2(pierrot,1,placement);
-		}
+		if(strat==1)
+			strategie1(pierrot,d);
+		if(strat==2)
+			strategie2(pierrot,-1,placement);
 	
 		}
 }
