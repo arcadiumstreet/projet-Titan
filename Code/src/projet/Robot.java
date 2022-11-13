@@ -32,7 +32,7 @@ public class Robot {
 			{500,1200},{1000,1200},{1500,1200},
 			{500,1800},{1000,1800},{1500,1800}};
 	
-	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,};//pensez a l'initailiser au debut la partie 
+	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};//pensez a l'initailiser au debut la partie 
 	
 	/**
 	 * instancie un robot en initialisant : 
@@ -307,8 +307,8 @@ public class Robot {
 		if(b){erreurs_boussole();}
 		ouvrirPinces(false);
 		motor.setLongueur(2230);
-		motor.backward(200);
-		fermerPinces(true);
+		motor.backward(200,true);
+		fermerPinces(false);
 		motor.afficheLongueur();
 	}
 	

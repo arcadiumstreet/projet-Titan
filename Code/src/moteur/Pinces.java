@@ -34,14 +34,14 @@ public class Pinces {
 	 * Ferme les pinces
 	 */
 	public void fermer(boolean t){
-		pinces.rotate(-3*360,t);
+		pinces.rotate(-3*330,t);
 	}
 
 	/** 
 	 * Ouvre les pinces 
 	 */
 	public void ouvrir(boolean t) {
-		this.pinces.rotate(3*360,t);
+		this.pinces.rotate(3*330,t);
 	}
 
 }

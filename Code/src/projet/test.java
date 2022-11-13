@@ -10,7 +10,7 @@ public class test {
 	public static void main(String[] args) {
 		int placement=1;
 		Robot p = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,placement);
-		
+		cerveau d = new cerveau();
 		/*	
 		 //test les couleurs 
 			boolean again =true;
@@ -24,13 +24,11 @@ public class test {
 					again = false;}}
 					*/
 		
-		//p.getPinces().reglagepinces(-100);
+	//	p.getPinces().reglagepinces(-100);
 		
-		
-		p.research();
-		p.catchTarget(700);
-		Delay.msDelay(5000);
-		//p.goal(true);
+		//p.fermerPinces(false);
+		d.strategie1(p,3);
+		d.strategie1b(p,3);
 		
 	}
 }
