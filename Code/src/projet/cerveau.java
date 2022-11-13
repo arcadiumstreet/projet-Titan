@@ -35,6 +35,7 @@ public class cerveau {
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
 
 	 */
+		//ajouter au milieux car la strat 1 va etre utilisée pas que il y a tous les palets
 	
 		//ajouter la position de l'adversaire en pour savoir les palets pris par l'adversaire
 	public static void strategie1(Robot p, int d){
@@ -116,10 +117,7 @@ public class cerveau {
 		//si ladversaire se met au coté opposé
 		//on on fait la strat 1 ou on prend 1,7 ou 3,9
 		// dnc on va chercher le 8 puis 5 ou
-		//on va a 
-		//on va a 8 puis a 5 ou 4 (en fonction de si le 5 est prit ou non)
-
-
+		//on va a 8 puis au 5 ou 4 (en fonction de si le 5 est prit ou non)
 		
 		int d, palet1, palet2;
 		if (placement == 1) {
@@ -137,40 +135,17 @@ public class cerveau {
 			}
 		}
 			//palet 8
-				p.rotate(-120*d);//a tester
-				p.catchTarget(650);//
+				p.rotate(-120*d);
+				p.catchTarget(650);
 				p.goal(true);
 				p.majPaletpresent(8);
 			//palet 5
-				p.rotate(170*d);//
-				p.forward(500);//
+				p.rotate(170*d);
+				p.forward(500);
 				p.research();
 				p.catchTarget(p.distance());
 				p.goal(true);
-				//p.research();
-				//p.catchTarget(p.distance());//
-				//p.goal(true);
-				//p.majPaletpresent(5);	
-
-		//palet 8
-		int palet2bis;
-		if (d == -1) {
-			palet2bis = 6;
-		} else {
-			palet2bis = 4;
-		}
-		p.rotate(120*d);//a tester
-		p.catchTarget(1000);//
-		p.goal(true);
-		p.majPaletpresent(8);
-		//palet 5
-		p.demitour();//
-		p.forward(900);//
-		p.research();
-		p.catchTarget(p.distance());//
-		p.goal(true);
-		p.majPaletpresent(5);	
-
+				p.majPaletpresent(5);
 	}
 	
 	/**
@@ -180,23 +155,27 @@ public class cerveau {
 	 * @param placement va prendre 0,1,2 en fonction de si il est a gauche au mileu ou a droite 
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
 	 */
-	public static void strategie2(Robot p,int d, int placement){	
+	public static void strategie2(Robot p,int d, int placement,int palet1,int palet2){	
 		//reprise apres la pause donc savoir quelle sont les palets restant mettre a jour paletpresent()
 		//meme strat que 1 mettre le premier palet en dure 
 		//savoir ceux qui reste 
 		//aller sur le lequelle
 		//prendre celui le plus pres du robot
-		p.forward();
-		while(!p.isPressed()) {
-		}
-		p.stop();
-		//p.stop() ,changer pour aller plus vite
-		p.fermerPinces(true);
-		// pas obligatoire si aucun palet a esquivé  
-		p.rotate(45*d);
-		p.forward(200);
+		//palet 1 cest celui qui est le plus pres de notre ligne de but 
+		//palet 2 cest celui qui est le plus pres de la ligne de but adverse 
+		
+		p.ouvrirPinces(true);
+		p.alleraupalet(palet1);
+		//voir si on enleve 
+		p.rotate(45);
+		p.forward(300);
+		//
 		p.goal(false);
-		//a develloper
+		p.ouvrirPinces(true);
+		//faire attention au autre palets normalment on a pas de prblme avec ca
+		p.alleraupalet(palet2);
+		p.goal(true);
+		//puis faire la strat 3 a mon avis 
 	}
 	
 	public static void strategie3(Robot p,int d, int placement){
@@ -204,10 +183,12 @@ public class cerveau {
 		//utiliser que research() pour aller au palets
 		
 		
+	
 	}
 	
 	
 	public static void main(String[] args) {
+		//refaire tout le main 
 		int placement,strat;
 		placement=strat=0;
 		System.out.println("Ou est le robot ?");
@@ -258,7 +239,7 @@ public class cerveau {
 		if(strat==1)
 			strategie1(pierrot,d);
 		if(strat==2)
-			strategie2(pierrot,-1,placement);
+			strategie2(pierrot,-1,placement,1,1);
 	
 		}
 }

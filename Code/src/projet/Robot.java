@@ -34,6 +34,8 @@ public class Robot {
 	
 	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};//pensez a l'initailiser au debut la partie 
 	
+
+
 	/**
 	 * instancie un robot en initialisant : 
 	 * ces roues, pinces, son detecteur ultrasonic, son detecteur de touché et son detecteur de couleur
@@ -137,6 +139,9 @@ public class Robot {
 		
 	}
 	
+	public static boolean paletpresent(int i) {
+		return paletpresent[i-1];
+	}
 	
 	/**
 	 * avance jusqu'à lappel de la methode stop()
