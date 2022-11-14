@@ -34,7 +34,7 @@ public class Robot {
 	
 	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};//pensez a l'initailiser au debut la partie 
 	
-
+	private static boolean aunpalet = false ;
 
 	/**
 	 * instancie un robot en initialisant : 
@@ -253,10 +253,11 @@ public class Robot {
 		}
 		motor.stop();
 		if(!estunpalet()){
+			aunpalet=false;
 			System.out.println("es la"+distance());
 			backward((targetDistance + 40)-350,false);
 			motor.maj_longueur_largeur(-350);
-		}
+		}else aunpalet=true;
 		fermerPinces(false);
 	}
 	
@@ -315,8 +316,13 @@ public class Robot {
 		motor.backward(200,true);
 		fermerPinces(false);
 		motor.afficheLongueur();
+		aunpalet=false;
 	}
 	
+	public static boolean aunpalet() {
+		return aunpalet;
+	}
+
 	public void erreurs_boussole() {
 		
         motor.rotate(30,false);
