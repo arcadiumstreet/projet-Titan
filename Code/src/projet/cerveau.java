@@ -74,8 +74,6 @@ public class cerveau {
 	 * @param placement va prendre 1,2,3 en fonction de si il est a gauche au mileu ou a droite 
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (140 ou -140)
 	 */
-	
-
 	public static void strategie1a(Robot p,int d){
 
 		//si ladversaire ce met au milieu 
@@ -112,6 +110,11 @@ public class cerveau {
 	}	
 	
 
+	/**
+	 * 
+	 * @param p
+	 * @param placement
+	 */
 	public static void strategie1b(Robot p,int placement ){
 
 		//si ladversaire se met au coté opposé
@@ -178,6 +181,12 @@ public class cerveau {
 		//puis faire la strat 3 a mon avis 
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @param d
+	 * @param placement
+	 */
 	public static void strategie3(Robot p,int d, int placement){
 		//quand aucun des palets est a sa place 
 		//utiliser que research() pour aller au palets
