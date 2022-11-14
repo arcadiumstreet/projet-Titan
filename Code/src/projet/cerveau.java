@@ -78,7 +78,7 @@ public class cerveau {
 
 		//si ladversaire ce met au milieu 
 		//on on fait la strat 1 ou on prend 1,7 ou (3,9)
-		//on va a 4 puis 5 puis 9 ou (6 puis a 5 puis a 7)
+		//on va a 4 puis 5 ou 9 OU (6 puis 5 ou 7)
 
 		//on on fait la strat 1 ou on prend 1,7
 		//on va a 4 puis a 5 ou 9 (en fonction de si le 5 est prit ou non)
@@ -93,17 +93,26 @@ public class cerveau {
 			palet1 = 4;
 			palet2bis = 9;
 		}
-		p.rotate(180*d);//a tester
-		p.catchTarget(1000);//
+		p.rotate(193*d);//a tester
+		p.catchTarget(850);//
 		p.goal(true);
 		p.majPaletpresent(palet1);
 		//palet 5
-		p.demitour();//
-		p.forward(900);//
+		p.rotate(190*d);//
+		p.forward(500);//
 		p.research();
-		p.catchTarget(p.distance());//
+		if (p.distance() <= 500) {
+			p.catchTarget(p.distance());//
+			p.majPaletpresent(5);
+		} else {
+			p.rotate(60);
+			p.forward(400);
+			p.research();
+			p.catchTarget(p.distance());//
+			p.majPaletpresent(palet2bis);
+		}
 		p.goal(true);
-		p.majPaletpresent(5);
+		
 		//palet 9
 		p.demitour();	
 		
@@ -145,6 +154,7 @@ public class cerveau {
 			//palet 5
 				p.rotate(170*d);
 				p.forward(500);
+				if(d<0) {p.rotate(-90);}
 				p.research();
 				p.catchTarget(p.distance());
 				p.goal(true);
@@ -159,6 +169,7 @@ public class cerveau {
 	 * @param angle angle vers lequel s'orienter pour trouver le 2 eme palet (155 ou -155)
 	 */
 	public static void strategie2(Robot p,int d, int placement,int palet1,int palet2){	
+		//on utilise que en reprise apres le temps mort
 		//reprise apres la pause donc savoir quelle sont les palets restant mettre a jour paletpresent()
 		//meme strat que 1 mettre le premier palet en dure 
 		//savoir ceux qui reste 
@@ -169,30 +180,44 @@ public class cerveau {
 		
 		p.ouvrirPinces(true);
 		p.alleraupalet(palet1);
-		//voir si on enleve 
-		p.rotate(45);
+		p.boussole_a_0();
+		p.rotate(45*d);
 		p.forward(300);
-		//
 		p.goal(false);
 		p.ouvrirPinces(true);
-		//faire attention au autre palets normalment on a pas de prblme avec ca
 		p.alleraupalet(palet2);
 		p.goal(true);
-		//puis faire la strat 3 a mon avis 
 	}
 	
-	/**
-	 * 
-	 * @param p
-	 * @param d
-	 * @param placement
-	 */
-	public static void strategie3(Robot p,int d, int placement){
+
+	
+	static double[][] researchArea = {
+			{750,2100},{1250,2100},
+			{1250,1500},{750,1500},
+			{750,900},{1250,900}};
+	
+	public static double[] getzone(int i){
+		return researchArea[i-1];}
+	
+	public static double getzonelongueur(double[] researchArea){
+		return researchArea[0];}
+
+	public static double getzonelargeur(double[] researchArea){
+		return researchArea[1];}
+	
+	public static void strategie3(Robot p,int placement, int zone ){
+
 		//quand aucun des palets est a sa place 
 		//utiliser que research() pour aller au palets
+		//6 zone de recherche
 		
+		for (int i = zone ;i>6;i++) {
+		p.allera(getzonelongueur(getzone(i)), getzonelargeur(getzone(i)));
+		p.research();
+		if (p.distance()<=500) {
+		p.catchTarget(p.distance());
+		if (p.aunpalet()){p.goal(true);}}}
 		
-	
 	}
 	
 	
