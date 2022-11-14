@@ -80,7 +80,7 @@ public class cerveau {
 
 		//si ladversaire ce met au milieu 
 		//on on fait la strat 1 ou on prend 1,7 ou (3,9)
-		//on va a 4 puis 5 puis 9 ou (6 puis a 5 puis a 7)
+		//on va a 4 puis 5 ou 9 OU (6 puis 5 ou 7)
 
 		//on on fait la strat 1 ou on prend 1,7
 		//on va a 4 puis a 5 ou 9 (en fonction de si le 5 est prit ou non)
@@ -95,17 +95,26 @@ public class cerveau {
 			palet1 = 4;
 			palet2bis = 9;
 		}
-		p.rotate(180*d);//a tester
-		p.catchTarget(1000);//
+		p.rotate(193*d);//a tester
+		p.catchTarget(850);//
 		p.goal(true);
 		p.majPaletpresent(palet1);
 		//palet 5
-		p.demitour();//
-		p.forward(900);//
+		p.rotate(190*d);//
+		p.forward(500);//
 		p.research();
-		p.catchTarget(p.distance());//
+		if (p.distance() <= 500) {
+			p.catchTarget(p.distance());//
+			p.majPaletpresent(5);
+		} else {
+			p.rotate(60);
+			p.forward(400);
+			p.research();
+			p.catchTarget(p.distance());//
+			p.majPaletpresent(palet2bis);
+		}
 		p.goal(true);
-		p.majPaletpresent(5);
+		
 		//palet 9
 		p.demitour();	
 		
