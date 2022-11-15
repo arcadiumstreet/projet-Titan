@@ -255,7 +255,7 @@ public class Robot {
 		if(!estunpalet()){
 			aunpalet=false;
 			System.out.println("es la"+distance());
-			backward((targetDistance + 40)-350,false);
+			backward((targetDistance + 40)-150,false);
 			motor.maj_longueur_largeur(-350);
 		}else aunpalet=true;
 		fermerPinces(false);
@@ -280,7 +280,7 @@ public class Robot {
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
 		long t1= System.currentTimeMillis();
-		while(dis>0.5){
+		while(dis>0.45 && motor.enMouvement()){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();}
 		long t2 = System.currentTimeMillis();
@@ -298,12 +298,14 @@ public class Robot {
 		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
 		motor.majBoussole(angle);
+		
 	}
 
 	public float distance() {
 		float dis=1;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();
+		if (dis==Float.POSITIVE_INFINITY) {dis=999;}
 		return dis*1000 ;
 	}
 	

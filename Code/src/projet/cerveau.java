@@ -95,53 +95,46 @@ public class cerveau {
 			palet1 = 4;
 			palet2bis = 9;
 		}
-		p.rotate(193*d);//a tester
-		p.catchTarget(850);//
+		p.rotate(-170*d);
+		p.catchTarget(850);
 		p.goal(true);
 		p.majPaletpresent(palet1);
 		//palet 5
-		p.rotate(190*d);//
-		p.forward(500);//
+		p.rotate(-170*d);
+		p.forward(550);
 		p.research();
 		if (p.distance() <= 500) {
-			p.catchTarget(p.distance());//
+			p.catchTarget(p.distance());
 			p.majPaletpresent(5);
 		} else {
-			p.rotate(60);
-			p.forward(400);
+			p.rotate(80);
+			p.forward(500);
 			p.research();
 			p.catchTarget(p.distance());//
 			p.majPaletpresent(palet2bis);
 		}
 		p.goal(true);
 		
+		strategie3(p,3);
+		
 		//palet 9
-		p.demitour();	
+		  //p.demitour();	
 		
 	}	
 	
 
-	public static void strategie1b(Robot p,int placement ){
+	public static void strategie1b(Robot p, int d){
 
 		//si ladversaire se met au coté opposé
 		//on on fait la strat 1 ou on prend 1,7 ou 3,9
 		// dnc on va chercher le 8 puis 5 ou
 		//on va a 8 puis au 5 ou 4 (en fonction de si le 5 est prit ou non)
 		
-		int d, palet1, palet2;
-		if (placement == 1) {
-			d = -1;
-			palet1 = 3;
-			palet2 = 9;
+		int palet2;
+		if (d == 1) {
+			palet2 = 4;
 		} else {
-			d = 1;
-			if (placement == 2) {
-				palet1 = 2;
-				palet2 = 8;
-			} else {
-				palet1 = 1;
-				palet2 = 7;
-			}
+			palet2 = 6;
 		}
 			//palet 8
 				p.rotate(-120*d);
@@ -156,10 +149,11 @@ public class cerveau {
 				p.catchTarget(p.distance());
 				p.goal(true);
 				p.majPaletpresent(5);
+				
 	}
 	
 	/**
-	 * methode strategie2 qui est appelee apres la pause du round lorsqu'au moins encore un palet est bien plac�
+	 * methode strategie2 qui est appelee apres la pause du round lorsqu'au moins encore 2 palet est bien plac�
 	 * @param d d va prendre 45 ou -45 en fonction de l'endroit de depart 
 	 * @param d2 va prendre 45 ou -45 en fonction de l'endroit de depart
 	 * @param placement va prendre 0,1,2 en fonction de si il est a gauche au mileu ou a droite 
@@ -168,28 +162,28 @@ public class cerveau {
 	public static void strategie2(Robot p,int d, int placement,int palet1,int palet2){	
 		//on utilise que en reprise apres le temps mort
 		//reprise apres la pause donc savoir quelle sont les palets restant mettre a jour paletpresent()
-		//meme strat que 1 mettre le premier palet en dure 
+		//meme strat que 1 mettre le premier palet en dure
 		//savoir ceux qui reste 
-		//aller sur le lequelle
 		//prendre celui le plus pres du robot
 		//palet 1 cest celui qui est le plus pres de notre ligne de but 
 		//palet 2 cest celui qui est le plus pres de la ligne de but adverse 
-		
 		p.ouvrirPinces(true);
 		p.alleraupalet(palet1);
+		p.majPaletpresent(palet1);
 		p.boussole_a_0();
 		p.rotate(45*d);
 		p.forward(300);
 		p.goal(false);
 		p.ouvrirPinces(true);
 		p.alleraupalet(palet2);
+		p.majPaletpresent(palet2);
 		p.goal(true);
 	}
 	
 	static double[][] researchArea = {
-			{750,2100},{1250,2100},
+			{750,2100}, {1250,2100},
 			{1250,1500},{750,1500},
-			{750,900},{1250,900}};
+			{750,900},  {1250,900}};
 	
 	public static double[] getzone(int i){
 		return researchArea[i-1];}
@@ -200,11 +194,10 @@ public class cerveau {
 	public static double getzonelargeur(double[] researchArea){
 		return researchArea[1];}
 	
-	public static void strategie3(Robot p,int placement, int zone ){
+	public static void strategie3(Robot p, int zone ){
 		//quand aucun des palets est a sa place 
 		//utiliser que research() pour aller au palets
 		//6 zone de recherche
-		
 		for (int i = zone ;i>6;i++) {
 		p.allera(getzonelongueur(getzone(i)), getzonelargeur(getzone(i)));
 		p.research();
