@@ -27,9 +27,13 @@ public class test {
 	//	p.getPinces().reglagepinces(-100);
 		
 		//p.fermerPinces(false);
-		p.getPinces().reglagepinces(100);
-		d.strategie1(p,1);
-		d.strategie1a(p,1);
+		//
+		//p.getPinces().reglagepinces(100);
+		//d.strategie1(p,1);
+		//d.strategie1b(p,1);
+		
+		 boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};
+		 System.out.println(paletpresent.toString());
 		
 	}
 }
