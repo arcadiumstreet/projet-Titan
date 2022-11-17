@@ -209,10 +209,10 @@ public class cerveau {
 		System.out.println("Ou est le robot ?");
 		while(placement==0) {
 			if(Button.RIGHT.isDown()) {
-				placement=3;
+				placement=1;
 			}
 			if(Button.LEFT.isDown()) {
-				placement=1;
+				placement=3;
 			}
 			if(Button.ENTER.isDown()) {
 				placement=2;
@@ -246,21 +246,23 @@ public class cerveau {
 		if(strat==2) {
 			int i=0;
 			boolean t = false;
-		while (i<9) {
-			System.out.println("le palet "+i+"est présent?");
-			t=true;
-			while (t) {
-			if(Button.ENTER.isDown()){
-				System.out.println("palet"+i+"OUI");
-				t=false;}
-			if(Button.ESCAPE.isDown()){
-				pierrot.majPaletpresent(i);
-				t=false;
-				System.out.println("palet"+i+"NON");
+			while (i<9) {
+				System.out.println("le palet "+i+"est présent?");
+				t=true;
+				while (t) {
+					if(Button.ENTER.isDown()){
+						System.out.println("palet"+i+"OUI");
+						t=false;
+					}
+					if(Button.ESCAPE.isDown()){
+						pierrot.majPaletpresent(i);
+						t=false;
+						System.out.println("palet"+i+"NON");
+					}
 				}
+				i++;
 			}
-		}
-		pierrot.affichepaletpresent();
+			pierrot.affichepaletpresent();
 		}
 		
 		int zone =1;
