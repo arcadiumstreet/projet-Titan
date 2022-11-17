@@ -277,14 +277,13 @@ public class MotorWheels {
 			}else if (longueurF-this.longueur == 0) {
 				a = 90;
 			}else {
-				a = Math.toDegrees(Math.atan((this.largeur-largeurF)/(longueurF-this.longueur)));
+				a = 1.12*(Math.toDegrees(Math.atan((this.largeur-largeurF)/(longueurF-this.longueur))));
 			}
 			rotate(a);
 			forward(Math.sqrt((Math.pow(Math.abs(this.longueur-longueurF), 2)) + (Math.pow(Math.abs(this.largeur-largeurF), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else if (longueurF >= this.longueur && largeurF >= this.largeur) {
-			//essayer optimiser ca 
 			System.out.println("pass 2");
 			rotate(-90);
 			double a;
@@ -293,7 +292,7 @@ public class MotorWheels {
 			}else if( largeurF - this.largeur == 0){
 				a = 90;
 			}else {	
-				a = Math.toDegrees(Math.atan((longueurF-this.longueur)/(largeurF-this.largeur)));
+				a = 1.12*(Math.toDegrees(Math.atan((longueurF-this.longueur)/(largeurF-this.largeur))));
 			}
 			rotate(a);
 			forward(Math.sqrt((Math.pow(Math.abs(this.longueur-longueurF), 2)) + (Math.pow(Math.abs(largeurF-this.largeur), 2)) ),false);
@@ -308,7 +307,7 @@ public class MotorWheels {
 			}else if(this.largeur-largeurF == 0){
 				a = 90;
 			}else {
-				a = Math.toDegrees(Math.atan((this.longueur-longueurF)/(this.largeur-largeurF)));
+				a = 1.14*(Math.toDegrees(Math.atan((this.longueur-longueurF)/(this.largeur-largeurF))));
 			}
 			rotate(a);
 			forward(Math.sqrt((Math.pow(Math.abs(longueurF-this.longueur), 2)) + (Math.pow(Math.abs(this.largeur-largeurF), 2)) ),false);
@@ -323,7 +322,7 @@ public class MotorWheels {
 			}else if(this.longueur-longueurF == 0) {
 				a = 90;
 			}else {
-				a = Math.toDegrees(Math.atan((largeurF-this.largeur)/(this.longueur-longueurF)));
+				a = 1.12*(Math.toDegrees(Math.atan((largeurF-this.largeur)/(this.longueur-longueurF))));
 			}			
 			rotate(a);
 			forward(Math.sqrt((Math.pow(Math.abs(longueurF-this.longueur), 2)) + (Math.pow(Math.abs(largeurF-this.largeur), 2)) ),false);

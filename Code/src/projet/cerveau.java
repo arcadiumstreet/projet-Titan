@@ -140,7 +140,7 @@ public class cerveau {
 		p.ouvrirPinces(true);
 		p.alleraupalet(palet1);
 		p.majPaletpresent(palet1);
-		p.fermerPinces(false);
+		p.fermerPinces(true);
 		p.boussole_a_0();
 		p.rotate(45*d);
 		p.forward(300);
@@ -148,7 +148,7 @@ public class cerveau {
 		p.ouvrirPinces(true);
 		p.alleraupalet(palet2);
 		p.majPaletpresent(palet2);
-		p.fermerPinces(false);
+		p.fermerPinces(true);
 		p.goal(true);
 	}
 	

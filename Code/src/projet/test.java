@@ -8,7 +8,7 @@ public class test {
 
 	
 	public static void main(String[] args) {
-		int placement=1;
+		int placement=3;
 		Robot p = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,placement);
 		cerveau d = new cerveau();
 		/*	
@@ -30,7 +30,7 @@ public class test {
 		//
 		//p.getPinces().reglagepinces(100);
 		//d.strategie1(p,1);
-		d.strategie2(p,1,1,7);
+		d.strategie2(p,-1,3,7);
 		
 		 
 		

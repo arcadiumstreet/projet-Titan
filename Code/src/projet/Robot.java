@@ -317,7 +317,7 @@ public class Robot {
 		allerjusqua("BLANC");
 		if(b){erreurs_boussole();}
 		ouvrirPinces(false);
-		motor.setLongueur(2240);
+		motor.setLongueur(2230);
 		motor.backward(200,true);
 		fermerPinces(false);
 		motor.afficheLongueur();
