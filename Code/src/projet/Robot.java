@@ -132,7 +132,7 @@ public class Robot {
 	 *  et indique dans le tableau paletpresent qu'il est deja récupéré (passe de true à false)
 	 * @param i est le numéro du palet à récupérer
 	 */
-	public static void alleraupalet(int i) {///mettre a jour 
+	public static void alleraupalet(int i) {
 		if(paletpresent[i-1]) {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
 		majPaletpresent(i);}
@@ -166,7 +166,6 @@ public class Robot {
 	public void backward(double d) {
 		motor.backward(d);
 	}
-	
 
 	/**
 	 * le robot avance de d mm tout en continiant d'exécuter la suite du code si b vaut true
@@ -246,7 +245,7 @@ public class Robot {
 	 * ouvre les pinces, attrape le palet dont la distance au robot a été passée en paramètre puis ferme les pinces
 	 * @param targetDistance est la distance en mm au palet à attraper
 	 */
-	public void catchTarget(float targetDistance){//// a voir 
+	public void catchTarget(float targetDistance){
 		ouvrirPinces(true);
 		motor.forward(targetDistance + 40,true);
 		while((estunpalet() && motor.enMouvement() && !isPressed())){
@@ -262,8 +261,8 @@ public class Robot {
 	}
 	
 	/**
-	 * tout objet détecté à plus de 150mm est considéré comme un palet et ceux en dessous non
-	 * @return true si l'objet détécté est à plus de 150 mm et false si non
+	 * tout objet détecté à plus de 150 mm est considéré comme un palet et ceux en dessous non
+	 * @return true si l'objet détecté est à plus de 150 mm et false si non
 	 */
 	public boolean estunpalet() {
 		float dis;
@@ -273,9 +272,10 @@ public class Robot {
 	}
 	
 	/**
-	 * le robot tourne sur lui meme jsuqu'à détécter un object à moins de 500mm  
+	 * le robot tourne sur lui meme jsuqu'à détecter un object à moins de 500mm  
 	 */
 	public void research(){
+		boolean tourcomplet = false;
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
@@ -284,6 +284,9 @@ public class Robot {
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();}
 		long t2 = System.currentTimeMillis();
+		if(!motor.enMouvement()) {
+			tourcomplet=true;
+		}
 		motor.stop();
 		long temps = t2-t1 ;
 		long coeff = 0;
@@ -297,15 +300,15 @@ public class Robot {
 		long angle = (temps/coeff)+15;
 		System.out.println("angle = "+angle);
 		motor.getPilot().setAngularSpeed(200);
-		motor.majBoussole(angle);
-		
+		if(tourcomplet) {}
+		else {motor.majBoussole(angle);}	
 	}
 
 	public float distance() {
 		float dis=1;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();
-		if (dis==Float.POSITIVE_INFINITY) {dis=999;}
+		if (dis==Float.POSITIVE_INFINITY) {dis=100;}
 		return dis*1000 ;
 	}
 	
@@ -314,7 +317,7 @@ public class Robot {
 		allerjusqua("BLANC");
 		if(b){erreurs_boussole();}
 		ouvrirPinces(false);
-		motor.setLongueur(2230);
+		motor.setLongueur(2240);
 		motor.backward(200,true);
 		fermerPinces(false);
 		motor.afficheLongueur();
@@ -394,5 +397,9 @@ public class Robot {
 	}
 	public boolean enMouvement() {
 		return motor.enMouvement();
+	}
+	
+	public String affichepaletpresent() {
+		return Arrays.toString(paletpresent);
 	}
 }
