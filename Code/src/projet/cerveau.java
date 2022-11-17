@@ -192,8 +192,7 @@ public class cerveau {
 	
 	
 	public static void main(String[] args) {
-		int placement,strat;
-		placement=strat=0;
+		int placement=0;
 		System.out.println("Ou est le robot ?");
 		while(placement==0) {
 			if(Button.RIGHT.isDown()) {
@@ -206,8 +205,9 @@ public class cerveau {
 				placement=2;
 			}
 		}
-		
-		System.out.println("On utilise la stratégie 1 ou 2 ou 3 ?");
+		Delay.msDelay(500);
+		System.out.println("On utilise la strategie 1 ou 2 ou 3 ?");
+		int strat=0;
 		while(strat==0) {
 			if(Button.RIGHT.isDown()) {
 				strat=1;}
@@ -217,7 +217,7 @@ public class cerveau {
 				strat=3;}
 		}
 		
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,placement);
+		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,placement);
 							
 		System.out.println("Fermer(droite) ou ouvrir(gauche)les pinces ?");
 		
@@ -229,13 +229,14 @@ public class cerveau {
 				pierrot.getPinces().reglagepinces(100);
 			}
 		}
+		Delay.msDelay(1000);
 		//appeler aussi ca quand on lance la strategie 3  
 		int palet1=1,palet2=9;
 		if(strat==2) {
-			int i=0;
+			int i=1;
 			boolean t = false;
 		while (i<9) {
-			System.out.println("le palet "+i+"est présent?");
+			System.out.println("le palet "+i+"est present?");
 			t=true;
 			while (t) {
 			if(Button.ENTER.isDown()){
@@ -247,25 +248,32 @@ public class cerveau {
 				System.out.println("palet"+i+"NON");
 				}
 			}
+			Delay.msDelay(500);
+			i++;
 		}
 		pierrot.affichepaletpresent();
-		System.out.println("Premier palet prit ?");
-		boolean o =false;
-		while(!o){
+		System.out.println("Premier palet a prendre?");
+		boolean o =true;
+		while(o){
 			System.out.println("Palet"+palet1);
 			if(Button.ENTER.isDown()){
-				o=true;
-			}else{
+				o=false;
+				System.out.println("oui");
+			}
+			if(Button.ESCAPE.isDown()){
 				palet1++;}
+			Delay.msDelay(200);
 		}
 		System.out.println("Dernier palet prit ?");
-		boolean p =false;
-		while(!p){
-			System.out.println("Palet"+palet1);
+		boolean p =true;
+		while(p){
+			System.out.println("Palet"+palet2);
 			if(Button.ENTER.isDown()){
-				p=true;
-			}else{
-				palet1++;}
+				p=false;
+			}
+			if(Button.ESCAPE.isDown()){
+				palet2--;}
+			Delay.msDelay(200);
 		}
 		}
 		
