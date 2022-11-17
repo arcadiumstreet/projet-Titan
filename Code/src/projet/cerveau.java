@@ -96,7 +96,6 @@ public class cerveau {
 		strategie3(p,3);		
 	}	
 	
-	
 	/**
 	 * methode strategie1a qui est appelee apres la strategie 1 et sachant que l'adversaire est parti du coté opposé du robot 
 	 * @param d va prendre 1 ou -1 en fonction de l'endroit de depart 
@@ -179,11 +178,15 @@ public class cerveau {
 	 */
 	public static void strategie3(Robot p, int zone ){
 		for (int i = zone ;i>6;i++) {
-		p.allera(getzonelongueur(getzone(i)), getzonelargeur(getzone(i)));
-		p.research();
-		if (p.distance()<=500) {
-		p.catchTarget(p.distance());
-		if (p.aunpalet()){p.goal(true);}}}
+			p.allera(getzonelongueur(getzone(i)), getzonelargeur(getzone(i)));
+			p.research();
+			if (p.distance()<=500) {
+				p.catchTarget(p.distance());
+				if (p.aunpalet()){
+					p.goal(true);
+				}
+			}
+		}
 		
 	}
 	
