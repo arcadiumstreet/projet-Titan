@@ -237,7 +237,7 @@ public class cerveau {
 		if(strat==2) {
 			int i=1;
 			boolean t = false;
-		while (i<9) {
+		while (i<=9) {
 			System.out.println("le palet "+i+"est present?");
 			t=true;
 			while (t) {
@@ -256,25 +256,37 @@ public class cerveau {
 		pierrot.affichepaletpresent();
 		System.out.println("Premier palet a prendre?");
 		boolean o =true;
+		boolean b =true;
 		while(o){
-			System.out.println("Palet"+palet1);
+			if (b==true) {
+				System.out.println("Palet"+palet1);
+				b=false;
+			}
 			if(Button.ENTER.isDown()){
 				o=false;
 				System.out.println("oui");
 			}
 			if(Button.ESCAPE.isDown()){
-				palet1++;}
+				palet1++;
+				b=true;
+			}
 			Delay.msDelay(200);
 		}
 		System.out.println("Dernier palet prit ?");
-		boolean p =true;
-		while(p){
-			System.out.println("Palet"+palet2);
+		o=true;
+		b=true;
+		while(o){
+			if (b==true) {
+				System.out.println("Palet"+palet2);
+				b=false;
+			}
 			if(Button.ENTER.isDown()){
-				p=false;
+				o=false;
 			}
 			if(Button.ESCAPE.isDown()){
-				palet2--;}
+				palet2--;
+				b=true;
+			}
 			Delay.msDelay(200);
 		}
 		}
