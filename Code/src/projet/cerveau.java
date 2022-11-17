@@ -121,27 +121,18 @@ public class cerveau {
 	}	
 	
 
-	public static void strategie1b(Robot p,int placement ){
+	public static void strategie1b(Robot p, int d){
 
 		//si ladversaire se met au coté opposé
 		//on on fait la strat 1 ou on prend 1,7 ou 3,9
 		// dnc on va chercher le 8 puis 5 ou
 		//on va a 8 puis au 5 ou 4 (en fonction de si le 5 est prit ou non)
 		
-		int d, palet1, palet2;
-		if (placement == 1) {
-			d = -1;
-			palet1 = 3;
-			palet2 = 9;
+		int palet2bis;
+		if (d == -1) {
+			palet2bis = 4;
 		} else {
-			d = 1;
-			if (placement == 2) {
-				palet1 = 2;
-				palet2 = 8;
-			} else {
-				palet1 = 1;
-				palet2 = 7;
-			}
+			palet2bis = 6;
 		}
 			//palet 8
 				p.rotate(-120*d);
@@ -206,11 +197,15 @@ public class cerveau {
 		//6 zone de recherche
 		
 		for (int i = zone ;i>6;i++) {
-		p.allera(getzonelongueur(getzone(i)), getzonelargeur(getzone(i)));
-		p.research();
-		if (p.distance()<=500) {
-		p.catchTarget(p.distance());
-		if (p.aunpalet()){p.goal(true);}}}
+			p.allera(getzonelongueur(getzone(i)), getzonelargeur(getzone(i)));
+			p.research();
+			if (p.distance()<=500) {
+				p.catchTarget(p.distance());
+				if (p.aunpalet()){
+					p.goal(true);
+				}
+			}
+		}
 		
 	}
 	
