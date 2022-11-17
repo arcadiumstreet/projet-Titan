@@ -140,6 +140,7 @@ public class cerveau {
 		p.ouvrirPinces(true);
 		p.alleraupalet(palet1);
 		p.majPaletpresent(palet1);
+		p.fermerPinces(false);
 		p.boussole_a_0();
 		p.rotate(45*d);
 		p.forward(300);
@@ -147,6 +148,7 @@ public class cerveau {
 		p.ouvrirPinces(true);
 		p.alleraupalet(palet2);
 		p.majPaletpresent(palet2);
+		p.fermerPinces(false);
 		p.goal(true);
 	}
 	
@@ -277,9 +279,12 @@ public class cerveau {
 		}
 		}
 		
+		
+       
+		
 		int zone =1;
 		if (strat==3) {
-			int o=0;
+			int o=1;
 		boolean f = true;
 		boolean fini = true;
 			while (o<6 && fini) {
@@ -297,7 +302,9 @@ public class cerveau {
 					System.out.println("NON");
 					}
 				}
-			o++;}
+				o++;
+				Delay.msDelay(200);
+			}
 		}
 		
 		System.out.println("Pierrot pret à partir!");

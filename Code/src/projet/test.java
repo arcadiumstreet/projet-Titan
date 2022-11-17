@@ -30,7 +30,7 @@ public class test {
 		//
 		//p.getPinces().reglagepinces(100);
 		//d.strategie1(p,1);
-		d.strategie2(p,2,3,9);
+		d.strategie2(p,1,1,7);
 		
 		 
 		
