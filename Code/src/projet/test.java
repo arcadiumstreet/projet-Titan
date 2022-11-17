@@ -32,8 +32,7 @@ public class test {
 		//d.strategie1(p,1);
 		//d.strategie1b(p,1);
 		
-		 boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};
-		 System.out.println(paletpresent.toString());
+		 
 		
 	}
 }
