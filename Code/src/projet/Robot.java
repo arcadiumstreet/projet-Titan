@@ -56,6 +56,9 @@ public class Robot {
 
 	} 
 	
+	public static void initLongueur() {
+		motor.setLongueur(-70);
+	}
 	/**
 	 * 
 	 * @return une chaine de charactère représentant un tableau 
@@ -128,15 +131,17 @@ public class Robot {
 	}
 
 	/**
-	 *  le obot va chercher le palet dont le numéro est passé en paramètre 
+	 *  le robot va chercher le palet dont le numéro est passé en paramètre 
 	 *  et indique dans le tableau paletpresent qu'il est deja récupéré (passe de true à false)
 	 * @param i est le numéro du palet à récupérer
 	 */
 	public static void alleraupalet(int i) {
-		if(paletpresent[i-1]) {
+		if(paletpresent[i]) {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
 		majPaletpresent(i);}
-		
+		else{
+		motor.goTo(getpaletlongueur(getpalet(i+1)), getpaletlargeur(getpalet(i+1)));
+		majPaletpresent(i+1);}
 	}
 	
 	public static boolean paletpresent(int i) {
@@ -144,7 +149,7 @@ public class Robot {
 	}
 	
 	/**
-	 * avance jusqu'à lappel de la methode stop()
+	 * avance jusqu'à l'appel de la methode stop()
 	 */
 	public void forward() {
 		motor.forward();
@@ -236,9 +241,8 @@ public class Robot {
 	 * @param x un double représentant la largeur de la coordonnée de destination
 	 * @param y un double représentant la longueur de la coordonnée de destination
 	 */
-	public void allera(double x, double y) {
-		motor.goTo(x, y);
-	   
+	public void allerA(double x, double y) {
+		motor.goTo(x, y);  
 	}
 
 	/**
@@ -248,8 +252,7 @@ public class Robot {
 	public void catchTarget(float targetDistance){
 		ouvrirPinces(true);
 		motor.forward(targetDistance + 40,true);
-		while((estunpalet() && motor.enMouvement() && !isPressed())){
-		}
+		while(estunpalet() && motor.enMouvement() ){}
 		motor.stop();
 		if(!estunpalet()){
 			aunpalet=false;
@@ -272,7 +275,7 @@ public class Robot {
 	}
 	
 	/**
-	 * le robot tourne sur lui meme jsuqu'à détecter un object à moins de 500mm  
+	 * le robot tourne sur lui meme jusqu'à détecter un object à moins de 500mm  
 	 */
 	public void research(){
 		boolean tourcomplet = false;
@@ -299,6 +302,7 @@ public class Robot {
 		if(temps>2700) {coeff=(long)9.28;}
 		long angle = (temps/coeff)+15;
 		System.out.println("angle = "+angle);
+		System.out.println("distance "+dis*1000);
 		motor.getPilot().setAngularSpeed(200);
 		if(tourcomplet) {}
 		else {motor.majBoussole(angle);}	
@@ -324,7 +328,7 @@ public class Robot {
 		aunpalet=false;
 	}
 	
-	public static boolean aunpalet() {
+	public boolean aunpalet() {
 		return aunpalet;
 	}
 

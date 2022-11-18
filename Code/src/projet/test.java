@@ -8,7 +8,7 @@ public class test {
 
 	
 	public static void main(String[] args) {
-		int placement=3;
+		int placement=2;
 		Robot p = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,placement);
 		cerveau d = new cerveau();
 		/*	
@@ -30,9 +30,22 @@ public class test {
 		//
 		//p.getPinces().reglagepinces(100);
 		//d.strategie1(p,1);
-		d.strategie2(p,-1,3,7);
+		//d.strategie2(p,-1,3,8);
+		d.strategie3(p, 3);
 		
-		 
+		//p.allera(750, );
+
+		Delay.msDelay(10000);
+		/*
+		p.research();
+		Delay.msDelay(6000);
+		p.research();
+		Delay.msDelay(6000);
+		p.research();
+		Delay.msDelay(6000);
+		p.research();
+		
+		 */
 		
 	}
 }

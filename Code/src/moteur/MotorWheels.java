@@ -92,7 +92,7 @@ public class MotorWheels {
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
 		this.boussole=0;
-		this.longueur =0; 
+		this.longueur =-70; 
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
 		pilot.setAngularSpeed(200);
 	if ( i == 1) {
@@ -251,10 +251,9 @@ public class MotorWheels {
 		majBoussole(degre);}
 	
 	/**
-	 * Recalibre la boussole à 0°
+	 * replace le robot a une position ou la bousole est a 0
 	 */
 	public void boussole_a_0() {
-		//double d=1.29*degre 
 		pilot.setAngularSpeed(200);
 		if (boussole <180) {pilot.rotate(-boussole*1.31);}
 		else pilot.rotate((180-boussole)*1.26);
@@ -270,7 +269,6 @@ public class MotorWheels {
 		boussole_a_0();
 		if (longueurF >= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 1");
-			
 			double a;
 			if(this.largeur-largeurF == 0) {
 				a = 0;
@@ -285,37 +283,34 @@ public class MotorWheels {
 			this.longueur = longueurF;
 		}else if (longueurF >= this.longueur && largeurF >= this.largeur) {
 			System.out.println("pass 2");
-			rotate(-90);
 			double a;
 			if(longueurF-this.longueur == 0) {
 				a = 0;
 			}else if( largeurF - this.largeur == 0){
 				a = 90;
 			}else {	
-				a = 1.12*(Math.toDegrees(Math.atan((longueurF-this.longueur)/(largeurF-this.largeur))));
+				a = 1.14*(Math.toDegrees(Math.atan((longueurF-this.longueur)/(largeurF-this.largeur))));
 			}
-			rotate(a);
+			rotate(a-90);
 			forward(Math.sqrt((Math.pow(Math.abs(this.longueur-longueurF), 2)) + (Math.pow(Math.abs(largeurF-this.largeur), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else if (longueurF <= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 3");
-			rotate(90);
 			double a;
 			if(longueurF - this.longueur == 0) {
 				a = 0;
 			}else if(this.largeur-largeurF == 0){
 				a = 90;
 			}else {
-				a = 1.14*(Math.toDegrees(Math.atan((this.longueur-longueurF)/(this.largeur-largeurF))));
+				a = 1.12*(Math.toDegrees(Math.atan((this.longueur-longueurF)/(this.largeur-largeurF))));
 			}
-			rotate(a);
+			rotate(a+90);
 			forward(Math.sqrt((Math.pow(Math.abs(longueurF-this.longueur), 2)) + (Math.pow(Math.abs(this.largeur-largeurF), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else {
 			System.out.println("pass 4");
-			rotate(180);
 			double a;
 			if(largeurF - this.largeur == 0) {
 				a = 0;
@@ -324,7 +319,7 @@ public class MotorWheels {
 			}else {
 				a = 1.12*(Math.toDegrees(Math.atan((largeurF-this.largeur)/(this.longueur-longueurF))));
 			}			
-			rotate(a);
+			rotate(a+180);
 			forward(Math.sqrt((Math.pow(Math.abs(longueurF-this.longueur), 2)) + (Math.pow(Math.abs(largeurF-this.largeur), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
@@ -414,8 +409,7 @@ public class MotorWheels {
 		return boussole;}
 
 	/**
-	 * affect la valaur de boussole à l'attribut this.boussole
-	 * 
+	 * affecte la valaur de boussole à l'attribut this.boussole
 	 * @param boussole
 	 */
 	public void setBoussole(double boussole) {
