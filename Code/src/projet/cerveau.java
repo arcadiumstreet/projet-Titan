@@ -18,8 +18,8 @@ import lejos.utility.Delay;
 import java.math.*;
 import lejos.hardware.sensor.EV3TouchSensor;
 
-
 public class cerveau {
+	
 	/**
 	 * methode strategie1 qui est appelée au depart du round lorsque tous les palets sont la
 	 * @param p qui est le robot utilisée pour lancer cette strategie
@@ -27,7 +27,6 @@ public class cerveau {
 	 * @Objectif marque les 2 premiers palets (1,7)ou (3,9)
 	 */
 	public static void strategie1(Robot p, int d){
-		p.initLongueur();
 		int palet1, palet2;
 		if (d == -1) {
 			palet1 = 3;
@@ -62,7 +61,6 @@ public class cerveau {
 	 * @ les palet 1,7 ou 3,9 ont été récupéré 
 	 * @Objectif : récupéré le palet 4 ou 6 puis le palet 5 s'il est encore présent et si le palet 5 n'est plus présent alors il va au palet 9 ou 7 
 	 */
-	
 	public static void strategie1a(Robot p,int d){
 		//Si l'adversaire part au milieu 
 		int palet1, palet2bis;
@@ -96,6 +94,7 @@ public class cerveau {
 		p.goal(true);		
 	}	
 	
+	
 	/**
 	 * methode strategie1a qui est appelee apres la strategie 1 et sachant que l'adversaire est parti du coté opposé du robot 
 	 * @param d va prendre 1 ou -1 en fonction de l'endroit de depart 
@@ -111,20 +110,21 @@ public class cerveau {
 		} else {
 			palet2 = 6;
 		}
-			//palet 8
-				p.rotate(-120*d);
-				p.catchTarget(650);
-				p.goal(true);
-				p.majPaletpresent(8);
-			//palet 5 s'il est présent et palet 4 ou 6 si il est plus présent
-				p.rotate(170*d);
-				p.forward(500);
-				if(d<0) {p.rotate(-90);}
-				p.research();
-				p.catchTarget(p.distance());
-				p.goal(true);
-				p.majPaletpresent(5);
+		//palet 8
+			p.rotate(-120*d);
+			p.catchTarget(650);
+			p.goal(true);
+			p.majPaletpresent(8);
+		//palet 5 s'il est présent et palet 4 ou 6 si il est plus présent
+			p.rotate(170*d);
+			p.forward(500);
+			if(d<0) {p.rotate(-90);}
+			p.research();
+			p.catchTarget(p.distance());
+			p.goal(true);
+			p.majPaletpresent(5);
 	}
+	
 	
 	/**
 	 * methode strategie2 qui est appelee apres la pause du round lorsqu'au moins encore 2 palet est bien placé
@@ -136,40 +136,52 @@ public class cerveau {
 	 */
 	public static void strategie2(Robot p,int d,int palet1,int palet2){	
 		//savoir ceux qui reste ,mettre a jour les palets restant dans le main 
-		p.initLongueur();
-		p.ouvrirPinces(true);
-		p.alleraupalet(palet1);
-		p.majPaletpresent(palet1);
-		p.fermerPinces(true);
-		p.boussole_a_0();
-		p.rotate(45*d);
-		p.forward(300);
-		p.goal(false);
-		p.ouvrirPinces(true);
-		p.alleraupalet(palet2);
-		p.majPaletpresent(palet2);
-		p.fermerPinces(true);
-		p.goal(true);
+			p.ouvrirPinces(true);
+			p.alleraupalet(palet1);
+			p.majPaletpresent(palet1);
+			p.fermerPinces(true);
+			p.boussole_a_0();
+			p.rotate(45*d);
+			p.forward(300);
+			p.goal(false);
+			p.ouvrirPinces(true);
+			p.alleraupalet(palet2);
+			p.majPaletpresent(palet2);
+			p.fermerPinces(true);
+			p.goal(true);
 	}
 	
-	//ajouter 250 sur la largeur de tout les point 
-	//on sait pas pourquoi
-	/*{		{750,2100}, {1250,2100},
-			{1250,1500},{750,1500},
-			{750,900},  {1250,900}};
-			
-	*/
+	/**
+	 * ajouter 250 sur la largeur de tout les point
+	 * on sait pas pourquoi
+	 * {		{750,2100}, {1250,2100},
+	 * 			{1250,1500},{750,1500},
+	 * 			{750,900},  {1250,900}};
+	 */
 	static double[][] researchArea = {
 			{1000,2100}, {1500,2100},
 			{1500,1500}, {1000,1500},
 			{1000,900},  {1500,900}};
 	
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public static double[] getzone(int i){
 		return researchArea[i-1];}
-	
+	/**
+	 * 
+	 * @param researchArea
+	 * @return
+	 */
 	public static double getzonelongueur(double[] researchArea){
 		return researchArea[0];}
-
+	/**
+	 * 
+	 * @param researchArea
+	 * @return
+	 */
 	public static double getzonelargeur(double[] researchArea){
 		return researchArea[1];}
 	
@@ -247,27 +259,25 @@ public class cerveau {
 		
 	 int stratbis =0;	
 	if(strat==1){
-		System.out.println("l'adversaire part au milieu");
+		System.out.println("l'adversaire part au milieu, utiliser 1A");
 		while (stratbis==0){
-			if(Button.RIGHT.isDown()) {
+			if(Button.ENTER.isDown()) {
 				stratbis=1;
 			}
-			if(Button.LEFT.isDown()) {
-				stratbis=2;
-			}
 			if(Button.ESCAPE.isDown()){
-				stratbis=3;
+				stratbis=2;
 			}
 		}
 		boolean c = true;
-	if(stratbis==1){
-		System.out.println("utiliser la strategie 1A");
+	if(stratbis==2){
+		System.out.println("utiliser la strategie 1B");
 		while(c) {
 			if(Button.ENTER.isDown()) {
+				stratbis=2;
 				c=true;
 			}
 			if(Button.ESCAPE.isDown()) {
-				stratbis=2;
+				stratbis=3;
 				c=true;
 			}
 		}
@@ -333,7 +343,6 @@ public class cerveau {
 		}
 	}
 		
-		
 		int zone =1;
 		if (strat==3) {
 			int o=1;
@@ -358,12 +367,11 @@ public class cerveau {
 				Delay.msDelay(200);
 			}
 		}
-		
 		System.out.println("Pierrot pret à partir!");
 		System.out.println("la strategie utilisée :"+strat);
 		if(strat==1) {System.out.println("puis"+stratbis);}
 		if(strat==2) {System.out.println("au palet"+palet1+"puis au palet"+palet2);}
-		if(strat==2) {System.out.println("zone de recherche"+zone );}
+		if(strat==3) {System.out.println("zone de recherche"+zone );}
 		Button.ENTER.waitForPressAndRelease();
 		int d;
 		if (placement == 3) {
@@ -376,11 +384,10 @@ public class cerveau {
 			if(stratbis==1) {
 				strategie1a(pierrot,d);
 			}
-			if(stratbis==2) {
+			else if(stratbis==2) {
 				strategie1b(pierrot,d);
 			}
-			else {} 
-				
+			else {}
 			strategie3(pierrot,1);
 		}
 		if(strat==2) {

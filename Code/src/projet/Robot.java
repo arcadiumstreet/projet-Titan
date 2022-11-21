@@ -16,11 +16,7 @@ import sensors.UltrasonicSensor;
 import sensors.TouchSensor;
 
 public class Robot {
-	
-	public static final int RIGHT = 1;
-	public static final int FRONT = 1;
-	public static final int LEFT = - 1;
-	public static final int BACK = - 1;
+
 	private static Pinces pinces ;
 	private static MotorWheels motor;
 	
@@ -53,11 +49,6 @@ public class Robot {
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
-
-	} 
-	
-	public static void initLongueur() {
-		motor.setLongueur(-70);
 	}
 	/**
 	 * 
@@ -71,7 +62,6 @@ public class Robot {
 	}
 	
 	/**
-	 * 
 	 * @return une chaine de charactère représentant la couleur détectée par 
 	 * le capteur de couleur ("NOIR", "GRIS", "JAUNE", "BLANC", "ROUGE", "VERT", "BLEU" OU "NON RECONNU")
 	 */
@@ -143,7 +133,11 @@ public class Robot {
 		motor.goTo(getpaletlongueur(getpalet(i+1)), getpaletlargeur(getpalet(i+1)));
 		majPaletpresent(i+1);}
 	}
-	
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public static boolean paletpresent(int i) {
 		return paletpresent[i-1];
 	}
@@ -155,7 +149,6 @@ public class Robot {
 		motor.forward();
 	}
 
-	
 	/**
 	 * le robot avance de d mm
 	 * @param d un distance entière en mm
@@ -182,7 +175,11 @@ public class Robot {
 		motor.backward(d,c);
 	}
 	
-
+	/**
+	 * 
+	 * @param d
+	 * @param b
+	 */
 	public void forward(double d,boolean b) {
 		motor.forward(d,b);
 	}
@@ -307,7 +304,10 @@ public class Robot {
 		if(tourcomplet) {}
 		else {motor.majBoussole(angle);}	
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public float distance() {
 		float dis=1;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
@@ -315,7 +315,10 @@ public class Robot {
 		if (dis==Float.POSITIVE_INFINITY) {dis=100;}
 		return dis*1000 ;
 	}
-	
+	/**
+	 * 
+	 * @param b
+	 */
 	public void goal(boolean b) {
 		motor.boussole_a_0();
 		allerjusqua("BLANC");
@@ -327,11 +330,16 @@ public class Robot {
 		motor.afficheLongueur();
 		aunpalet=false;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean aunpalet() {
 		return aunpalet;
 	}
-
+	/**
+	 * 
+	 */
 	public void erreurs_boussole() {
 		
         motor.rotate(30,false);
@@ -352,57 +360,115 @@ public class Robot {
         motor.rotate(60+angle, false);
         motor.setBoussole(0);
     }
-
+	/**
+	 * 
+	 * @return
+	 */
 	public Pinces getPinces() {
 		return pinces ;
 	}
-	
+	/**
+	 * 
+	 * @param t
+	 */
 	public void ouvrirPinces(boolean t) {
 		pinces.ouvrir(t);
 	}
+	/**
+	 * 
+	 * @param t
+	 */
 	public void fermerPinces(boolean t) {
 		pinces.fermer(t);
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public static MotorWheels getMotor() {
 		return motor;
 	}
+	/**
+	 * 
+	 * @param motor
+	 */
 	public static void setMotor(MotorWheels motor) {
 		Robot.motor = motor;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public static UltrasonicSensor getUltrasonics() {
 		return ultrasonics;
 	}
+	/**
+	 * 
+	 * @param ultrasonics
+	 */
 	public void setUltrasonics(UltrasonicSensor ultrasonics) {
 		this.ultrasonics = ultrasonics;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public EV3TouchSensor getTouch() {
 		return touch;
 	}
+	/**
+	 * 
+	 * @param touch
+	 */
 	public void setTouch(TouchSensor touch) {
 		this.touch = touch;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public ColorSensor getColor() {
 		return color;
 	}
+	/**
+	 * 
+	 * @param color
+	 */
 	public void setColor(ColorSensor color) {
 		this.color = color;
 	}
 	
+	/**
+	 * 
+	 */
 	public void stop() {
 		motor.stop();
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isPressed() {
 		return touch.isPressed();
 	}
-
+	/**
+	 * 
+	 * @param paletpresent
+	 */
 	public static void setPaletpresent(boolean[] paletpresent) {
 		Robot.paletpresent = paletpresent;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean enMouvement() {
 		return motor.enMouvement();
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public String affichepaletpresent() {
 		return Arrays.toString(paletpresent);
 	}
