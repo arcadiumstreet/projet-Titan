@@ -300,6 +300,10 @@ public class Robot {
 		motor.majBoussole(angle);
 	}
 
+	/**
+	 * 
+	 * @return la distance(en mm) à laquelle le robot détecte quelque chose, return Float.POSITIVE_INFINITY si >2.55m 
+	 */
 	public float distance() {
 		float dis=1;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
@@ -307,6 +311,10 @@ public class Robot {
 		return dis*1000 ;
 	}
 	
+	/**
+	 * 
+	 * @param b
+	 */
 	public void goal(boolean b) {
 		motor.boussole_a_0();
 		allerjusqua("BLANC");
@@ -318,11 +326,17 @@ public class Robot {
 		motor.afficheLongueur();
 		aunpalet=false;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public static boolean aunpalet() {
 		return aunpalet;
 	}
 
+	/**
+	 * 
+	 */
 	public void erreurs_boussole() {
 		
         motor.rotate(30,false);
@@ -344,52 +358,121 @@ public class Robot {
         motor.setBoussole(0);
     }
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Pinces getPinces() {
 		return pinces ;
 	}
 	
+	/**
+	 * 
+	 * @param t
+	 */
 	public void ouvrirPinces(boolean t) {
 		pinces.ouvrir(t);
 	}
+	
+	/**
+	 * 
+	 * @param t
+	 */
 	public void fermerPinces(boolean t) {
 		pinces.fermer(t);
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public static MotorWheels getMotor() {
 		return motor;
 	}
+	
+	/**
+	 * 
+	 * @param motor
+	 */
 	public static void setMotor(MotorWheels motor) {
 		Robot.motor = motor;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public static UltrasonicSensor getUltrasonics() {
 		return ultrasonics;
 	}
+	
+	/**
+	 * 
+	 * @param ultrasonics
+	 */
 	public void setUltrasonics(UltrasonicSensor ultrasonics) {
 		this.ultrasonics = ultrasonics;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public EV3TouchSensor getTouch() {
 		return touch;
 	}
+	
+	/**
+	 * 
+	 * @param touch
+	 */
 	public void setTouch(TouchSensor touch) {
 		this.touch = touch;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public ColorSensor getColor() {
 		return color;
 	}
+	
+	/**
+	 * 
+	 * @param color
+	 */
 	public void setColor(ColorSensor color) {
 		this.color = color;
 	}
 	
+	/**
+	 * 
+	 */
 	public void stop() {
 		motor.stop();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isPressed() {
 		return touch.isPressed();
 	}
 
+	/**
+	 * 
+	 * @param paletpresent
+	 */
 	public static void setPaletpresent(boolean[] paletpresent) {
 		Robot.paletpresent = paletpresent;
 	}
+	
+	/**
+	 * 
+	 * @return true si le robot est en mouvement false sinon
+	 */
 	public boolean enMouvement() {
 		return motor.enMouvement();
 	}
