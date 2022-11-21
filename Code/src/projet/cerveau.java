@@ -182,6 +182,9 @@ public class cerveau {
 
 	
 
+	/**
+	 * tableau des coordonnée des zones de recherche
+	 */
 	static double[][] researchArea = {
 			{1000,2100}, {1500,2100},
 			{1500,1500}, {1000,1500},
@@ -189,22 +192,22 @@ public class cerveau {
 	
 	/**
 	 * 
-	 * @param i
-	 * @return
+	 * @param i entier correspondant au numéro d'une zone de recherche
+	 * @return les coordonne de la zone de recherche voulue dans un tableau de double
 	 */
 	public static double[] getzone(int i){
 		return researchArea[i-1];}
 	/**
 	 * 
-	 * @param researchArea
-	 * @return
+	 * @param researchArea entier correspondant au numéro d'une zone de recherche
+	 * @return la longueur des coordonnée de la zone de recherche voulue
 	 */
 	public static double getzonelongueur(double[] researchArea){
 		return researchArea[0];}
 	/**
 	 * 
-	 * @param researchArea
-	 * @return
+	 * @param researchArea entier correspondant au numéro d'une zone de recherche
+	 * @return la largeur des coordonnée de la zone de recherche voulue
 	 */
 	public static double getzonelargeur(double[] researchArea){
 		return researchArea[1];}

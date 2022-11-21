@@ -332,6 +332,10 @@ public class MotorWheels {
 	public void afficheLargeur() {
 		System.out.println("LARGEUR "+ this.largeur);}
 	
+	/**
+	 * 
+	 * @return l'angle de la rotation effectuée au momment depuis le debut du mouvement à l'appel de cette méthode
+	 */
 	public double angle() {
 		return pilot.getMovement().getAngleTurned();
 	}
