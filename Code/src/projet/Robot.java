@@ -28,6 +28,11 @@ public class Robot {
 			{500,1200},{1000,1200},{1500,1200},
 			{500,1800},{1000,1800},{1500,1800}};
 	
+	static double[][] researchArea = {
+			{750,2100},{1250,2100},
+			{1250,1500},{750,1500},
+		 	{750,900}, {1250,900}};
+	
 	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};//pensez a l'initailiser au debut la partie 
 	
 	private static boolean aunpalet = false ;
@@ -78,12 +83,53 @@ public class Robot {
 	public void allerjusqua(String couleur) {
 		motor.forward();
 	    Color rgb = ColorSensor.getColor();
-	    while( ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue()) != couleur) {
+	    while( ColorSensor.color_String(rgb.getRed(), rgb.getGreen(), rgb.getBlue()) != couleur){
 	    	rgb = ColorSensor.getColor();
-	    }
+				if(!estunpalet()) {
+				motor.stop();
+				motor.rotate(45,false);
+				motor.forward(300,false);
+				motor.boussole_a_0();
+				motor.forward();
+				}
+	    }		
 	   motor.stop();
 	} 
 
+	/**
+	 * ajouter 250 sur la largeur de tout les point
+	 * on sait pas pourquoi
+	 * {		{1000,2100}, {1500,2100},
+			{1500,1500}, {1000,1500},
+			{1000,900},  {1500,900}}
+	 */
+
+	
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+	public static double[] getzone(int i){
+		return researchArea[i-1];}
+	/**
+	 * 
+	 * @param researchArea
+	 * @return
+	 */
+	public static double getzonelongueur(double[] researchArea){
+		return researchArea[0];}
+	/**
+	 * 
+	 * @param researchArea
+	 * @return
+	 */
+	public static double getzonelargeur(double[] researchArea){
+		return researchArea[1];}
+	
+	public static void AllerAZone(int zone ) {
+		motor.goTo(getzonelongueur(getzone(zone)),getzonelargeur(getzone(zone)));
+	}
 	/**
 	 * 
 	 * @param i le numéro d'un palet

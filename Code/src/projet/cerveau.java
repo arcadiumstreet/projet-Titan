@@ -151,39 +151,6 @@ public class cerveau {
 			p.goal(true);
 	}
 	
-	/**
-	 * ajouter 250 sur la largeur de tout les point
-	 * on sait pas pourquoi
-	 * {		{750,2100}, {1250,2100},
-	 * 			{1250,1500},{750,1500},
-	 * 			{750,900},  {1250,900}};
-	 */
-	static double[][] researchArea = {
-			{1000,2100}, {1500,2100},
-			{1500,1500}, {1000,1500},
-			{1000,900},  {1500,900}};
-	
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public static double[] getzone(int i){
-		return researchArea[i-1];}
-	/**
-	 * 
-	 * @param researchArea
-	 * @return
-	 */
-	public static double getzonelongueur(double[] researchArea){
-		return researchArea[0];}
-	/**
-	 * 
-	 * @param researchArea
-	 * @return
-	 */
-	public static double getzonelargeur(double[] researchArea){
-		return researchArea[1];}
 	
 	/**
 	 * methode strategie3 qui est appelee apres les 2 premieres stratégies ou en reprise apres un temps mort quand aucun des palet est bien placé 
@@ -198,11 +165,11 @@ public class cerveau {
 	 * |-------|
 	 */
 	public static void strategie3(Robot p, int zone ){
-		for (;zone<7;zone++) {
-			p.allerA(getzonelongueur(getzone(zone)),getzonelargeur(getzone(zone)));
+		for (;zone<5;zone++) {
+			p.AllerAZone(zone);
 			if(zone ==1||zone==2) {
 				p.boussole_a_0();
-				p.rotate(45);
+				p.rotate(60);
 			}
 			p.research();
 			if (p.distance()<=450) {
@@ -211,6 +178,7 @@ public class cerveau {
 					p.goal(true);
 				}
 			}
+			
 		}
 		
 	}
@@ -230,7 +198,7 @@ public class cerveau {
 			}
 		}
 		Delay.msDelay(500);
-		System.out.println("On utilise la strategie 1 ou 2 ou 3 ?");
+		System.out.println("On utilise la strat 3 ou 2 ou 1 ?");
 		int strat=0;
 		while(strat==0) {
 			if(Button.RIGHT.isDown()) {
@@ -242,7 +210,7 @@ public class cerveau {
 		}
 		
 		Delay.msDelay(100);
-		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S2,SensorPort.S3,placement);
+		Robot pierrot = new Robot(MotorPort.B,MotorPort.C,MotorPort.A,SensorPort.S4,SensorPort.S3,placement);
 							
 		System.out.println("Fermer(droite) ou ouvrir(gauche)les pinces ?");
 		
@@ -254,7 +222,7 @@ public class cerveau {
 				pierrot.getPinces().reglagepinces(100);
 			}
 		}
-		Delay.msDelay(100);
+		Delay.msDelay(200);
 		
 		
 	 int stratbis =0;	
@@ -263,22 +231,25 @@ public class cerveau {
 		while (stratbis==0){
 			if(Button.ENTER.isDown()) {
 				stratbis=1;
+				System.out.println("OUI");
 			}
 			if(Button.ESCAPE.isDown()){
 				stratbis=2;
+				System.out.println("NON");
 			}
 		}
+		Delay.msDelay(200);
 		boolean c = true;
 	if(stratbis==2){
 		System.out.println("utiliser la strategie 1B");
 		while(c) {
 			if(Button.ENTER.isDown()) {
 				stratbis=2;
-				c=true;
+				c=false;
 			}
 			if(Button.ESCAPE.isDown()) {
 				stratbis=3;
-				c=true;
+				c=false;
 			}
 		}
 		Delay.msDelay(200);
@@ -348,7 +319,7 @@ public class cerveau {
 			int o=1;
 		boolean f = true;
 		boolean fini = true;
-			while (o<6 && fini) {
+			while (o<=6 && fini) {
 				System.out.println("commencer sur la recherche zone "+o);
 				f=true;
 				while (f) {
@@ -367,11 +338,16 @@ public class cerveau {
 				Delay.msDelay(200);
 			}
 		}
-		System.out.println("Pierrot pret à partir!");
-		System.out.println("la strategie utilisée :"+strat);
-		if(strat==1) {System.out.println("puis"+stratbis);}
+		System.out.println("Pierrot pret a partir!");
+		System.out.println("la strategie utilisee :"+strat);
+		if(strat==1) {String res = "";
+		if(stratbis==1) {res="A";}
+		if(stratbis==2) {res="B";}
+		if(stratbis==3) {res=" puis strat 3 ";}
+			System.out.println("puis 1"+res);}
 		if(strat==2) {System.out.println("au palet"+palet1+"puis au palet"+palet2);}
-		if(strat==3) {System.out.println("zone de recherche"+zone );}
+		if(strat==3) {System.out.println("recherchArea"+zone );}
+		
 		Button.ENTER.waitForPressAndRelease();
 		int d;
 		if (placement == 3) {
@@ -392,8 +368,10 @@ public class cerveau {
 		}
 		if(strat==2) {
 			strategie2(pierrot,d,palet1,palet2);
-				strategie3(pierrot,3);}
+				strategie3(pierrot,3);
+			}
 		if(strat==3) {
-			strategie3(pierrot,zone);}
+			strategie3(pierrot,zone);
+			}
 		}
 }
