@@ -94,7 +94,7 @@ public class cerveau {
 		p.goal(true);		
 	}	
 	
-	
+
 	/**
 	 * methode strategie1a qui est appelee apres la strategie 1 et sachant que l'adversaire est parti du coté opposé du robot 
 	 * @param d va prendre 1 ou -1 en fonction de l'endroit de depart 
@@ -151,7 +151,30 @@ public class cerveau {
 			p.goal(true);
 	}
 	
+
+
+	public static void strategie2(Robot p,int d, int placement,int palet1,int palet2){	
+		//on utilise que en reprise apres le temps mort
+		//reprise apres la pause donc savoir quelle sont les palets restant mettre a jour paletpresent()
+		//meme strat que 1 mettre le premier palet en dure 
+		//savoir ceux qui reste 
+		//aller sur le lequelle
+		//prendre celui le plus pres du robot
+		//palet 1 cest celui qui est le plus pres de notre ligne de but 
+		//palet 2 cest celui qui est le plus pres de la ligne de but adverse 
+		
+		p.ouvrirPinces(true);
+		p.alleraupalet(palet1);
+		p.boussole_a_0();
+		p.rotate(45*d);
+		p.forward(300);
+		p.goal(false);
+		p.ouvrirPinces(true);
+		p.alleraupalet(palet2);
+		p.goal(true);
+	}
 	
+
 	/**
 	 * methode strategie3 qui est appelee apres les 2 premieres stratégies ou en reprise apres un temps mort quand aucun des palet est bien placé 
 	 * @param p qui est le robot utilisée pour lancer cette strategie

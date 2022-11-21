@@ -78,7 +78,7 @@ public class Robot {
 	/**
 	 * fait avance le robot jusqu'à ce que le capteur detecte la couleur passée en paramètre
 	 * 
-	 * @param couleur
+	 * @param couleur en chaine de caractère à détecter
 	 */
 	public void allerjusqua(String couleur) {
 		motor.forward();
@@ -181,8 +181,8 @@ public class Robot {
 	}
 	/**
 	 * 
-	 * @param i
-	 * @return
+	 * @param i entier représentant le numéro d'un palet
+	 * @return true si le palet est potentielement présent false sinon
 	 */
 	public static boolean paletpresent(int i) {
 		return paletpresent[i-1];
@@ -212,26 +212,27 @@ public class Robot {
 	}
 
 	/**
-	 * le robot avance de d mm tout en continiant d'exécuter la suite du code si b vaut true
-	 * sinon il avance juste de d mm
+	 * le robot recule de d mm tout en continiant d'exécuter la suite du code si b vaut true
+	 * sinon il recule juste de d mm
 	 * @param d distance entière en mm
-	 * @param b boolean indiquant si le mouvement est syncrone ou non
+	 * @param b boolean indiquant si le mouvement est synchrone ou non
 	 */
 	public void backward(double d,boolean c) {
 		motor.backward(d,c);
 	}
 	
 	/**
-	 * 
-	 * @param d
-	 * @param b
+	 * le robot avance de d mm tout en continiant d'exécuter la suite du code si b vaut true
+	 * sinon il avance juste de d mm
+	 * @param d d distance entière en mm
+	 * @param b boolean valant true pour un retour instantané false sinon
 	 */
 	public void forward(double d,boolean b) {
 		motor.forward(d,b);
 	}
 	
 	/**
-	 * le robot exécute un demitour(rotation de 180° vers la droite
+	 * le robot exécute un demitour(rotation de 180° vers la droite)
 	 */
 	public void demitour() {
 		motor.rotate(180);
@@ -350,9 +351,10 @@ public class Robot {
 		if(tourcomplet) {}
 		else {motor.majBoussole(angle);}	
 	}
+
 	/**
 	 * 
-	 * @return
+	 * @return la distance(en mm) à laquelle le robot détecte quelque chose, return Float.POSITIVE_INFINITY si >2.55m 
 	 */
 	public float distance() {
 		float dis=1;
@@ -361,9 +363,10 @@ public class Robot {
 		if (dis==Float.POSITIVE_INFINITY) {dis=100;}
 		return dis*1000 ;
 	}
+
 	/**
-	 * 
-	 * @param b
+	 * le robot va marquer le palet dans ses pinces dans le but adverse et recalibre la boussole si le boolean en paramétre vaut true sinon ne recalubre pas 
+	 * @param b boolean valant true s'il faut effectuer un recalibrage de la boussole et false sinon
 	 */
 	public void goal(boolean b) {
 		motor.boussole_a_0();
@@ -378,13 +381,16 @@ public class Robot {
 	}
 	/**
 	 * 
-	 * @return
+	 * @return true su l'objet dont il s'approche est effectivement un palet
 	 */
-	public boolean aunpalet() {
+	public static boolean aunpalet() {
 		return aunpalet;
 	}
+
+
+	
 	/**
-	 * 
+	 * recalibre la boussole afin de limiter les erreurs
 	 */
 	public void erreurs_boussole() {
 		
@@ -406,114 +412,131 @@ public class Robot {
         motor.rotate(60+angle, false);
         motor.setBoussole(0);
     }
+
 	/**
 	 * 
-	 * @return
+	 * @return pinces
 	 */
 	public Pinces getPinces() {
 		return pinces ;
 	}
+
 	/**
-	 * 
-	 * @param t
+	 * le robot ouvre les pinces et continue à executer la suite du programme simultanément si le paramétre vaut true,
+	 * sinon fini d'ouvrire ses pinces avec d'exécuter la suite du programme
+	 * @param t boolean indiquant si l'action est synchrone ou non
 	 */
 	public void ouvrirPinces(boolean t) {
 		pinces.ouvrir(t);
 	}
+
 	/**
-	 * 
-	 * @param t
+	 * le robot ferme les pinces et continue à executer la suite du programme simultanément si le paramétre vaut true,
+	 * sinon fini de fermer ses pinces avec d'exécuter la suite du programme
+	 * @param t boolean indiquant si l'action est synchrone ou non
 	 */
 	public void fermerPinces(boolean t) {
 		pinces.fermer(t);
 	}
+
 	/**
 	 * 
-	 * @return
+	 * @return motor
 	 */
 	public static MotorWheels getMotor() {
 		return motor;
 	}
+
 	/**
-	 * 
-	 * @param motor
+	 * affecte à l'attribut motor l'instance de MotorWheels passé en paramètre
+	 * @param motor une instance de MotorWheels
 	 */
 	public static void setMotor(MotorWheels motor) {
 		Robot.motor = motor;
 	}
 	/**
 	 * 
-	 * @return
+	 * @return ultrasonucs
 	 */
 	public static UltrasonicSensor getUltrasonics() {
 		return ultrasonics;
 	}
+
 	/**
-	 * 
-	 * @param ultrasonics
+	 * affecte à l'attribut ultrasonics l'instance de UltrasonicSensor passé en paramètre
+	 * @param ultrasonics une instance d'UltrasonicSensor
 	 */
 	public void setUltrasonics(UltrasonicSensor ultrasonics) {
 		this.ultrasonics = ultrasonics;
 	}
+
 	/**
 	 * 
-	 * @return
+	 * @return touch
 	 */
 	public EV3TouchSensor getTouch() {
 		return touch;
 	}
+
 	/**
-	 * 
-	 * @param touch
+	 * affecte à l'attribut touch l'instance de TouchSensor passé en paramètre
+	 * @param touch une instance de TouchSensor
 	 */
 	public void setTouch(TouchSensor touch) {
 		this.touch = touch;
 	}
+
 	/**
 	 * 
-	 * @return
+	 * @return color
 	 */
 	public ColorSensor getColor() {
 		return color;
 	}
+
 	/**
-	 * 
-	 * @param color
+	 * affecte à l'attribut color l'instance de ColorSensor passé en paramètre
+	 * @param color une instance de ColorSensor
 	 */
 	public void setColor(ColorSensor color) {
 		this.color = color;
 	}
 	
 	/**
-	 * 
+	 * stop les déplacements du robot
 	 */
 	public void stop() {
 		motor.stop();
 	}
+
 	/**
 	 * 
-	 * @return
+	 * @return true si ne détecteur de touche capte quelque chose
 	 */
 	public boolean isPressed() {
 		return touch.isPressed();
 	}
+
 	/**
-	 * 
-	 * @param paletpresent
+	 *affecte à l'attribut palerpresent un tableau de boolean passé en paramètre représentant 
+	 *les palet abscent par des false et ceux potenciellementprésent par des true
+	 * @param paletpresent un tableau de boolean
 	 */
 	public static void setPaletpresent(boolean[] paletpresent) {
 		Robot.paletpresent = paletpresent;
 	}
+
+	
 	/**
 	 * 
-	 * @return
+	 * @return true si le robot est en mouvement false sinon
 	 */
 	public boolean enMouvement() {
 		return motor.enMouvement();
 	}
 	/**
-	 * 
-	 * @return
+	 * retourn le tableau représentant la présence des palet sous la forme d'une chaind de caractère 
+	 * @return une chaine de caractère
 	 */
 	public String affichepaletpresent() {
 		return Arrays.toString(paletpresent);
