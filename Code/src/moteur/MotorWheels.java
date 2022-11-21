@@ -37,35 +37,6 @@ public class MotorWheels {
 	private double longueur;
 
 	private double largeur;
-	 
-	/**
-	 * Initiallise une instance de MotorWheels avec
-	 * motor1 la roue du chassis branchée sur port,
-	 * motor2 la roue du chassis branchée sur port2,
-	 * chassis le chassis comprennant les roue moteur1 et moteur2,
-	 * pilot le pilot du chassis,
-	 * boussole=0, longueur=1000,largeur= 0,
-	 * la vitesse de déplacement du pilot à la vitesse maximum du chassis-50,
-	 * la vitesse de rotation du pilot à 200
-	 * 
-	 * @param port le port auquel est branché le moteur droit
-	 * @param port2 le port auquel est branché le moteur gauche
-	 */
-	public MotorWheels(Port port,Port port2) {
-		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
-		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
-		
-		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
-		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
-		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
-		pilot = new MovePilot(chassis);
-		this.boussole=0;
-		this.longueur =0; 
-		this.largeur=1000;
-		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-100);
-		pilot.setAngularSpeed(200);
-		}
-
 	/**
 	 * Initiallise une instance de MotorWheels avec
 	 * motor1 la roue du chassis branchée sur port,
@@ -92,7 +63,7 @@ public class MotorWheels {
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
 		pilot = new MovePilot(chassis);
 		this.boussole=0;
-		this.longueur =0; 
+		this.longueur =-70; 
 		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
 		pilot.setAngularSpeed(200);
 	if ( i == 1) {
@@ -106,6 +77,7 @@ public class MotorWheels {
 	}
 
 	/**
+	 * met a jour la largueur et la longueur en fonction d'une distance et en fonction de la boussole 
 	 * @param distance
 	 */
 	public void maj_longueur_largeur(double distance) {
@@ -181,13 +153,15 @@ public class MotorWheels {
 	
 	/**
 	 * avance jusqu'à lappel de la methode stop()
+	 * @warning ne met pas a jour la longueur ni la largeur
 	 */
-	public void forward() {//ne met pas a jour la longueur mais ne pas changer 
+	public void forward() { 
 		pilot.forward();
 	}
 
 	/**
-	 * 
+	 * de 66*1.5=100cm pour distance=1000
+	 * avance de distance 
 	 * @param distance
 	 * @param immediateReturn
 	 */
@@ -197,7 +171,8 @@ public class MotorWheels {
 		maj_longueur_largeur(distance);
 	}
 	/**
-	 * 
+	 * de 66*1.5=100cm pour distance=1000
+	 * avance de distance 
 	 * @param distance
 	 */
 	public void forward(double distance) {
@@ -215,12 +190,18 @@ public class MotorWheels {
 		pilot.travel(-distance*1.5,true);
 		maj_longueur_largeur(-distance);
 	}
-	
+	/**
+	* recule de 66*1.5cm pour distance=1000
+	* @param distance
+	* @param b 
+	*/
 	public void backward(double distance,boolean b) {
 		pilot.travel(-distance*1.5,b);
 		maj_longueur_largeur(-distance);
 	}
-	
+	/**
+	 * fait 1 tours sur soi par la droite 
+	 */
 	public void rotate() {
 		pilot.rotate(360*1.29, true);
 	}
@@ -231,7 +212,11 @@ public class MotorWheels {
 	public void rotateneg() {
 		pilot.rotate(-360*1.29, true);
 	}
-	
+	/**
+	 * tourne de degre 
+	 * @param degre
+	 * @param i
+	 */
 	public void rotate(double degre,boolean i){
 		double d=1.29*degre ;
 		pilot.setAngularSpeed(200);
@@ -240,28 +225,30 @@ public class MotorWheels {
 	}
 	
 	/**
-	 * pivote de 1.29*degre à une vitesse de rotation de 200 et met à jour la boussole
+	 * pivote de 1.29*degre met à jour la boussole
 	 * 
 	 * @param degre
 	 */
 	public void rotate(double degre) {
 		double d=1.29*degre ;
-		pilot.setAngularSpeed(200);
 		pilot.rotate(d);
 		majBoussole(degre);}
 	
 	/**
-	 * Recalibre la boussole à 0°
+	 * replace le robot a une position ou la bousole est a 0
 	 */
 	public void boussole_a_0() {
-		//double d=1.29*degre 
 		pilot.setAngularSpeed(200);
-		if (boussole <180) {pilot.rotate(-boussole*1.31);}
-		else pilot.rotate((180-boussole)*1.26);
+		if (boussole <180) {pilot.rotate(-boussole*1.33);}
+		else pilot.rotate((180-boussole)*1.25);
 		this.setBoussole(0);
 	}
 
-
+	/**
+	 * 
+	 * @param largeurF
+	 * @param longueurF
+	 */
 	public void goTo(double largeurF, double longueurF) {
 		if(largeurF==this.largeur && longueurF==this.longueur) {
 			System.out.println("J'y suis deja");
@@ -270,62 +257,57 @@ public class MotorWheels {
 		boussole_a_0();
 		if (longueurF >= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 1");
-			
 			double a;
 			if(this.largeur-largeurF == 0) {
 				a = 0;
 			}else if (longueurF-this.longueur == 0) {
 				a = 90;
 			}else {
-				a = Math.toDegrees(Math.atan((this.largeur-largeurF)/(longueurF-this.longueur)));
+				a = 1.12*(Math.toDegrees(Math.atan((this.largeur-largeurF)/(longueurF-this.longueur))));
 			}
 			rotate(a);
 			forward(Math.sqrt((Math.pow(Math.abs(this.longueur-longueurF), 2)) + (Math.pow(Math.abs(this.largeur-largeurF), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else if (longueurF >= this.longueur && largeurF >= this.largeur) {
-			//essayer optimiser ca 
 			System.out.println("pass 2");
-			rotate(-90);
 			double a;
 			if(longueurF-this.longueur == 0) {
 				a = 0;
 			}else if( largeurF - this.largeur == 0){
 				a = 90;
 			}else {	
-				a = Math.toDegrees(Math.atan((longueurF-this.longueur)/(largeurF-this.largeur)));
+				a = 1.14*(Math.toDegrees(Math.atan((longueurF-this.longueur)/(largeurF-this.largeur))));
 			}
-			rotate(a);
+			rotate(a-90);
 			forward(Math.sqrt((Math.pow(Math.abs(this.longueur-longueurF), 2)) + (Math.pow(Math.abs(largeurF-this.largeur), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else if (longueurF <= this.longueur && largeurF <= this.largeur) {
 			System.out.println("pass 3");
-			rotate(90);
 			double a;
 			if(longueurF - this.longueur == 0) {
 				a = 0;
 			}else if(this.largeur-largeurF == 0){
 				a = 90;
 			}else {
-				a = Math.toDegrees(Math.atan((this.longueur-longueurF)/(this.largeur-largeurF)));
+				a = 1.12*(Math.toDegrees(Math.atan((this.longueur-longueurF)/(this.largeur-largeurF))));
 			}
-			rotate(a);
+			rotate(a+90);
 			forward(Math.sqrt((Math.pow(Math.abs(longueurF-this.longueur), 2)) + (Math.pow(Math.abs(this.largeur-largeurF), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else {
 			System.out.println("pass 4");
-			rotate(180);
 			double a;
 			if(largeurF - this.largeur == 0) {
 				a = 0;
 			}else if(this.longueur-longueurF == 0) {
 				a = 90;
 			}else {
-				a = Math.toDegrees(Math.atan((largeurF-this.largeur)/(this.longueur-longueurF)));
+				a = 1.12*(Math.toDegrees(Math.atan((largeurF-this.largeur)/(this.longueur-longueurF))));
 			}			
-			rotate(a);
+			rotate(a+180);
 			forward(Math.sqrt((Math.pow(Math.abs(longueurF-this.longueur), 2)) + (Math.pow(Math.abs(largeurF-this.largeur), 2)) ),false);
 			this.largeur = largeurF;
 			this.longueur = longueurF;
@@ -355,29 +337,28 @@ public class MotorWheels {
 	}
 		
 	/**
-	 * détect si le chassis est en mouvement
+	 * détecte si le chassis est en mouvement
 	 * @return true si le chassis est en mouvement, false sinon
 	 */
 	public boolean enMouvement() {
 		return chassis.isMoving();}
 	
-	
 	/**
-	 * 
+	 * retourne le moteur1
 	 * @return motor1
 	 */
 	public Wheel getMoteur1() {
 		return motor1;}
 	
 	/**
-	 * 
+	 * retourne le moteur2
 	 * @return motor2
 	 */
 	public Wheel getMoteur2() {
 		return motor2;}
 	
 	/**
-	 * 
+	 * retourne le chassis
 	 * @return chassis
 	 */
 	public Chassis getChassis() {
@@ -415,8 +396,7 @@ public class MotorWheels {
 		return boussole;}
 
 	/**
-	 * affect la valaur de boussole à l'attribut this.boussole
-	 * 
+	 * affecte la valaur de boussole à l'attribut this.boussole
 	 * @param boussole
 	 */
 	public void setBoussole(double boussole) {
@@ -436,19 +416,30 @@ public class MotorWheels {
 	 */
 	public void setPilot(MovePilot pilot) {
 		this.pilot = pilot;}
-	
+	/**
+	 * @return longueur
+	 */
 	public double getLongueur() {
 		return longueur;
 	}
-
+	/**
+	 * 
+	 * @param longueur
+	 */
 	public void setLongueur(double longueur) {
 		this.longueur = longueur;
 	}
-
+	/**
+	 * 
+	 * @return largeur
+	 */
 	public double getLargeur() {
 		return largeur;
 	}
-
+	/**
+	 * 
+	 * @param largeur
+	 */
 	public void setLargeur(double largeur) {
 		this.largeur = largeur;
 	}

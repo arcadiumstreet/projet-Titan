@@ -16,11 +16,7 @@ import sensors.UltrasonicSensor;
 import sensors.TouchSensor;
 
 public class Robot {
-	
-	public static final int RIGHT = 1;
-	public static final int FRONT = 1;
-	public static final int LEFT = - 1;
-	public static final int BACK = - 1;
+
 	private static Pinces pinces ;
 	private static MotorWheels motor;
 	
@@ -53,9 +49,7 @@ public class Robot {
 		ultrasonics = new UltrasonicSensor(ultrasonicsPort) ;
 		touch = new TouchSensor(touchPort) ;
 		color = new ColorSensor("S1");
-
-	} 
-	
+	}
 	/**
 	 * 
 	 * @return une chaine de charactère représentant un tableau 
@@ -68,7 +62,6 @@ public class Robot {
 	}
 	
 	/**
-	 * 
 	 * @return une chaine de charactère représentant la couleur détectée par 
 	 * le capteur de couleur ("NOIR", "GRIS", "JAUNE", "BLANC", "ROUGE", "VERT", "BLEU" OU "NON RECONNU")
 	 */
@@ -128,29 +121,34 @@ public class Robot {
 	}
 
 	/**
-	 *  le obot va chercher le palet dont le numéro est passé en paramètre 
+	 *  le robot va chercher le palet dont le numéro est passé en paramètre 
 	 *  et indique dans le tableau paletpresent qu'il est deja récupéré (passe de true à false)
 	 * @param i est le numéro du palet à récupérer
 	 */
-	public static void alleraupalet(int i) {///mettre a jour 
-		if(paletpresent[i-1]) {
+	public static void alleraupalet(int i) {
+		if(paletpresent[i]) {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
 		majPaletpresent(i);}
-		
+		else{
+		motor.goTo(getpaletlongueur(getpalet(i+1)), getpaletlargeur(getpalet(i+1)));
+		majPaletpresent(i+1);}
 	}
-	
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public static boolean paletpresent(int i) {
 		return paletpresent[i-1];
 	}
 	
 	/**
-	 * avance jusqu'à lappel de la methode stop()
+	 * avance jusqu'à l'appel de la methode stop()
 	 */
 	public void forward() {
 		motor.forward();
 	}
 
-	
 	/**
 	 * le robot avance de d mm
 	 * @param d un distance entière en mm
@@ -166,7 +164,6 @@ public class Robot {
 	public void backward(double d) {
 		motor.backward(d);
 	}
-	
 
 	/**
 	 * le robot avance de d mm tout en continiant d'exécuter la suite du code si b vaut true
@@ -178,7 +175,11 @@ public class Robot {
 		motor.backward(d,c);
 	}
 	
-
+	/**
+	 * 
+	 * @param d
+	 * @param b
+	 */
 	public void forward(double d,boolean b) {
 		motor.forward(d,b);
 	}
@@ -237,33 +238,31 @@ public class Robot {
 	 * @param x un double représentant la largeur de la coordonnée de destination
 	 * @param y un double représentant la longueur de la coordonnée de destination
 	 */
-	public void allera(double x, double y) {
-		motor.goTo(x, y);
-	   
+	public void allerA(double x, double y) {
+		motor.goTo(x, y);  
 	}
 
 	/**
 	 * ouvre les pinces, attrape le palet dont la distance au robot a été passée en paramètre puis ferme les pinces
 	 * @param targetDistance est la distance en mm au palet à attraper
 	 */
-	public void catchTarget(float targetDistance){//// a voir 
+	public void catchTarget(float targetDistance){
 		ouvrirPinces(true);
 		motor.forward(targetDistance + 40,true);
-		while((estunpalet() && motor.enMouvement() && !isPressed())){
-		}
+		while(estunpalet() && motor.enMouvement() ){}
 		motor.stop();
 		if(!estunpalet()){
 			aunpalet=false;
 			System.out.println("es la"+distance());
-			backward((targetDistance + 40)-350,false);
+			backward((targetDistance + 40)-150,false);
 			motor.maj_longueur_largeur(-350);
 		}else aunpalet=true;
 		fermerPinces(false);
 	}
 	
 	/**
-	 * tout objet détecté à plus de 150mm est considéré comme un palet et ceux en dessous non
-	 * @return true si l'objet détécté est à plus de 150 mm et false si non
+	 * tout objet détecté à plus de 150 mm est considéré comme un palet et ceux en dessous non
+	 * @return true si l'objet détecté est à plus de 150 mm et false si non
 	 */
 	public boolean estunpalet() {
 		float dis;
@@ -273,17 +272,21 @@ public class Robot {
 	}
 	
 	/**
-	 * le robot tourne sur lui meme jsuqu'à détécter un object à moins de 500mm  
+	 * le robot tourne sur lui meme jusqu'à détecter un object à moins de 500mm  
 	 */
 	public void research(){
+		boolean tourcomplet = false;
 		float dis=1;
 		motor.getPilot().setAngularSpeed(150);
 		motor.rotate();
 		long t1= System.currentTimeMillis();
-		while(dis>0.5){
+		while(dis>0.45 && motor.enMouvement()){
 			getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();}
 		long t2 = System.currentTimeMillis();
+		if(!motor.enMouvement()) {
+			tourcomplet=true;
+		}
 		motor.stop();
 		long temps = t2-t1 ;
 		long coeff = 0;
@@ -296,8 +299,10 @@ public class Robot {
 		if(temps>2700) {coeff=(long)9.28;}
 		long angle = (temps/coeff)+15;
 		System.out.println("angle = "+angle);
+		System.out.println("distance "+dis*1000);
 		motor.getPilot().setAngularSpeed(200);
-		motor.majBoussole(angle);
+		if(tourcomplet) {}
+		else {motor.majBoussole(angle);}	
 	}
 
 	/**
@@ -308,9 +313,10 @@ public class Robot {
 		float dis=1;
 		getUltrasonics().getDistance().fetchSample(getUltrasonics().getSample(), 0);
 		dis = getUltrasonics().getSample0();
+		if (dis==Float.POSITIVE_INFINITY) {dis=100;}
 		return dis*1000 ;
 	}
-	
+
 	/**
 	 * 
 	 * @param b
@@ -334,6 +340,8 @@ public class Robot {
 		return aunpalet;
 	}
 
+
+	
 	/**
 	 * 
 	 */
@@ -365,7 +373,7 @@ public class Robot {
 	public Pinces getPinces() {
 		return pinces ;
 	}
-	
+
 	/**
 	 * 
 	 * @param t
@@ -373,7 +381,7 @@ public class Robot {
 	public void ouvrirPinces(boolean t) {
 		pinces.ouvrir(t);
 	}
-	
+
 	/**
 	 * 
 	 * @param t
@@ -381,7 +389,7 @@ public class Robot {
 	public void fermerPinces(boolean t) {
 		pinces.fermer(t);
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -389,7 +397,7 @@ public class Robot {
 	public static MotorWheels getMotor() {
 		return motor;
 	}
-	
+
 	/**
 	 * 
 	 * @param motor
@@ -397,7 +405,6 @@ public class Robot {
 	public static void setMotor(MotorWheels motor) {
 		Robot.motor = motor;
 	}
-	
 	/**
 	 * 
 	 * @return
@@ -405,7 +412,7 @@ public class Robot {
 	public static UltrasonicSensor getUltrasonics() {
 		return ultrasonics;
 	}
-	
+
 	/**
 	 * 
 	 * @param ultrasonics
@@ -413,7 +420,7 @@ public class Robot {
 	public void setUltrasonics(UltrasonicSensor ultrasonics) {
 		this.ultrasonics = ultrasonics;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -421,7 +428,7 @@ public class Robot {
 	public EV3TouchSensor getTouch() {
 		return touch;
 	}
-	
+
 	/**
 	 * 
 	 * @param touch
@@ -429,7 +436,7 @@ public class Robot {
 	public void setTouch(TouchSensor touch) {
 		this.touch = touch;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -437,7 +444,7 @@ public class Robot {
 	public ColorSensor getColor() {
 		return color;
 	}
-	
+
 	/**
 	 * 
 	 * @param color
@@ -468,6 +475,7 @@ public class Robot {
 	public static void setPaletpresent(boolean[] paletpresent) {
 		Robot.paletpresent = paletpresent;
 	}
+
 	
 	/**
 	 * 
@@ -475,5 +483,12 @@ public class Robot {
 	 */
 	public boolean enMouvement() {
 		return motor.enMouvement();
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public String affichepaletpresent() {
+		return Arrays.toString(paletpresent);
 	}
 }

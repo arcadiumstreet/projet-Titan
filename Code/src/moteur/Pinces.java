@@ -14,7 +14,6 @@ public class Pinces {
 	
 	/**
 	 * initiallise une instance de Pinces avec le port de son moteur et initiallise sa vitesse de fontionnement au maximum
-	 * 
 	 * @param pincesPort le port sur lequel est branché le moteur des pinces
 	 */
 	public Pinces(Port pincesPort) {
@@ -23,7 +22,7 @@ public class Pinces {
 	}
  
 	/**
-	 * 
+	 * regle les pinces de i degre 
 	 * @param i un entier
 	 */
 	public void reglagepinces(int i) {
@@ -31,19 +30,16 @@ public class Pinces {
 	}
 	
 	/**
-	 * Ferme les pinces
+	 * Ferme les pinces 3*330 degre
 	 */
 	public void fermer(boolean t){
 		pinces.rotate(-3*330,t);
 	}
 
 	/** 
-	 * Ouvre les pinces 
+	 * Ouvre les pinces de 3*330 degre
 	 */
 	public void ouvrir(boolean t) {
 		this.pinces.rotate(3*330,t);
 	}
-
 }
-
-
