@@ -151,30 +151,6 @@ public class cerveau {
 			p.goal(true);
 	}
 	
-
-
-	public static void strategie2(Robot p,int d, int placement,int palet1,int palet2){	
-		//on utilise que en reprise apres le temps mort
-		//reprise apres la pause donc savoir quelle sont les palets restant mettre a jour paletpresent()
-		//meme strat que 1 mettre le premier palet en dure 
-		//savoir ceux qui reste 
-		//aller sur le lequelle
-		//prendre celui le plus pres du robot
-		//palet 1 cest celui qui est le plus pres de notre ligne de but 
-		//palet 2 cest celui qui est le plus pres de la ligne de but adverse 
-		
-		p.ouvrirPinces(true);
-		p.alleraupalet(palet1);
-		p.boussole_a_0();
-		p.rotate(45*d);
-		p.forward(300);
-		p.goal(false);
-		p.ouvrirPinces(true);
-		p.alleraupalet(palet2);
-		p.goal(true);
-	}
-	
-
 	/**
 	 * methode strategie3 qui est appelee apres les 2 premieres stratégies ou en reprise apres un temps mort quand aucun des palet est bien placé 
 	 * @param p qui est le robot utilisée pour lancer cette strategie
@@ -187,12 +163,25 @@ public class cerveau {
 	 * |  6 5  |
 	 * |-------|
 	 */
-	public static void strategie3(Robot p, int zone ){
-		for (;zone<5;zone++) {
+	public static void strategie3(Robot p){
+		int zone =1;
+		if(p.paletpresent(7)||p.paletpresent(8)) {
+			zone=1;}
+		else if(p.paletpresent(9)){
+			zone=2;}
+		else if(p.paletpresent(6)||p.paletpresent(5)){
+			zone=3;}
+		else if(p.paletpresent(4)){
+			zone=4;	
+		}else if(p.paletpresent(2)||p.paletpresent(1)){
+			zone=5;
+		}else {zone=6;}	
+		
+		for (;zone<7;zone++) {
 			p.AllerAZone(zone);
 			if(zone ==1||zone==2) {
 				p.boussole_a_0();
-				p.rotate(60);
+				p.rotate(70);
 			}
 			p.research();
 			if (p.distance()<=450) {
@@ -280,7 +269,7 @@ public class cerveau {
 	}
 		//appeler aussi ca quand on lance la strategie 3  
 		int palet1=1,palet2=9;
-	if(strat==2) { //||strat==3
+	if(strat==2||strat==3) {
 			int i=1;
 			boolean t = false;
 		while (i<=9) {
@@ -336,7 +325,7 @@ public class cerveau {
 			Delay.msDelay(200);
 		}
 	}
-		
+	/*	
 		int zone =1;
 		if (strat==3) {
 			int o=1;
@@ -361,6 +350,7 @@ public class cerveau {
 				Delay.msDelay(200);
 			}
 		}
+		*/
 		System.out.println("Pierrot pret a partir!");
 		System.out.println("la strategie utilisee :"+strat);
 		if(strat==1) {String res = "";
@@ -369,7 +359,7 @@ public class cerveau {
 		if(stratbis==3) {res=" puis strat 3 ";}
 			System.out.println("puis 1"+res);}
 		if(strat==2) {System.out.println("au palet"+palet1+"puis au palet"+palet2);}
-		if(strat==3) {System.out.println("recherchArea"+zone );}
+		if(strat==3) {System.out.println("recherchArea");}
 		
 		Button.ENTER.waitForPressAndRelease();
 		int d;
@@ -387,14 +377,14 @@ public class cerveau {
 				strategie1b(pierrot,d);
 			}
 			else {}
-			strategie3(pierrot,1);
+			strategie3(pierrot);
 		}
 		if(strat==2) {
 			strategie2(pierrot,d,palet1,palet2);
-				strategie3(pierrot,3);
+				strategie3(pierrot);
 			}
 		if(strat==3) {
-			strategie3(pierrot,zone);
+			strategie3(pierrot);
 			}
 		}
 }
