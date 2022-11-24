@@ -163,20 +163,7 @@ public class cerveau {
 	 * |  6 5  |
 	 * |-------|
 	 */
-	public static void strategie3(Robot p){
-		int zone =1;
-		if(p.paletpresent(7)||p.paletpresent(8)) {
-			zone=1;}
-		else if(p.paletpresent(9)){
-			zone=2;}
-		else if(p.paletpresent(6)||p.paletpresent(5)){
-			zone=3;}
-		else if(p.paletpresent(4)){
-			zone=4;	
-		}else if(p.paletpresent(2)||p.paletpresent(1)){
-			zone=5;
-		}else {zone=6;}	
-		
+	public static void strategie3(Robot p,int zone ){
 		for (;zone<7;zone++) {
 			p.AllerAZone(zone);
 			if(zone ==1||zone==2) {
@@ -267,7 +254,7 @@ public class cerveau {
 		Delay.msDelay(200);
 		}
 	}
-		//appeler aussi ca quand on lance la strategie 3  
+
 		int palet1=1,palet2=9;
 	if(strat==2||strat==3) {
 			int i=1;
@@ -325,6 +312,19 @@ public class cerveau {
 			Delay.msDelay(200);
 		}
 	}
+	
+	int zone =1;
+	if(pierrot.paletpresent(7)||pierrot.paletpresent(8)) {
+		zone=1;}
+	else if(pierrot.paletpresent(9)){
+		zone=2;}
+	else if(pierrot.paletpresent(6)||pierrot.paletpresent(5)){
+		zone=3;}
+	else if(pierrot.paletpresent(4)){
+		zone=4;	
+	}else if(pierrot.paletpresent(2)||pierrot.paletpresent(1)){
+		zone=5;
+	}else {zone=6;}	
 	/*	
 		int zone =1;
 		if (strat==3) {
@@ -352,15 +352,14 @@ public class cerveau {
 		}
 		*/
 		System.out.println("Pierrot pret a partir!");
-		System.out.println("la strategie utilisee :"+strat);
+		System.out.println("la strategie utilisee : "+strat);
 		if(strat==1) {String res = "";
-		if(stratbis==1) {res="A";}
-		if(stratbis==2) {res="B";}
+		if(stratbis==1) {res=" puis 1A ";}
+		if(stratbis==2) {res=" puis 1B ";}
 		if(stratbis==3) {res=" puis strat 3 ";}
-			System.out.println("puis 1"+res);}
-		if(strat==2) {System.out.println("au palet"+palet1+"puis au palet"+palet2);}
-		if(strat==3) {System.out.println("recherchArea");}
-		
+			System.out.println(res);}
+		if(strat==2) {System.out.println("   au palet"+palet1+"puis au palet"+palet2);}
+		if(strat==3) {System.out.println("recherchArea "+zone);}
 		Button.ENTER.waitForPressAndRelease();
 		int d;
 		if (placement == 3) {
@@ -377,14 +376,14 @@ public class cerveau {
 				strategie1b(pierrot,d);
 			}
 			else {}
-			strategie3(pierrot);
+			strategie3(pierrot,zone);
 		}
 		if(strat==2) {
 			strategie2(pierrot,d,palet1,palet2);
-				strategie3(pierrot);
+				strategie3(pierrot,zone);
 			}
 		if(strat==3) {
-			strategie3(pierrot);
+			strategie3(pierrot,zone);
 			}
 		}
 }

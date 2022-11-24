@@ -95,15 +95,6 @@ public class Robot {
 	    }		
 	   motor.stop();
 	} 
-
-	/**
-	 * ajouter 250 sur la largeur de tout les point
-	 * on sait pas pourquoi
-	 * {		{1000,2100}, {1500,2100},
-			{1500,1500}, {1000,1500},
-			{1000,900},  {1500,900}}
-	 */
-
 	
 	/**
 	 * 
@@ -127,6 +118,10 @@ public class Robot {
 	public static double getzonelargeur(double[] researchArea){
 		return researchArea[1];}
 	
+	/**
+	 * 
+	 * @param zone
+	 */
 	public static void AllerAZone(int zone ) {
 		motor.goTo(getzonelongueur(getzone(zone)),getzonelargeur(getzone(zone)));
 	}

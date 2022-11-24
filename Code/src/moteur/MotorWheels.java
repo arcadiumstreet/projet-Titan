@@ -32,10 +32,8 @@ public class MotorWheels {
 	private Wheel motor2 ; 
 	private Chassis chassis ; 
 	private MovePilot pilot ;
-
 	private double boussole;
 	private double longueur;
-
 	private double largeur;
 	/**
 	 * Initiallise une instance de MotorWheels avec
@@ -170,13 +168,13 @@ public class MotorWheels {
 		pilot.travel(dis,immediateReturn);
 		maj_longueur_largeur(distance);
 	}
+	
 	/**
 	 * de 66*1.5=100cm pour distance=1000
 	 * avance de distance 
 	 * @param distance
 	 */
 	public void forward(double distance) {
-		//distance=1000,66cm(*1.5)
 		double dis= distance*1.5;
 		pilot.travel(dis);
 		maj_longueur_largeur(distance);
@@ -240,7 +238,7 @@ public class MotorWheels {
 	public void boussole_a_0() {
 		pilot.setAngularSpeed(200);
 		if (boussole <180) {pilot.rotate(-boussole*1.33);}
-		else pilot.rotate((180-boussole)*1.25);
+		else pilot.rotate((180-boussole)*1.27);
 		this.setBoussole(0);
 	}
 
