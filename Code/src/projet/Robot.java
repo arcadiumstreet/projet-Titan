@@ -24,17 +24,16 @@ public class Robot {
 	private static TouchSensor touch; 
 	private static ColorSensor color;
 	private static final double[][] palet = {
-			{500,600},{1000,600},{1500,600},
+			{500,600}, {1000,600}, {1500,600},
 			{500,1200},{1000,1200},{1500,1200},
 			{500,1800},{1000,1800},{1500,1800}};
 	
 	static double[][] researchArea = {
-			{750,2100},{1250,2100},
+			{750,2050}, {1250,2050},
 			{1250,1500},{750,1500},
-		 	{750,900}, {1250,900}};
+		 	{750,900},  {1250,900}};
 	
-	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};//pensez a l'initailiser au debut la partie 
-	
+	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};
 	private static boolean aunpalet = false ;
 
 	/**
@@ -167,12 +166,12 @@ public class Robot {
 	 * @param i est le numéro du palet à récupérer
 	 */
 	public static void alleraupalet(int i) {
-		if(paletpresent[i]) {
+	//	if(paletpresent[i-1]) {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
-		majPaletpresent(i);}
-		else{
-		motor.goTo(getpaletlongueur(getpalet(i+1)), getpaletlargeur(getpalet(i+1)));
-		majPaletpresent(i+1);}
+		majPaletpresent(i);
+		//else{
+	//	motor.goTo(getpaletlongueur(getpalet(i+1)), getpaletlargeur(getpalet(i+1)));
+	//	majPaletpresent(i+1);}
 	}
 	/**
 	 * 
@@ -332,7 +331,7 @@ public class Robot {
 		motor.stop();
 		long temps = t2-t1 ;
 		long coeff = 0;
-		if(temps<=900) {coeff= (long) 11;
+		if(temps<=900) {coeff= (long) 12.5;
 		}
 		if(temps>900&&temps<=1800) {coeff= (long) 10.01;
 		}

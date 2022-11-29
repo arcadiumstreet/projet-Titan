@@ -62,7 +62,7 @@ public class MotorWheels {
 		pilot = new MovePilot(chassis);
 		this.boussole=0;
 		this.longueur =-70; 
-		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-50);
+		pilot.setLinearSpeed(chassis.getMaxLinearSpeed()-63);
 		pilot.setAngularSpeed(200);
 	if ( i == 1) {
 		this.largeur = 500;
@@ -237,8 +237,8 @@ public class MotorWheels {
 	 */
 	public void boussole_a_0() {
 		pilot.setAngularSpeed(200);
-		if (boussole <180) {pilot.rotate(-boussole*1.33);}
-		else pilot.rotate((180-boussole)*1.27);
+		if (boussole <180) {pilot.rotate(-boussole*1.30);}
+		else pilot.rotate((180-boussole)*1.29);
 		this.setBoussole(0);
 	}
 
