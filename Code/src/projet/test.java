@@ -24,19 +24,12 @@ public class test {
 					*/
 		//p.getPinces().reglagepinces(100);
 		
-		p.research();
-		p.boussole_a_0();
-		p.research();
-		p.boussole_a_0();
-		p.research();
-		p.boussole_a_0();
-		p.research(); 
-		Delay.msDelay(10000);
+	
 		//Homologation
-		//p.catchTarget(1200);
-		//p.goal(false);
+		p.catchTarget(1200);
+		p.goal(false);
 		//
-		//p.allerjusqua("BLANC");
+		p.allerjusqua("BLANC");
 		
 		
 }

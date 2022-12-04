@@ -21,7 +21,6 @@ public class ColorSensor  {
 	 * Initiallise une instance de ColorSensor en attribuant :
 	 * à l'attribut port_Color le port correspondant à la chaine de caractere en parametre;
 	 * à l'attribut sensor_Color l'EV3ColorSensor branché sur le port port_Color, mettre Mode courant sur "RGB" et la Floodlight sur couleur Blanche
-	 * 
 	 * @param port la chaine de caractere représentant le port de branchement de l'EV3ColorSensor
 	 */
 	public ColorSensor(String port) {
@@ -32,8 +31,7 @@ public class ColorSensor  {
 	}
 
 	/**
-	 * 
-	 * @return la couleur detectee par le capteur
+	 * @return la couleur detectee par le capteur en type Color
 	 */
 	public static Color getColor(){	
 		sample = new float[sensor_Color.sampleSize()];
@@ -42,7 +40,6 @@ public class ColorSensor  {
 	}
 
 	/**
-	 * 
 	 * @return un tableau d'entier contenant les valeurs "RGB" de la couleur captée par le ColorSensor
 	 */
 	public int[] getcolorint() {
@@ -53,7 +50,6 @@ public class ColorSensor  {
 	
 	/**
 	 * donne la chaine de caractere de la couleur decrite par les valeur r, g, b.
-	 * 
 	 * @param r la portion de rouge dans la couleur décrite
 	 * @param g la portion de vert dans la couleur décrite
 	 * @param b la portion de bleu dans la couleur décrite

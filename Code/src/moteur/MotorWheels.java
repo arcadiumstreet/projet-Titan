@@ -55,7 +55,6 @@ public class MotorWheels {
 	public MotorWheels(Port port,Port port2,int i) {
 		EV3LargeRegulatedMotor m1 = new EV3LargeRegulatedMotor(port);
 		EV3LargeRegulatedMotor m2 = new EV3LargeRegulatedMotor(port2);
-		
 		Wheel motor1 = WheeledChassis.modelWheel(m1, 81.6).offset(-70);
 		Wheel motor2 = WheeledChassis.modelWheel(m2, 81.6).offset(70);
 		chassis = new WheeledChassis(new Wheel[]{ motor1, motor2 }, WheeledChassis.TYPE_DIFFERENTIAL);
@@ -158,7 +157,7 @@ public class MotorWheels {
 	}
 
 	/**
-	 * de 66*1.5=100cm pour distance=1000
+	 * de 66*1.5=100cm pour distance=1000 en synchrone ou non
 	 * avance de distance 
 	 * @param distance
 	 * @param immediateReturn
@@ -189,7 +188,7 @@ public class MotorWheels {
 		maj_longueur_largeur(-distance);
 	}
 	/**
-	* recule de 66*1.5cm pour distance=1000
+	* recule de 66*1.5cm pour distance=1000 en synchrone ou non
 	* @param distance
 	* @param b 
 	*/
@@ -223,7 +222,7 @@ public class MotorWheels {
 	}
 	
 	/**
-	 * pivote de 1.29*degre met à jour la boussole
+	 * pivote de 1.29*degre, met à jour la boussole
 	 * 
 	 * @param degre
 	 */
@@ -243,7 +242,9 @@ public class MotorWheels {
 	}
 
 	/**
-	 * 
+	 * calcul de l'angle de rotation en fonction de la position du robot (longueur,largeur) et de la position rentrée en parametre 
+	 * calcul la distance a parcourir en fonction de la position du robot (longueur,largeur) et de la position rentrée en parametre 
+	 * puis tourne de l'angle calculée et avance de la distance calculée 
 	 * @param largeurF
 	 * @param longueurF
 	 */
@@ -253,8 +254,8 @@ public class MotorWheels {
 			return;
 		}
 		boussole_a_0();
-		if (longueurF >= this.longueur && largeurF <= this.largeur) {
-			System.out.println("pass 1");
+		if (longueurF >= this.longueur && largeurF <= this.largeur){
+			//System.out.println("pass 1");
 			double a;
 			if(this.largeur-largeurF == 0) {
 				a = 0;
@@ -268,7 +269,7 @@ public class MotorWheels {
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else if (longueurF >= this.longueur && largeurF >= this.largeur) {
-			System.out.println("pass 2");
+			//System.out.println("pass 2");
 			double a;
 			if(longueurF-this.longueur == 0) {
 				a = 0;
@@ -282,7 +283,7 @@ public class MotorWheels {
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else if (longueurF <= this.longueur && largeurF <= this.largeur) {
-			System.out.println("pass 3");
+			//System.out.println("pass 3");
 			double a;
 			if(longueurF - this.longueur == 0) {
 				a = 0;
@@ -296,7 +297,7 @@ public class MotorWheels {
 			this.largeur = largeurF;
 			this.longueur = longueurF;
 		}else {
-			System.out.println("pass 4");
+			//System.out.println("pass 4");
 			double a;
 			if(largeurF - this.largeur == 0) {
 				a = 0;
@@ -404,16 +405,11 @@ public class MotorWheels {
 	public void setBoussole(double boussole) {
 		this.boussole = boussole;}
 	
-	/**
-	 * 
-	 * @return pilot
-	 */
 	public MovePilot getPilot() {
 		return pilot;}
 
 	/**
 	 * affect pilot à l'attribut this.pilot
-	 * 
 	 * @param pilot
 	 */
 	public void setPilot(MovePilot pilot) {
@@ -425,21 +421,18 @@ public class MotorWheels {
 		return longueur;
 	}
 	/**
-	 * 
 	 * @param longueur
 	 */
 	public void setLongueur(double longueur) {
 		this.longueur = longueur;
 	}
 	/**
-	 * 
 	 * @return largeur
 	 */
 	public double getLargeur() {
 		return largeur;
 	}
 	/**
-	 * 
 	 * @param largeur
 	 */
 	public void setLargeur(double largeur) {

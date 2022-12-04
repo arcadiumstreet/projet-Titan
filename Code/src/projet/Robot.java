@@ -19,7 +19,6 @@ public class Robot {
 
 	private static Pinces pinces ;
 	private static MotorWheels motor;
-	
 	private static UltrasonicSensor ultrasonics;
 	private static TouchSensor touch; 
 	private static ColorSensor color;
@@ -33,7 +32,9 @@ public class Robot {
 			{1250,1500},{750,1500},
 		 	{750,900},  {1250,900}};
 	
-	private static boolean[] paletpresent = {true,true,true,true,true,true,true,true,true};
+	private static boolean[] paletpresent = {true,true,true,
+											 true,true,true,
+											 true,true,true};
 	private static boolean aunpalet = false ;
 
 	/**
@@ -76,7 +77,7 @@ public class Robot {
 	
 	/**
 	 * fait avance le robot jusqu'à ce que le capteur detecte la couleur passée en paramètre
-	 * 
+	 * et réalise une esquive par la droite si il y a un obstacle devant le robot 
 	 * @param couleur en chaine de caractère à détecter
 	 */
 	public void allerjusqua(String couleur) {
@@ -96,21 +97,21 @@ public class Robot {
 	} 
 	
 	/**
-	 * 
+	 * retourne la zone d'indice i-1
 	 * @param i
 	 * @return
 	 */
 	public static double[] getzone(int i){
 		return researchArea[i-1];}
 	/**
-	 * 
+	 * retourne la longueur de la zone entrée en paramètre 
 	 * @param researchArea
 	 * @return
 	 */
 	public static double getzonelongueur(double[] researchArea){
 		return researchArea[0];}
 	/**
-	 * 
+	 * retourne la largeur de la zone entrée en paramètre 
 	 * @param researchArea
 	 * @return
 	 */
@@ -118,14 +119,14 @@ public class Robot {
 		return researchArea[1];}
 	
 	/**
-	 * 
+	 * permet d'aller a la zone entrée en paramètre
 	 * @param zone
 	 */
 	public static void AllerAZone(int zone ) {
 		motor.goTo(getzonelongueur(getzone(zone)),getzonelargeur(getzone(zone)));
 	}
 	/**
-	 * 
+	 * retourne le palet d'indice i-1
 	 * @param i le numéro d'un palet
 	 * @return un tableau de double contenant les coordonnées du palet voulu
 	 */
@@ -134,7 +135,7 @@ public class Robot {
 	}
 	
 	/**
-	 * 
+	 * retourne la largeur du palet entré en paramètre 
 	 * @param palet est un tableau de double contenant les coordonnées d'un palet 
 	 * @return la longueur de l'emplacement du palet
 	 */
@@ -143,7 +144,7 @@ public class Robot {
 		}
 	
 	/**
-	 * 
+	 * retourne la largeur du palet entré en paramètre 
 	 * @param palet est un tableau de double contenant les coordonnées d'un palet 
 	 * @return la largeur de l'emplacement du palet
 	 */
@@ -153,7 +154,6 @@ public class Robot {
 	
 	/**
 	 * passe le boolean du tableau paletpresent correspondant au palet dont le numéro est passé en paramètre sur false
-	 * 
 	 * @param i le numéro du palet à mettre à jour
 	 */
 	public static void majPaletpresent(int i) {
@@ -166,15 +166,11 @@ public class Robot {
 	 * @param i est le numéro du palet à récupérer
 	 */
 	public static void alleraupalet(int i) {
-	//	if(paletpresent[i-1]) {
 		motor.goTo(getpaletlongueur(getpalet(i)), getpaletlargeur(getpalet(i)));
 		majPaletpresent(i);
-		//else{
-	//	motor.goTo(getpaletlongueur(getpalet(i+1)), getpaletlargeur(getpalet(i+1)));
-	//	majPaletpresent(i+1);}
 	}
 	/**
-	 * 
+	 * retourne true si le palet est présent
 	 * @param i entier représentant le numéro d'un palet
 	 * @return true si le palet est potentielement présent false sinon
 	 */
@@ -314,6 +310,7 @@ public class Robot {
 	
 	/**
 	 * le robot tourne sur lui meme jusqu'à détecter un object à moins de 500mm  
+	 * met a jour la boussole 
 	 */
 	public void research(){
 		boolean tourcomplet = false;
@@ -339,6 +336,7 @@ public class Robot {
 		}
 		if(temps>2700) {coeff=(long)9.28;}
 		long angle = (temps/coeff)+15;
+		if(temps<200) {angle=angle-15;}
 		System.out.println("angle = "+angle);
 		System.out.println("distance "+dis*1000);
 		motor.getPilot().setAngularSpeed(200);
@@ -348,7 +346,7 @@ public class Robot {
 
 	/**
 	 * 
-	 * @return la distance(en mm) à laquelle le robot détecte quelque chose, return Float.POSITIVE_INFINITY si >2.55m 
+	 * @return la distance(en mm) à laquelle le robot détecte quelque chose
 	 */
 	public float distance() {
 		float dis=1;
@@ -373,6 +371,7 @@ public class Robot {
 		motor.afficheLongueur();
 		aunpalet=false;
 	}
+	
 	/**
 	 * 
 	 * @return true su l'objet dont il s'approche est effectivement un palet
@@ -380,14 +379,11 @@ public class Robot {
 	public static boolean aunpalet() {
 		return aunpalet;
 	}
-
-
 	
 	/**
-	 * recalibre la boussole afin de limiter les erreurs
+	 * recalibre la boussole afin de limiter les erreurs quand le robot est en face d'un mur
 	 */
 	public void erreurs_boussole() {
-		
         motor.rotate(30,false);
         motor.rotate(-60,true);
         double min = 100;
@@ -408,7 +404,6 @@ public class Robot {
     }
 
 	/**
-	 * 
 	 * @return pinces
 	 */
 	public Pinces getPinces() {
@@ -434,7 +429,6 @@ public class Robot {
 	}
 
 	/**
-	 * 
 	 * @return motor
 	 */
 	public static MotorWheels getMotor() {
@@ -504,7 +498,6 @@ public class Robot {
 	}
 
 	/**
-	 * 
 	 * @return true si ne détecteur de touche capte quelque chose
 	 */
 	public boolean isPressed() {
@@ -522,7 +515,6 @@ public class Robot {
 
 	
 	/**
-	 * 
 	 * @return true si le robot est en mouvement false sinon
 	 */
 	public boolean enMouvement() {

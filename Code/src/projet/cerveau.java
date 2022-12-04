@@ -104,7 +104,6 @@ public class cerveau {
 	 * @Objectif: récupéré le palet 8 puis le palet 5 s'il est encore présent et si le palet 5 n'est plus présent alors il va au palet 4 ou 6 
 	 */
 	public static void strategie1b(Robot p, int d){
-		//si l'adversaire part du coté opposé de notre robot 
 		int palet2;
 		if (d == 1) {
 			palet2 = 4;
@@ -396,8 +395,7 @@ public class cerveau {
 			else if(stratbis==2) {
 				strategie1b(pierrot,d);
 				zone=3;
-				strategie3(pierrot,1);
-			}
+				strategie3(pierrot,1);}
 		}
 		if(strat==2) {
 			strategie2(pierrot,d,palet1,palet2);
